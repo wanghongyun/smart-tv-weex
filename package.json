@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack --watch",
-    "serve": "serve -p 8080",
+    "serve": "serve -p 8081",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,7 +15,7 @@
   "devDependencies": {
     "serve": "^1.4.0",
     "webpack": "^1.13.1",
-    "weex-html5": "0.2.18",
+    "weex-html5": "0.4.1",
     "weex-loader": "^0.1.5",
     "weex-components": "^0.2.0"
   }

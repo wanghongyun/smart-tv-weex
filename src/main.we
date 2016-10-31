@@ -1,8 +1,11 @@
 <template>
-  <div class="ct" style="height: {{ctHeight}}">
-    <image class="img" style="width: 400px; height: 400px;" src="{{img}}"></image>
-    <text style="font-size: 42;">Hello Weex!</text>
-  </div>
+
+<wxc-navpage title="123" title-color="#FFFFFF" background-color="#CCCCCC" left-item-title="back">
+    <div class="ct" style="height: {{ctHeight}}">
+      <image class="img" style="width: 400px; height: 400px;" src="{{img}}" onclick="click"></image>
+      <text style="font-size: 42;">Hello Weex!</text>
+    </div>
+  </wxc-navpage>
 </template>
 
 <style>
@@ -17,13 +20,40 @@
 </style>
 
 <script>
+  require('weex-components');
   module.exports = {
     data: {
       ctHeight: 800,
+      height: 44,
       img: '//gw.alicdn.com/tps/i2/TB1DpsmMpXXXXabaXXX20ySQVXX-512-512.png_400x400.jpg'
+    },
+    created: function() {
+      this.$on('naviBar.rightItem.click',function(e){
+                 //handle your click event here.
+      });
+
+      this.$on('naviBar.leftItem.click',function(e){
+        var platform = this.$getConfig().env.platform
+        if(platform == 'iOS'){
+          require('@weex-module/CustomModule').dismissModal() 
+        }
+        
+      });
     },
     ready: function () {
       this.ctHeight = this.$getConfig().env.deviceHeight
-    }
+    },
+    methods: {
+      click: function() {
+        var params = {
+            'url': 'dist/first.js',
+            'animated' : 'true',
+        }
+        var navigator = require('@weex-module/navigator');
+        navigator.push(params, function(e) {
+            //callback
+        });
+      },
+    },
   }
 </script>
