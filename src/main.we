@@ -45,9 +45,14 @@
     },
     methods: {
       click: function() {
+        var path = 'first.js'
+        var param = {title: '123'}
+        require('@weex-module/CustomModule').openURL(path, param)
+        return
         var params = {
-            'url': 'dist/first.js',
+            'url': 'http://192.168.1.66:8081/dist/first.js',
             'animated' : 'true',
+            'title': 'aaa',
         }
         var navigator = require('@weex-module/navigator');
         navigator.push(params, function(e) {

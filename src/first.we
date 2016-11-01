@@ -1,5 +1,5 @@
 <template>
-	<dir>
+	<div style="justify-content: center;align-items: center;">
 		<text>11111</text>
-	</dir>
+	</div>
 </template>
