@@ -32,11 +32,11 @@ module.exports = {
     methods: {
 
       onseek: function(param){
-        require('@weex-module/BandouModule').log(param.type+"   "+param.currentposition+"     "+param.duration);
+        require('@weex-module/STModule').log(param.type+"   "+param.currentposition+"     "+param.duration);
       },
 
       onbufferingupdate: function(param){
-        require('@weex-module/BandouModule').log(param.type+"   "+param.currentposition+"     "+param.duration+"    "+param.bufferingupdate);
+        require('@weex-module/STModule').log(param.type+"   "+param.currentposition+"     "+param.duration+"    "+param.bufferingupdate);
       },
 
       toPlayPage: function(param){

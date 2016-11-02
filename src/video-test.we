@@ -4,9 +4,11 @@
             <text style="color:#FFFFFF;font-size:38px;">视频播放页</text>
           </div>
           <div if="{{showVideo}}" style="width:100%;height:{{FullScreenHeight}};   background-color:#000000">
-              <video src="http://vod.cntv.lxdns.com/flash/mp4video55/TMS/2016/10/25/b49434d075404b46b146641fa8487095_h264418000nero_aac32.mp4"  onseek="onseek" onbufferingupdate="onbufferingupdate"
+<!--           http://vod.cntv.lxdns.com/flash/mp4video55/TMS/2016/10/25/b49434d075404b46b146641fa8487095_h264418000nero_aac32.mp4 -->
+<!--           http://data.vod.itc.cn/?rb=1&prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/249/228/SjKyCwFwRl29bvn9Jl7WMH.mp4 -->
+              <video src="http://data.vod.itc.cn/?rb=1&prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/117/209/lxYHURXNReCf8StVJuhZFF.mp4"  onseek="onseek" onbufferingupdate="onbufferingupdate"
                 style="width: 100%; flex:1; background-color:#000000;"></video>
-              <text style="color:#FFFFFF;background-color:#FF0000;font-size:38px;padding:20px;position:absolute;z-index: 99;right: 0;bottom: 0; " onclick="toFullScreen">全屏切换</text>
+              <!-- <text style="color:#FFFFFF;background-color:#FF0000;font-size:38px;padding:20px;position:absolute;z-index: 99;right: 0;bottom: 0; " onclick="toFullScreen">全屏切换</text> -->
           </div>
           <div if="{{!isFullScreen}}" style="justify-content: center;align-items: center;background-color:#EEEEEE; height:100%;flex:1;">
             <text style="color:#FF0000;font-size:20px;">内容</text>
