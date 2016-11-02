@@ -1,5 +1,5 @@
 <template>
-	<div style="justify-content: center;align-items: center;">
-		<text>11111</text>
-	</div>
+			<div style="justify-content: center;align-items: center; flex: 1;">
+			<text>11111</text>
+		</div>
 </template>
