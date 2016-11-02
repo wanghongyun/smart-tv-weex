@@ -1,10 +1,11 @@
-</template>
+<template>
     <div style="width:100%;height:100%;">
     <!-- #1E8DFF -->
 	    <div style="justify-content: center;align-items: center;background-color:#1E8DFF; height:88px;width:100%;">
 	    	<text style="color:#FFFFFF;font-size:20px;">123</text>
 	    </div>
 	    <div style="width:100%;flex:1;justify-content: flex-end;align-items: flex-end;background-color:#00ff00;">
+	        <text style="color:#FFFFFF;background-color:#FF0000;font-size:38px;padding:20px;" onclick="toPlayPage">进入播放页</text>
 	    	<text>{{deviceHeight}}</text>
 	    </div>
     </div>
@@ -36,6 +37,10 @@ module.exports = {
 
       onbufferingupdate: function(param){
         require('@weex-module/BandouModule').log(param.type+"   "+param.currentposition+"     "+param.duration+"    "+param.bufferingupdate);
+      },
+
+      toPlayPage: function(param){
+            require('@weex-module/STModule').openURL("dist/video-test.js",{});
       },
 
     },
