@@ -1,62 +1,117 @@
 <template>
-
-<div class="ct" style="height: {{ctHeight}}">
-      <image class="img" style="width: 400px; height: 400px;" src="{{img}}" onclick="click"></image>
-      <text style="font-size: 42;">Hello Weex!</text>
-    </div>
+  <div style="flex-direction: column;">
+    <wxc-tabbar tab-items={{tabItems}} selected-color={{selectColor}} unselect-color={{unselectColor}} selected-index="{{selected}}"></wxc-tabbar>
+  </div>
 </template>
-
-<style>
-  .ct {
-    width: 750;
-    align-items: center;
-    justify-content: center;
-  }
-  .img {
-    margin-bottom: 20px;
-  }
-</style>
 
 <script>
   require('weex-components');
   module.exports = {
-    data: {
-      ctHeight: 800,
-      height: 44,
-      img: '//gw.alicdn.com/tps/i2/TB1DpsmMpXXXXabaXXX20ySQVXX-512-512.png_400x400.jpg'
-    },
+      data: {
+        selected: 0,
+        itemIndex: 0,
+        // selectColor: '#3EC3D6',
+        unselectColor: '#5A5A5A',
+        tabItems: [
+          {
+            index: 0,
+            title: '首页',
+            titleColor: '#000000',
+            icon: '',
+            image: './resource/images/tab/tab-act-off.png',
+            selectedImage: './resource/images/tab/tab-act-on.png',
+            src: 'dist/channel/channel-top.js',
+            visibility: 'visible',
+          },
+          {
+            index: 1,
+            title: '直播',
+            titleColor: '#000000',
+            icon: '',
+            image: './resource/images/tab/tab-exp-off.png',
+            selectedImage: './resource/images/tab/tab-exp-on.png',
+            src: 'dist/live/live-top.js',
+            visibility: 'hidden',
+          },
+          {
+            index: 2,
+            title: '遥控器',
+            titleColor: '#000000',
+            icon: '',
+            image: './resource/images/tab/tab-me-off.png',
+            selectedImage: './resource/images/tab/tab-me-on.png',
+            src: 'dist/control/remote-control.js',
+            visibility: 'hidden',
+          },
+          {
+            index: 3,
+            title: '视频电话',
+            titleColor: '#000000',
+            icon: '',
+            image: './resource/images/tab/tab-me-off.png',
+            selectedImage: './resource/images/tab/tab-me-on.png',
+            src: 'dist/telephone/telephone-top.js',
+            visibility: 'hidden',
+          },
+          {
+            index: 4,
+            title: '我的',
+            titleColor: '#000000',
+            icon: '',
+            image: './resource/images/tab/tab-me-off.png',
+            selectedImage: './resource/images/tab/tab-me-on.png',
+            src: 'dist/user/user-top.js',
+            visibility: 'hidden',
+          },
+        ],
+      },
     created: function() {
-      this.$on('naviBar.rightItem.click',function(e){
-                 //handle your click event here.
-      });
-
-      this.$on('naviBar.leftItem.click',function(e){
-        var platform = this.$getConfig().env.platform
-        if(platform == 'iOS'){
-          require('@weex-module/CustomModule').dismissModal() 
+      var dir
+      // dir = 'smart-tv-weex/'
+      var bundleUrl = this.$getConfig().bundleUrl;
+      console.log('hit', bundleUrl);
+      var nativeBase;
+      var isAndroidAssets = bundleUrl.indexOf('file://assets/') >= 0;
+      var isiOSAssets = bundleUrl.indexOf('file:///') >= 0 && bundleUrl.indexOf('WeexDemo.app') > 0;
+      if (isAndroidAssets) {
+        nativeBase = 'file://assets/';
+      }
+      else if (isiOSAssets) {
+        // file:///var/mobile/Containers/Bundle/Application/{id}/WeexDemo.app/
+        // file:///Users/{user}/Library/Developer/CoreSimulator/Devices/{id}/data/Containers/Bundle/Application/{id}/WeexDemo.app/
+        nativeBase = bundleUrl.substring(0, bundleUrl.lastIndexOf('/') + 1);
+      }
+      else {
+        var host = 'localhost:8080';
+        var matches = /\/\/([^\/]+?)\//.exec(this.$getConfig().bundleUrl);
+        if (matches && matches.length >= 2) {
+          host = matches[1];
         }
-        
-      });
+        nativeBase = 'http://' + host + '/';
+        if (dir != null) {
+          nativeBase += dir;
+        }
+      }
+      var h5Base = './';
+      // in Native
+      var base = nativeBase;
+      if (typeof window === 'object') {
+        // in Browser or WebView
+        base = h5Base;
+      }
+
+      for(var i = 0; i < this.tabItems.length; i++) {
+          var tabItem = this.tabItems[i];
+          tabItem.src = base + tabItem.src;
+      }
     },
+
     ready: function () {
       this.ctHeight = this.$getConfig().env.deviceHeight
     },
+
     methods: {
-      click: function() {
-        var path = 'first.js'
-        var param = {title: 'c123'}
-        require('@weex-module/CustomModule').openURL(path, param)
-        return
-        var params = {
-            'url': 'http://192.168.1.66:8081/dist/first.js',
-            'animated' : 'true',
-            'title': 'aaa',
-        }
-        var navigator = require('@weex-module/navigator');
-        navigator.push(params, function(e) {
-            //callback
-        });
-      },
+
     },
   }
 </script>

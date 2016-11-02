@@ -1,0 +1,7 @@
+<template>
+	<div>
+		<div style="align-items: center; justify-content: center; flex: 1;">
+			<text>首页</text>
+		</div>
+	</div>
+</template>
