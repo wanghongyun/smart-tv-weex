@@ -2,15 +2,30 @@
 	<div>
 		<div class="ios-bar" if="showBar"></div>
 		<div class="navigation">
-			
+			<div class="center" style="flex-direction: row; height: 88px;">
+				<div class="center" style="width: 100px; height: 88px;">
+					<text class="nav-title">精选</text>
+					<div class="nav-mark" if="true"></div>
+				</div>
+				<div class="center" style="width: 100px; height: 88px;">
+					<text class="nav-title">分类</text>
+					<div class="nav-mark" if="false"></div>
+				</div>
+				<div class="center" style="width: 100px; height: 88px;">
+					<text class="nav-title">收藏</text>
+					<div class="nav-mark" if="false"></div>
+				</div>
+			</div>
 		</div>
-		<div style="align-items: center; justify-content: center; flex: 1;">
-			<text>首页</text>
-		</div>
+		<channel-recommend style="flex:1; width: {{scWidth}}"/>
 	</div>
 </template>
 
 <style>
+	.center {
+		align-items: center;
+		justify-content: center;
+	}
 	.ios-bar {
 		background-color: #1E8DFF; 
 		height: 40px;
@@ -19,12 +34,27 @@
 		background-color: #1E8DFF; 
 		height: 88px;
 	}
+	.nav-title {
+		color: #FFFFFF;
+		font-size: 32;
+	}
+	.nav-mark {
+		width: 100px; 
+		height: 4px; 
+		background-color: #FFFFFF; 
+		border-radius: 3px; 
+		position: absolute; 
+		bottom: 8px;
+	}
 </style>
 
 <script>
 	module.exports = {
 		data: {
-
+			posters: ['./resource/images/channel/temp_banner.png',
+					  './resource/images/channel/temp_banner.png',
+					  './resource/images/channel/temp_banner.png',
+					 ],
 		},
 		computed: {
 			showBar: {
@@ -35,6 +65,9 @@
 			},
 		},
 		ready: function() {
+
+		},
+		methods: {
 
 		},
 	}

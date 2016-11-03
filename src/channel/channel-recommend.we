@@ -1,0 +1,163 @@
+<template>
+	<div>
+		<div class="search">
+			<div class="search-bar">
+				<!--搜索条-->
+				<div id="search" style="flex: 1"></div>
+				<div class="center" style="width: 64px; height: 64px;">
+					<image src="./resource/images/channel/ic_search.png" style="width: 32px; height: 32px;"></image>
+				</div>
+			</div>
+		</div>
+	    <list style="width: {{scWidth}}; flex: 1;">
+<!-- 	    	<header style="height: 104px;background-color: #FFFFFF">
+	    		<div class="search">
+	    			<div class="search-bar">
+	    				<div id="search" style="flex: 1"></div>
+	    				<div class="center" style="width: 64px; height: 64px;">
+	    					<image src="./resource/images/channel/ic_search.png" style="width: 32px; height: 32px;"></image>
+	    				</div>
+	    			</div>
+	    		</div>
+	    	</header> -->
+	    	<cell>
+	    		<slider auto-play="false" style="width: {{scWidth}}; height: 395px;">
+					<div class="banner-container" repeat="{{src in posters}}">
+						<image src="{{src}}" class="banner"></image>
+						<image class="mark" src="./resource/images/channel/ic_hot.png"></image>
+					</div>
+					<indicator class="indicator"></indicator>
+				</slider>
+	    	</cell>
+	    	<cell repeat="{{v in dramas}}">
+	    		<channel-top-item left-item="{{v.leftItem}}" right-item="{{v.rightItem}}"/>
+	    	</cell>
+	    </list>
+	</div>
+</template>
+
+<style>
+	.center {
+		align-items: center;
+		justify-content: center;
+	}
+	.search {
+		flex-direction: row;
+		width: 750px;
+		height: 64px;
+		align-items: center;
+		justify-content: center;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		background-color: #FFFFFF;
+	}
+	.search-bar {
+		flex-direction: row;
+		flex: 1;
+		height: 64px;
+		align-items: center;
+		margin-left: 15px;
+		margin-right: 15px;
+		border-color: #CCCCCC;
+		border-width: 1px;
+		border-radius: 10px;
+	}
+	.banner-container {
+		width: 750px; 
+		height: 100%; 
+		align-items: center; 
+		justify-content: center;
+	}
+	.banner {
+		width: 720px; 
+		height: 395px;
+		border-radius: 10px;
+	}
+	.indicator {
+	    width:150px;
+	    height:40px;
+	    position:absolute;
+	    right: 30px;
+	    bottom: 20px;
+	    item-color: #FFFFFF;
+	    item-selectedColor: #1E8EFE;
+	    item-size: 12;
+	}
+	.mark {
+		position: absolute;
+		top: 0px;
+		left: 15px;
+		width: 72px;
+		height: 72px;
+		border-radius: 5px 
+	}
+</style>
+	
+<script>
+	module.exports = {
+		data: {
+			posters: ['./resource/images/channel/temp_banner.png',
+					  './resource/images/channel/temp_banner.png',
+					  './resource/images/channel/temp_banner.png',
+					 ],
+			dramas: [  {leftItem: {					
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 0,
+						}, 
+						rightItem:{
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 1,
+						}},
+
+						{leftItem: {					
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 1,
+						}, 
+						rightItem:{
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 2,
+						}},
+						{leftItem: {					
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 2,
+						}, 
+						rightItem:{
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 0,
+						}},
+					],
+		},
+		computed: {
+			showBar: {
+				get: function() {
+					var platform = this.$getConfig().env.platform
+					return platform == 'iOS'
+				},
+			},
+		},
+		ready: function() {
+
+		},
+		methods: {
+
+		},
+	}
+</script>

@@ -1,0 +1,199 @@
+<template>
+	<div class="sc">
+		<div class="item" style="margin-right: 7px;">
+			<div>
+				<image class="poster" src="{{leftPoster}}"></image>
+				<image class="mark" src="{{leftMark}}"></image>
+				<text class="drama">{{leftDrama}}</text>
+			</div>
+			<text class="title">{{leftTitle}}</text>
+			<text class="desc" style="margin-top: {{descTop}}">{{leftDesc}}</text>
+		</div>
+		<div class="item" style="margin-left: 7px;">
+			<div>
+				<image class="poster" src="{{rightPoster}}"></image>
+				<image class="mark" src="{{rightMark}}"></image>
+				<text class="drama">{{rightDrama}}</text>
+			</div>
+			<text class="title">{{rightTitle}}</text>
+			<text class="desc" style="margin-top: {{descTop}}">{{rightDesc}}</text>
+		</div>
+	</div>
+</template>
+
+<style>
+	.sc {
+		width: 750px;
+		height: 290px;
+		flex-direction: row;
+		padding-left: 15px;
+		padding-right: 15px;
+		margin-top: 20px;
+	}
+	.item {
+		flex: 1;
+		height: 290px;
+	}
+	.poster {
+		width: 350px;
+		height: 200px;
+		border-radius: 10px;
+	}
+	.mark {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 72px;
+		height: 72px;
+		border-radius: 5px 
+	}
+	.drama {
+		position: absolute;
+		bottom: 10px;
+		color: #FFFFFF;
+		font-size: 26;
+		margin-left: 10px;
+		margin-right: 10px;
+		width: 330px;
+		text-align: right;
+	}
+	.title {
+		color: #272727;
+		font-size: 30px;
+		margin-top: 10px;
+	}
+	.desc {
+		color: #8B8B8B;
+		font-size: 26px;
+	}
+</style>
+
+<script>
+	module.exports = {
+		data: {
+			leftItem: {
+				/*
+					src:
+					title:
+					desc:
+					drama:
+					type:
+				*/
+			},
+			rightItem: {},
+		},
+		computed: {
+			descTop: {
+				get: function() {
+					var platform = this.$getConfig().env.platform
+					if (platform == 'android') {
+						return 5;
+					}
+					return 10;
+				},
+			},
+
+			leftPoster: {
+				get: function() {
+					if (this.leftItem != null && this.leftItem.src != null) {
+						return this.leftItem.src
+					} else {
+						return './resource/images/channel/default_cover.png'
+					}
+				},
+			},
+			leftTitle: {
+				get: function() {
+					if (this.leftItem != null && this.leftItem.title != null) {
+						return this.leftItem.title
+					} else {
+						return ''
+					}
+				},
+			},
+			leftDesc: {
+				get: function() {
+					if (this.leftItem != null && this.leftItem.desc != null) {
+						return this.leftItem.desc
+					} else {
+						return ''
+					}
+				},
+			},
+			leftDrama: {
+				get: function() {
+					if (this.leftItem != null && this.leftItem.drama != null) {
+						return this.leftItem.drama
+					} else {
+						return ''
+					}
+				},
+			},
+			leftMark: {
+				get: function() {
+					if (this.leftItem != null && this.leftItem.type != null) {
+						if (this.leftItem.type == 0) {
+							return './resource/images/channel/ic_hot.png'
+						} else if (this.leftItem.type == 1) {
+							return './resource/images/channel/ic_new.png'
+						} else if (this.leftItem.type == 2) {
+							return './resource/images/channel/ic_recommend.png'
+						}
+					}
+					return ''
+				},
+			},
+
+			rightPoster: {
+				get: function() {
+					if (this.rightItem != null && this.rightItem.src != null) {
+						return this.rightItem.src
+					} else {
+						return './resource/images/channel/default_cover.png'
+					}
+				},
+			},
+			rightTitle: {
+				get: function() {
+					if (this.rightItem != null && this.rightItem.title != null) {
+						return this.rightItem.title
+					} else {
+						return ''
+					}
+				},
+			},
+			rightDesc: {
+				get: function() {
+					if (this.rightItem != null && this.rightItem.desc != null) {
+						return this.rightItem.desc
+					} else {
+						return ''
+					}
+				},
+			},
+			rightDrama: {
+				get: function() {
+					if (this.rightItem != null && this.rightItem.drama != null) {
+						return this.rightItem.drama
+					} else {
+						return ''
+					}
+				},
+			},
+			rightMark: {
+				get: function() {
+					if (this.rightItem != null && this.rightItem.type != null) {
+						if (this.rightItem.type == 0) {
+							return './resource/images/channel/ic_hot.png'
+						} else if (this.rightItem.type == 1) {
+							return './resource/images/channel/ic_new.png'
+						} else if (this.rightItem.type == 2) {
+							return './resource/images/channel/ic_recommend.png'
+						}
+					}
+					return ''
+				},
+			},
+		},
+	}
+</script>
