@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<div class="ios-bar" if="showBar"></div>
 		<div class="navigation">
 			
 		</div>
@@ -10,9 +11,13 @@
 </template>
 
 <style>
+	.ios-bar {
+		background-color: #1E8DFF; 
+		height: 40px;
+	}
 	.navigation {
 		background-color: #1E8DFF; 
-		height: 128px;
+		height: 88px;
 	}
 </style>
 
@@ -20,6 +25,14 @@
 	module.exports = {
 		data: {
 
+		},
+		computed: {
+			showBar: {
+				get: function() {
+					var platform = this.$getConfig().env.platform
+					return platform == 'iOS'
+				},
+			},
 		},
 		ready: function() {
 
