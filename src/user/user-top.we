@@ -1,8 +1,9 @@
 <template>
 	<div style="width:100%;height:100%;background-color:#FFFFFF;">
+			<div style="background-color: #1E8DFF; height: 40px;" if="showBar"></div>
 			<!-- 标题 -->
 			<div style="width: 100%;height: 88px; background-color: #1E8DFF; align-items: center; justify-content: center;">
-				<text style="color:#FFFFFF; font-size:36px;">个人中心</text>
+				<text style="color:#FFFFFF; font-size:34px;">个人中心</text>
 			</div>
 			<!-- 内容部分 -->
 			<scroller style="width:100%;height:100%;background-color:#EFEFEF;">
@@ -125,6 +126,14 @@
 		data: {
 			imgRightArrow:'./resource/images/user/right-arrow.png',
 
+		},
+		computed: {
+			showBar: {
+				get: function() {
+					var platform = this.$getConfig().env.platform
+					return platform == 'iOS'
+				},
+			},
 		},
 		ready: function() {
 

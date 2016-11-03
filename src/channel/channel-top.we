@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="ios-bar" if="showBar"></div>
+		<div style="background-color: #1E8DFF; height: 40px;" if="showBar"></div>
 		<div class="navigation">
 			<div class="center" style="flex-direction: row; height: 88px;">
 				<div class="center" style="width: 100px; height: 88px;">
@@ -25,10 +25,6 @@
 	.center {
 		align-items: center;
 		justify-content: center;
-	}
-	.ios-bar {
-		background-color: #1E8DFF; 
-		height: 40px;
 	}
 	.navigation {
 		background-color: #1E8DFF; 
