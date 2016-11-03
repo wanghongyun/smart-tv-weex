@@ -1,7 +1,133 @@
 <template>
-	<div>
-		<div style="align-items: center; justify-content: center; flex: 1;">
-			<text>个人中心</text>
-		</div>
+	<div style="width:100%;height:100%;background-color:#FFFFFF;">
+			<!-- 标题 -->
+			<div style="width: 100%;height: 88px; background-color: #1E8DFF; align-items: center; justify-content: center;">
+				<text style="color:#FFFFFF; font-size:36px;">个人中心</text>
+			</div>
+			<!-- 内容部分 -->
+			<scroller style="width:100%;height:100%;background-color:#EFEFEF;">
+				<div style="width:100%;height:100%;padding-bottom:30px;">
+					<div class="div-item" style="height:170px;padding-left:30px;">
+							<img src="./resource/images/user/user-default-avatar.png" style="width:130px;height:130px;border-radius:65px;">
+							<div style="flex:1; margin-left:30px;">
+								<text style="color:#3D4D4F; font-size:32px;">点击登录</text>
+								<text style="color:#767676; font-size:26px;">ID:000001234</text>
+							</div>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+
+					<!-- 第一联菜单 -->
+					<div class="div-item" style="margin-top:30px;">
+							<img class="img-item" src="./resource/images/user/user-item-icon-1.png">
+							<text class="text-item">观看历史</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+					<div class="div-item">
+							<img class="img-item" src="./resource/images/user/user-item-icon-2.png">
+							<text class="text-item">我的收藏</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+					<div class="div-item">
+							<img class="img-item" src="./resource/images/user/user-item-icon-3.png">
+							<text class="text-item">我的订单</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+					<!-- 第二联菜单 分享账号 -->
+					<div class="div-item" style="background-color:#EFEFEF;height:80px">
+							<text style="color:#C0C0C0;font-size:30px;flex:1;">分享账号</text>
+					</div>
+					<div class="div-line"></div>
+					<div class="div-item">
+							<img class="img-item" src="./resource/images/user/user-item-icon-4.png">
+							<text class="text-item">微信</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+					<div class="div-item">
+							<img class="img-item" src="./resource/images/user/user-item-icon-5.png">
+							<text class="text-item">QQ</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+					<div class="div-item">
+							<img class="img-item" src="./resource/images/user/user-item-icon-6.png">
+							<text class="text-item">新浪微博</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+					<!-- 第三联菜单 -->
+					<div class="div-item" style="margin-top:30px;">
+							<img class="img-item" src="./resource/images/user/user-item-icon-7.png">
+							<text class="text-item">服务中心</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+					<div class="div-item">
+							<img class="img-item" src="./resource/images/user/user-item-icon-8.png">
+							<text class="text-item">欢迎评分</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+					<!-- 第四联菜单 -->
+					<div class="div-item" style="margin-top:30px;">
+							<img class="img-item" src="./resource/images/user/user-item-icon-9.png">
+							<text class="text-item">投屏</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+					<div class="div-item">
+							<img class="img-item" src="./resource/images/user/user-item-icon-10.png">
+							<text class="text-item">设置</text>
+							<img class="img-right-arrow" src="{{imgRightArrow}}">
+					</div>
+					<div class="div-line"></div>
+				</div>
+			</scroller>
 	</div>
 </template>
+<style>
+	.div-item{
+		width:100%;
+		height: 100px;
+		background-color:#FFFFFF;
+		padding-left:40px;
+		padding-right:30px;
+		flex-direction:row;
+		align-items: center; 
+		justify-content: center;
+	}
+	.text-item{
+		color:#212121; 
+		font-size:30px; 
+		flex:1;
+		margin-left:25px;
+	}
+	.img-item{
+		width:33px;
+		height:33px;
+	}
+	.div-line {
+		width:100%;
+		height:1px;
+		background-color:#D0D0D0;
+	}
+	.img-right-arrow{
+		width:25px;
+		height:25px;
+	}
+</style>
+<script>
+	module.exports = {
+		data: {
+			imgRightArrow:'./resource/images/user/right-arrow.png',
+
+		},
+		ready: function() {
+
+		},
+	}
+</script>
