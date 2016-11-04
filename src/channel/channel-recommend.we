@@ -2,7 +2,6 @@
 	<div>
 		<div class="search">
 			<div class="search-bar">
-				<!--搜索条-->
 				<div id="search" style="flex: 1"></div>
 				<div class="center" style="width: 64px; height: 64px;">
 					<image src="./resource/images/channel/ic_search.png" style="width: 32px; height: 32px;"></image>
@@ -10,16 +9,6 @@
 			</div>
 		</div>
 	    <list style="width: {{scWidth}}; flex: 1;">
-<!-- 	    	<header style="height: 104px;background-color: #FFFFFF">
-	    		<div class="search">
-	    			<div class="search-bar">
-	    				<div id="search" style="flex: 1"></div>
-	    				<div class="center" style="width: 64px; height: 64px;">
-	    					<image src="./resource/images/channel/ic_search.png" style="width: 32px; height: 32px;"></image>
-	    				</div>
-	    			</div>
-	    		</div>
-	    	</header> -->
 	    	<cell>
 	    		<slider auto-play="false" style="width: {{scWidth}}; height: 395px;">
 					<div class="banner-container" repeat="{{src in posters}}">

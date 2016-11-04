@@ -3,7 +3,7 @@
 		<div class="item" style="margin-right: 7px;">
 			<div>
 				<image class="poster" src="{{leftPoster}}"></image>
-				<image class="mark" src="{{leftMark}}"></image>
+				<image class="mark" src="{{leftMark}}" if="{{showMark}}"></image>
 				<text class="drama">{{leftDrama}}</text>
 			</div>
 			<text class="title">{{leftTitle}}</text>
@@ -12,7 +12,7 @@
 		<div class="item" style="margin-left: 7px;">
 			<div>
 				<image class="poster" src="{{rightPoster}}"></image>
-				<image class="mark" src="{{rightMark}}"></image>
+				<image class="mark" src="{{rightMark}}" if="{{showMark}}"></image>
 				<text class="drama">{{rightDrama}}</text>
 			</div>
 			<text class="title">{{rightTitle}}</text>
@@ -81,6 +81,8 @@
 				*/
 			},
 			rightItem: {},
+
+			showMark: true,
 		},
 		computed: {
 			descTop: {

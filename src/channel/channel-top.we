@@ -3,21 +3,27 @@
 		<div style="background-color: #1E8DFF; height: 40px;" if="showBar"></div>
 		<div class="navigation">
 			<div class="center" style="flex-direction: row; height: 88px;">
-				<div class="center" style="width: 100px; height: 88px;">
+				<div class="center" style="width: 100px; height: 88px;" onclick="clickNav(0)">
 					<text class="nav-title">精选</text>
-					<div class="nav-mark" if="true"></div>
+					<div class="nav-mark" if="{{showRecommend}}"></div>
 				</div>
-				<div class="center" style="width: 100px; height: 88px;">
+				<div class="center" style="width: 100px; height: 88px;" onclick="clickNav(1)">
 					<text class="nav-title">分类</text>
-					<div class="nav-mark" if="false"></div>
+					<div class="nav-mark" if="{{showClassify}}"></div>
 				</div>
-				<div class="center" style="width: 100px; height: 88px;">
+				<div class="center" style="width: 100px; height: 88px;" onclick="clickNav(2)">
 					<text class="nav-title">收藏</text>
-					<div class="nav-mark" if="false"></div>
+					<div class="nav-mark" if="{{showFavor}}"></div>
 				</div>
 			</div>
 		</div>
-		<channel-recommend style="flex:1; width: {{scWidth}}"/>
+		<div style="width: {{scWidth}}; flex:1;" if="{{showRecommend}}">
+			<channel-recommend style="flex:1; width: {{scWidth}}"/>
+		</div>
+		<div class="list" if="{{showClassify}}" style="top:{{listTop}}">
+			<channel-classify style="flex:1; width: {{scWidth}}"/>
+		</div>
+
 	</div>
 </template>
 
@@ -42,11 +48,21 @@
 		position: absolute; 
 		bottom: 8px;
 	}
+	.list {
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+	}
 </style>
 
 <script>
 	module.exports = {
 		data: {
+			showRecommend: true,
+			showClassify: false,
+			showFavor: false,
+
 			posters: ['./resource/images/channel/temp_banner.png',
 					  './resource/images/channel/temp_banner.png',
 					  './resource/images/channel/temp_banner.png',
@@ -59,12 +75,46 @@
 					return platform == 'iOS'
 				},
 			},
+			listTop: {
+				get: function() {
+					var platform = this.$getConfig().env.platform
+					if (platform == 'iOS') {
+						return 128
+					}
+					return 88
+				},
+			},
+			selectedNav: {
+				get: function() {
+					if (this.showRecommend) {
+						return 0
+					} else if (this.showClassify) {
+						return 1
+					} else {
+						return 2
+					}
+				},
+				set: function(v) {
+					this.showRecommend = false
+					this.showClassify = false
+					this.showFavor = false
+					if (v == 0) {
+						this.showRecommend = true
+					} else if (v == 1) {
+						this.showClassify = true
+					} else {
+						this.showFavor = true
+					}
+				}
+			}
 		},
 		ready: function() {
 
 		},
 		methods: {
-
+			clickNav: function(index) {
+				this.selectedNav = index
+			},
 		},
 	}
 </script>
