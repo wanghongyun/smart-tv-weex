@@ -1,6 +1,6 @@
 <template>
 	<div class="sc">
-		<image class="poster" resize="cover" src="{{poster}}"></image>
+		<image class="poster" src="{{poster}}"></image>
 		<div style="flex: 1; margin-left: 20px; margin-right: 20px;">
 			<text style="font-size: 30px; color: #272727;">{{title}}</text>
 			<text style="font-size: 26px; color: #8B8B8B; margin-top: 10px;">{{desc}}</text>
@@ -14,6 +14,13 @@
 		flex-direction: row;
 		align-items: center;
 		margin-top: 15px;
+	}
+	.poster-container {
+		width: 200px;
+		height: 200px;
+		border-radius: 50px;
+		margin-left: 20px;
+		margin-bottom: 15px;
 	}
 	.poster {
 		width: 200px;

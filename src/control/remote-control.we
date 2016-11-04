@@ -1,7 +1,254 @@
 <template>
-	<div>
-		<div style="align-items: center; justify-content: center; flex: 1;">
-			<text>遥控器</text>
+	<scroller style="background-color: #131313; align-items: center; padding-top: {{paddingTop}};">
+		<div class="round-container">
+			<image class="round-button" 
+					style="margin-left: 150px;"
+					src="{{buttons[0]}}" 
+					onclick="clickPower" 
+					ontouchstart="onDown(0)" 
+					ontouchcancel="onUp(0)" 
+					ontouchend="onUp(0)"></image>
+			<image class="round-button" 
+					style="margin-right: 150px;"
+					src="{{buttons[1]}}" 
+					onclick="clickPower" 
+					ontouchstart="onDown(1)" 
+					ontouchcancel="onUp(1)" 
+					ontouchend="onUp(1)"></image>
 		</div>
-	</div>
+
+		<div style="width: 530px; height: 530px; flex-direction: row;">
+			<image class="center-image" src="{{center}}"></image>
+			<div class=".arrow-container" style="justify-content: center;">
+				<image class="arrow" 
+					src="{{arrowButtonShow[0]}}"
+					ontouchstart="onArrowDown(0)" 
+					ontouchcancel="onArrowUp(0)" 
+					ontouchend="onArrowUp(0)"></image>
+			</div>
+			<div class=".arrow-container" style="justify-content: space-between;">
+				<image class="arrow" 
+					src="{{arrowButtonShow[1]}}"
+					ontouchstart="onArrowDown(1)" 
+					ontouchcancel="onArrowUp(1)" 
+					ontouchend="onArrowUp(1)"></image>
+				<image class="arrow" 
+					src="{{arrowButtonShow[2]}}"
+					ontouchstart="onArrowDown(2)" 
+					ontouchcancel="onArrowUp(2)" 
+					ontouchend="onArrowUp(2)"></image>
+			</div>
+			<div class=".arrow-container" style="justify-content: center;">
+				<image class="arrow" 
+					src="{{arrowButtonShow[3]}}"
+					ontouchstart="onArrowDown(3)" 
+					ontouchcancel="onArrowUp(3)" 
+					ontouchend="onArrowUp(3)"></image>
+			</div>
+		</div>
+
+		<div class="round-container">
+			<image class="round-button" 
+					style="margin-left: 150px;"
+					src="{{buttons[2]}}" 
+					onclick="clickPower" 
+					ontouchstart="onDown(2)" 
+					ontouchcancel="onUp(2)" 
+					ontouchend="onUp(2)"></image>
+			<image class="round-button" 
+					style="margin-right: 150px;"
+					src="{{buttons[3]}}" 
+					onclick="clickPower" 
+					ontouchstart="onDown(3)" 
+					ontouchcancel="onUp(3)" 
+					ontouchend="onUp(3)"></image>
+		</div>
+
+		<div class="rect-container" style="margin-top: 50px;">
+			<image class="rect-button" 
+					style="margin-left: 135px;"
+					src="{{buttons[4]}}" 
+					onclick="clickPower" 
+					ontouchstart="onDown(4)" 
+					ontouchcancel="onUp(4)" 
+					ontouchend="onUp(4)"></image>
+			<image class="rect-button" 
+					style="margin-right: 135px;"
+					src="{{buttons[5]}}" 
+					onclick="clickPower" 
+					ontouchstart="onDown(5)" 
+					ontouchcancel="onUp(5)" 
+					ontouchend="onUp(5)"></image>
+		</div>
+		<div class="rect-container">
+			<image class="rect-button" 
+					style="margin-left: 135px;"
+					src="{{buttons[6]}}" 
+					onclick="clickPower" 
+					ontouchstart="onDown(6)" 
+					ontouchcancel="onUp(6)" 
+					ontouchend="onUp(6)"></image>
+			<image class="rect-button" 
+					style="margin-right: 135px;"
+					src="{{buttons[7]}}" 
+					onclick="clickPower" 
+					ontouchstart="onDown(7)" 
+					ontouchcancel="onUp(7)" 
+					ontouchend="onUp(7)"></image>
+		</div>
+
+		<div class="color-container">
+			<div class="color-button">
+				<image class="color-image" src="{{colorButtons[0]}}"></image>
+			</div>
+			<div class="color-button">
+				<image class="color-image" src="{{colorButtons[1]}}"></image>
+			</div>
+			<div class="color-button">
+				<image class="color-image" src="{{colorButtons[2]}}"></image>
+			</div>
+			<div class="color-button">
+				<image class="color-image" src="{{colorButtons[3]}}"></image>
+			</div>
+		</div>
+	</scroller>
 </template>
+
+<style>
+	.round-container {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		height: 122px;
+		width: 750px;
+		margin-top: 50px;
+	}
+	.round-button {
+		width: 122px;
+		height: 122px;
+	}
+	.rect-container {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		height: 151px;
+		width: 750px;
+	}
+	.rect-button {
+		width: 152px;
+		height: 151px;
+	}
+	.center-image {
+		width: 530px; 
+		height: 530px; 
+		position: absolute;
+		left: 0px;
+		top: 0px;
+	}
+	.arrow-container {
+		width: 177px;
+		height: 530px;
+	}
+	.arrow {
+		width: 177px;
+		height: 177px;
+	}
+	.color-container {
+		width: 750px;
+		height: 50px;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		margin-top: 50px;
+		margin-bottom: 50px;
+	}
+	.color-button {
+		width: 150px;
+		height: 50px;
+		align-items: center;
+		justify-content: center;
+	}
+	.color-image {
+		width: 92px;
+		height: 34px;
+	}
+</style>
+
+<script>
+	module.exports = {
+		data: {
+			center: './resource/images/control/center.png',
+
+			srcPrefix: [
+				'./resource/images/control/power_',
+				'./resource/images/control/home_',
+				'./resource/images/control/back_',
+				'./resource/images/control/menu_',
+				'./resource/images/control/channel_up_',
+				'./resource/images/control/volume_up_',
+				'./resource/images/control/channel_down_',
+				'./resource/images/control/volume_down_',
+			],
+			buttons: [
+			],
+
+			arrowButtons: [
+				'./resource/images/control/left.png',
+				'./resource/images/control/up.png',
+				'./resource/images/control/down.png',
+				'./resource/images/control/right.png',
+			],
+
+			arrowButtonShow: ['', '', '', ''],
+
+			colorButtons: [
+				'./resource/images/control/red.png',
+				'./resource/images/control/green.png',
+				'./resource/images/control/yellow.png',
+				'./resource/images/control/blue.png',
+			],
+		},
+		computed: {
+			paddingTop: {
+				get: function() {
+					var platform = this.$getConfig().env.platform
+					if (platform == 'iOS') {
+						return 40
+					}
+					return 0
+				},
+			},
+		},
+		created: function() {
+			for (var i = 0; i < this.srcPrefix.length; i++) {
+				var path = this.srcPrefix[i]
+				path += 'off.png'
+				this.buttons.push(path)
+			}
+		},
+		methods: {
+			onUp: function(index) {
+				var path = this.srcPrefix[index]
+				path += 'off.png'
+				this.buttons.$set(index, path)
+			},
+			onDown: function(index) {
+				var path = this.srcPrefix[index]
+				path += 'on.png'
+				this.buttons.$set(index, path)
+			},
+
+			onArrowDown: function(index) {
+				var path = this.arrowButtons[index]
+				this.arrowButtonShow.$set(index, path)
+			},
+			onArrowUp: function(index) {
+				var path = './resource/images/control/empty.png'
+				this.arrowButtonShow.$set(index, path)
+			},
+			clickPower: function() {
+
+			},
+		}
+	}
+</script>
