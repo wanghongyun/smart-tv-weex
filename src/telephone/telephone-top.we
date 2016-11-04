@@ -24,7 +24,7 @@
 								</div>
 								<div style="width: 140px;height: 65px;background-color:{{phoneclick==$index?'#099BCC':'#0BB9F5'}};  border-radius:6px; align-items:center;justify-content:center;"
 										onclick="{{clickPhone($index)}}" ontouchstart="{{clickPhoneTouchstart($index)}}" ontouchend="{{clickPhoneTouchend($index)}}" 
-										ontouchcancel="{{clickPhoneTouchend($index)}}" onmousedown="{{clickPhoneTouchstart($index)}}" onmouseup="{{clickPhoneTouchend($index)}}">
+										ontouchcancel="{{clickPhoneTouchend($index)}}">
 									<img src="./resource/images/telephone/icon-phone.png" style="width:35px;height:35px;">
 								</div>
 						</div>
