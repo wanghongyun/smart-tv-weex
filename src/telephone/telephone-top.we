@@ -1,7 +1,99 @@
 <template>
-	<div>
-		<div style="align-items: center; justify-content: center; flex: 1;">
-			<text>视频电话</text>
-		</div>
+	<div style="width:100%;height:100%;background-color:#FFFFFF;">
+			<div style="background-color: #1E8DFF; height: 40px;" if="showBar"></div>
+			<!-- 标题 -->
+			<div style="width: 100%;height: 88px; background-color: #1E8DFF; flex-direction:row; align-items: center; justify-content: center;">
+				<text style="color:#FFFFFF; font-size:34px;">视频电话</text>
+				<div style="align-items: center; justify-content: center;position:absolute; right:0px;top:0px;bottom:0px; padding-right:20px;padding-left:20px;"
+						onclick="addTelephone">
+						<text style="color:#FFFFFF; font-size:26px; ">添加</text>
+				</div>
+			</div>
+			<!-- 内容部分 -->
+			<list>
+				<cell repeat="{{person}}">
+						<div style="width:100%;height:160px;background-color:#FFFFFF;padding-left:30px;padding-right:30px;flex-direction:row;align-items:center;justify-content:center;">
+								<div>
+									<!-- 默认背景 -->
+									<img src="./resource/images/user/user-default-avatar-blank.png" style="width:120px;height:120px;border-radius:60px;">
+									<img src="./resource/images/user/user-default-avatar.png" style="width:120px;height:120px;border-radius:60px;position:absolute;left:0px;right:0px;top:0px;bottom:0px;">
+								</div>
+								<div style="flex:1; margin-left:30px;">
+									<text style="color:#3D4D4F; font-size:32px;">庞老师</text>
+									<text style="color:#767676; font-size:26px;">ID:000001234</text>
+								</div>
+								<div style="width: 150px;height: 65px;background-color:{{phoneclick==$index?'#099BCC':'#0BB9F5'}};  border-radius:6px; align-items:center;justify-content:center;"
+										onclick="{{clickPhone($index)}}" ontouchstart="{{clickPhoneTouchstart($index)}}" ontouchend="{{clickPhoneTouchend($index)}}" 
+										ontouchcancel="{{clickPhoneTouchend($index)}}" onmousedown="{{clickPhoneTouchstart($index)}}" onmouseup="{{clickPhoneTouchend($index)}}">
+									<img src="" style="width:30px;height:30px;background-color:#FFFFFF;">
+								</div>
+						</div>
+						<div class="div-line"></div>
+				</cell>
+			</list>
 	</div>
 </template>
+
+<style>
+	.div-line {
+			width:100%;
+			height:1px;
+			background-color:#D0D0D0;
+		}
+</style>
+
+<script>
+	module.exports = {
+		data: {
+			person:[{},{},{},{},{},{},{},{},{},{},{},{}],
+			phoneclick:-1,
+
+		},
+
+		computed: {
+			showBar: {
+				get: function() {
+					var platform = this.$getConfig().env.platform
+					return platform == 'iOS'
+				},
+			},
+		},
+
+		ready: function() {
+
+		},
+
+		methods: {
+			/**
+			 * 添加电话
+			 */
+			addTelephone: function(){
+				require('@weex-module/modal').toast({'message': "添加联系人", 'duration': 0});
+			},
+			/**
+			 * 点击拨打电话
+			 * @param  {[type]} index [description]
+			 * @return {[type]}       [description]
+			 */
+			clickPhone: function(index){
+				require('@weex-module/modal').toast({'message': "拨打视频电话", 'duration': 0});
+			},
+			/**
+			 * 触控开始
+			 * @param  {[type]} index [description]
+			 * @return {[type]}       [description]
+			 */
+			clickPhoneTouchstart: function(index){
+				this.phoneclick = index;
+			},
+			/**
+			 * 触控结束
+			 * @param  {[type]} index [description]
+			 * @return {[type]}       [description]
+			 */
+			clickPhoneTouchend: function(index){
+				this.phoneclick = -1;
+			},
+		},
+	}
+</script>
