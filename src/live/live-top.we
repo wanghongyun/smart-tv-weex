@@ -1,7 +1,144 @@
 <template>
-	<div>
-		<div style="align-items: center; justify-content: center; flex: 1;">
-			<text>直播</text>
-		</div>
+	<div style="width:100%;height:100%;background-color:#FFFFFF;">
+			<div style="background-color: #1E8DFF; height: 40px;" if="showBar"></div>
+			<!-- 标题 -->
+			<div style="width: 100%;height: 88px; background-color: #1E8DFF; flex-direction:row; align-items: center; justify-content: center;">
+				<text style="color:#FFFFFF; font-size:34px;">直播</text>
+			</div>
+			<!-- 顶部tab -->
+			<div style="height:80px;">
+				<scroller style="flex:1;flex-direction:row;height:80px;" show-scrollbar="false" scroll-direction="horizontal">
+					<div style="height:80px;flex-direction:row;">
+							<div repeat="{{channelclassifys}}" style="width:180px;height:80px;align-items:center;justify-content:center;" onclick="{{clickchannelclassify($index)}}">
+									<text style="color:#212121; font-size:30px;margin-top:5px;">{{channelnameclassify}}</text>
+									<div style="width:130px;height:5px;background-color:#1F8DFF;position:absolute;bottom:0px;left:25px;" if="{{channelclassifyselect==$index}}"></div>
+							</div>
+					</div>
+				</scroller>
+				<div class="div-line"></div>
+			</div>
+			<!-- 内容部分 -->
+			<list>
+			    <cell>
+			    		<!-- 直播部分 -->
+			    		<div style="width:750px;height:420px;">
+			    				<img src="./resource/images/live/live-top-player-bg.png" style="width:750px;height:420px;background-color:#EEEEEE;">
+			    				<!-- 播控面板部分 -->
+			    				<div style="width:750px;height:80px;position:absolute;bottom:0;left:0;right:0;top:340px;z-index:90;">
+										<img src="./resource/images/live/player-control-bg.png" style="width:750px;height:80px;">
+										<div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;left:0;top:0;z-index:91;">
+												<img src="./resource/images/live/player-control-pause.png" resize="contain" style="width:30px;height:30px;">
+										</div>
+										<div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;right:0;top:0;z-index:91;">
+												<img src="./resource/images/live/player-control-extend.png" resize="contain" style="width:35px;height:35px;">
+										</div>
+										<div style="width:550px;flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:91;">
+												<img src="./resource/images/live/player-control-progress.png" style="flex:0.2;height:6px;background-color:#000000;">
+												<img style="flex:0.8;height:6px;background-color:#000000;">
+										</div>
+			    				</div>
+
+			    		</div>
+			    </cell>
+				<cell repeat="{{channels}}">
+						<div style="width:750px;height:200px;background-color:#FFFFFF;padding-left:20px;flex-direction:row;align-items:center;justify-content:center;" onclick="{{clickchannel($index)}}">
+								<img src="./resource/images/live/live-item-temp-bg.png" style="width:240px;height:180px;background-color:#EEEEEE;">
+								<div style="width: 470px;height:180px; margin-left:20px;"">
+										<text style="color:#212121; font-size:30px;">CCTV7</text>
+										<div style="width: 470px;flex:1.3; width: 100%; flex-direction:row; align-items:center;">
+											<text style="width: 120px; color:#767676; font-size:23px;">正在播放:</text>
+											<text style="width:345px;color:#212121; font-size:24px;margin-left:5px;text-overflow:ellipsis;lines:1;">我军试射最新航母杀手DF-21</text>
+										</div>
+										<div class="div-program-item">
+											<text class="text-program-item-left">14:00-14::50</text>
+											<text class="text-program-item-right">节目单002</text>
+										</div>
+										<div class="div-program-item">
+											<text class="text-program-item-left">14:50-16::50</text>
+											<text class="text-program-item-right">节目单003</text>
+										</div>
+										<div class="div-program-item">
+											<text class="text-program-item-left">16:50-17::50</text>
+											<text class="text-program-item-right">节目单004</text>
+										</div>
+								</div>
+						</div>
+						<div class="div-line"></div>
+				</cell>
+			</list>
 	</div>
 </template>
+
+<style>
+	.div-line {
+			width:100%;
+			height:1px;
+			background-color:#D0D0D0;
+	}
+	.div-program-item{
+			flex:1;
+			width: 100%; 
+			flex-direction:row; 
+			align-items:flex-end;
+	}
+	.text-program-item-left{
+			color:#767676; 
+			font-size:23px;
+	}
+	.text-program-item-right{
+			color:#212121; 
+			font-size:24px;
+			margin-left:10px;
+	}
+</style>
+
+<script>
+	module.exports = {
+		data: {
+			channels:[{},{},{},{},{},{},{},{},{},{},{},{}],
+			channelselect:0,
+			channelclassifys:[
+			                	{channelnameclassify:'央视频道'},
+			                	{channelnameclassify:'奥运频道'},
+			                	{channelnameclassify:'卫视频道'},
+			                	{channelnameclassify:'地方频道'},
+			                	{channelnameclassify:'熊猫频道'},
+			                	{channelnameclassify:'网络频道'},
+			                	{channelnameclassify:'财经频道'},
+			                	{channelnameclassify:'游戏频道'}
+			                	],
+	        channelclassifyselect:0,
+
+		},
+
+		computed: {
+			showBar: {
+				get: function() {
+					var platform = this.$getConfig().env.platform
+					return platform == 'iOS'
+				},
+			},
+		},
+
+		ready: function() {
+
+		},
+
+		methods: {
+			/**
+			 * 切换频道分类
+			 */
+			clickchannelclassify: function(index){
+				this.channelclassifyselect = index;
+			},
+			/**
+			 * 切换频道
+			 * @param  {[type]} index [description]
+			 * @return {[type]}       [description]
+			 */
+			clickchannel: function(index){
+				require('@weex-module/modal').toast({'message': "切换频道", 'duration': 0});
+			},
+		},
+	}
+</script>
