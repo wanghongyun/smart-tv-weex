@@ -25,12 +25,12 @@
 							<img class="img-right-arrow" src="{{imgRightArrow}}">
 					</div>
 					<div class="div-line"></div>
-					<div class="div-item">
+					<!-- <div class="div-item">
 							<img class="img-item" src="./resource/images/user/user-item-icon-2.png">
 							<text class="text-item">我的收藏</text>
 							<img class="img-right-arrow" src="{{imgRightArrow}}">
 					</div>
-					<div class="div-line"></div>
+					<div class="div-line"></div> -->
 					<div class="div-item">
 							<img class="img-item" src="./resource/images/user/user-item-icon-3.png">
 							<text class="text-item">我的订单</text>
@@ -39,7 +39,7 @@
 					<div class="div-line"></div>
 					<!-- 第二联菜单 分享账号 -->
 					<div class="div-item" style="background-color:#EFEFEF;height:80px">
-							<text style="color:#C0C0C0;font-size:30px;flex:1;">分享账号</text>
+							<text style="color:#C0C0C0;font-size:26px;flex:1;">分享账号</text>
 					</div>
 					<div class="div-line"></div>
 					<div class="div-item">
@@ -103,7 +103,7 @@
 	}
 	.text-item{
 		color:#212121; 
-		font-size:30px; 
+		font-size:28px; 
 		flex:1;
 		margin-left:25px;
 	}
