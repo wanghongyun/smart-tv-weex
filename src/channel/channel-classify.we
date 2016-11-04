@@ -10,7 +10,7 @@
 			<image style="width: 100px; height: 80px;" src="./resource/images/channel/ic_classify.png"></image>
 			<div class="line"></div>
 		</div>
-	    <list style="width: {{scWidth}}; flex: 1;">
+	    <list style="flex: 1;">
 	    	<cell>
 		    	<div class="banner-container">
 		    		<image src="{{poster}}" class="banner"></image>

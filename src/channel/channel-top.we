@@ -15,6 +15,9 @@
 					<text class="nav-title">收藏</text>
 					<div class="nav-mark" if="{{showFavor}}"></div>
 				</div>
+				<div class="history" onclick="toHistory">
+					<image style="width: 32px; height: 32px;" src="./resource/images/channel/ic_history.png"></image>
+				</div>
 			</div>
 		</div>
 		<div style="width: {{scWidth}}; flex:1;" if="{{showRecommend}}">
@@ -23,7 +26,9 @@
 		<div class="list" if="{{showClassify}}" style="top:{{listTop}}">
 			<channel-classify style="flex:1; width: {{scWidth}}"/>
 		</div>
-
+		<div class="list" if="{{showFavor}}" style="top:{{listTop}}">
+			<favor-top style="flex:1; width: {{scWidth}}"/>
+		</div>
 	</div>
 </template>
 
@@ -48,6 +53,15 @@
 		position: absolute; 
 		bottom: 8px;
 	}
+	.history {
+		width: 88px;
+		height: 88px;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		right: 0px;
+		top: 0px;
+	}
 	.list {
 		position: absolute;
 		left: 0px;
@@ -57,6 +71,7 @@
 </style>
 
 <script>
+	require('../favor/favor-top.we');
 	module.exports = {
 		data: {
 			showRecommend: true,
@@ -112,8 +127,15 @@
 
 		},
 		methods: {
+
+			/*
+			*	click
+			*/
 			clickNav: function(index) {
 				this.selectedNav = index
+			},
+			toHistory: function() {
+				// TODO:
 			},
 		},
 	}

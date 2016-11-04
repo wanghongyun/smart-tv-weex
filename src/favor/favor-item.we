@@ -1,0 +1,75 @@
+<template>
+	<div class="sc">
+		<image class="poster" resize="cover" src="{{poster}}"></image>
+		<div style="flex: 1; margin-left: 20px; margin-right: 20px;">
+			<text style="font-size: 30px; color: #272727;">{{title}}</text>
+			<text style="font-size: 26px; color: #8B8B8B; margin-top: 10px;">{{desc}}</text>
+		</div>
+		<div class="line"></div>
+	</div>
+</template>
+
+<style>
+	.sc {
+		flex-direction: row;
+		align-items: center;
+		margin-top: 15px;
+	}
+	.poster {
+		width: 200px;
+		height: 200px;
+		border-radius: 10px;
+		margin-left: 20px;
+		margin-bottom: 15px;
+	}
+	.line {
+		position: absolute;
+		height: 1px;
+		left: 20px;
+		right: 0px;
+		bottom: 0px;
+		background-color: #CCCCCC;
+	}
+</style>
+
+<script>
+	module.exports = {
+		data: {
+			favor: {
+				/*
+				src:
+				title:
+				drama:
+				*/
+			},
+		},
+		computed: {
+			poster: {
+				get: function() {
+					if (this.favor != null && this.favor.src != null) {
+						return this.favor.src
+					}
+					return './resource/images/channel/default_cover.png'
+				},
+			},
+			title: {
+				get: function() {
+					if (this.favor != null && this.favor.title != null) {
+						return this.favor.title
+					}
+					return '-'
+				}
+			},
+			desc: {
+				get: function() {
+					if (this.favor != null) {
+						if (this.favor.drama != null) {
+							return this.favor.drama
+						}
+					}
+					return '-'
+				},
+			},
+		}
+	}
+</script>

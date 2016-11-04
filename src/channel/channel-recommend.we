@@ -8,9 +8,9 @@
 				</div>
 			</div>
 		</div>
-	    <list style="width: {{scWidth}}; flex: 1;">
+	    <list style="flex: 1;">
 	    	<cell>
-	    		<slider auto-play="false" style="width: {{scWidth}}; height: 395px;">
+	    		<slider auto-play="false" style="height: 395px;">
 					<div class="banner-container" repeat="{{src in posters}}">
 						<image src="{{src}}" class="banner"></image>
 						<image class="mark" src="./resource/images/channel/ic_hot.png"></image>
