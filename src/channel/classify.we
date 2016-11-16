@@ -1,0 +1,22 @@
+<template>
+	<div>
+		<common-title title="{{title}}"/>
+		<text>123123</text>
+	</div>
+</template>
+
+<style>
+	
+</style>
+
+<script>
+	require('../common/common-title.we');
+	module.exports = {
+		data: {
+			title: null,
+		},
+		ready: function() {
+
+		},
+	}
+</script>

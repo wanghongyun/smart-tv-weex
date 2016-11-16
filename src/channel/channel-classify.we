@@ -7,7 +7,7 @@
 					<div class="classify-mark" if="{{v.select}}"></div>
 				</div>
 			</scroller>
-			<image style="width: 100px; height: 80px;" src="./resource/images/channel/ic_classify.png"></image>
+			<image style="width: 100px; height: 80px;" src="./resource/images/channel/ic_classify.png" onclick="classifyIconClick"></image>
 			<div class="line"></div>
 		</div>
 	    <list style="flex: 1;">
@@ -182,6 +182,13 @@
 					}
 					c.select = true
 					this.classify.$set(index, c)
+				}
+			},
+			classifyIconClick: function() {
+				var path = 'dist/channel/classify.js'
+				var platform = this.$getConfig().env.platform
+				if(platform == 'android' || platform == 'iOS'){
+				  	require('@weex-module/CustomModule').openURL(path, {title: '分类'});
 				}
 			},
 		},

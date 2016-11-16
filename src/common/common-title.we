@@ -1,0 +1,125 @@
+<template>
+	<div>
+		<div class="status-bar" if="showBar"></div>
+		<!-- 标题 -->
+		<div class="nav-bar">
+			<div class="left-item" onclick="leftClick">
+				<image class="left-image" resize="contain" src="{{leftSrc}}"></image>
+				<text class="item-title">{{leftTitle}}</text>
+			</div>
+			<div class="title-div">
+				<text style="color:#FFFFFF; font-size:38px;">{{title}}</text>
+			</div>
+			<div class="right-item" if="dispatchRight" onclick="rightClick">
+				<text class="item-title">{{rightTitle}}</text>
+				<image class="right-image" resize="contain" src="{{rightImage}}"></image>
+			</div>
+		</div>
+	</div>
+</template>
+
+<style>
+	.status-bar {
+		background-color: #1E8DFF; 
+		height: 40px;
+	}
+	.nav-bar {
+		width: 100%;
+		height: 88px; 
+		background-color: #1E8DFF; 
+		flex-direction:row; 
+		align-items: center; 
+		justify-content: center;
+	}
+	.title-div {
+		width: 100%;
+		height: 88px;
+		align-items: center;
+		justify-content: center;
+	}
+	.left-item {
+		position: absolute;
+		left: 20px;
+		flex-direction: row;
+		height: 88px;
+		width: 100%;
+		min-width: 60px;
+		align-items: center;
+	}
+	.left-image {
+		height: 33px;
+		width: 33px;
+		margin-right: 10px;
+	}
+	.item-title {
+		font-size: 30px;
+		color: #FFFFFF;
+	}
+	.right-item {
+		position: absolute;
+		right: 20px;
+		flex-direction: row;
+		height: 88px;
+		width: 100%;
+		min-width: 60px;
+		align-items: center;
+	}
+	.right-image {
+		height: 33px;
+		width: 33px;
+		margin-left: 10px;
+	}
+</style>
+
+<script>
+	module.exports = {
+		data: {
+			title: null,
+			leftImage: null,
+			leftTitle: null,
+			rightImage: null,
+			rightTitle: null,
+		},
+		computed: {
+			showBar: {
+				get: function() {
+					var platform = this.$getConfig().env.platform
+					return platform == 'iOS'
+				},
+			},
+			leftSrc: {
+				get: function() {
+					if (this.leftImage != null) {
+						return this.leftImage
+					}
+					return './resource/images/common/nav-back.png'
+				},
+			},
+			dispatchLeft: {
+				get: function() {
+					return (this.leftImage != null || this.leftTitle != null)
+				},
+			},
+			dispatchRight: {
+				get: function() {
+					return (this.rightImage != null || this.rightTitle != null)
+				},
+			},
+		},
+		ready: function() {
+
+		},
+		methods: {
+			leftClick: function() {
+				if (this.dispatchLeft) {
+					this.$dispatch('navLeft')
+				} else {
+					require('@weex-module/CustomModule').toBack({});
+				}
+			},
+			rightClick: function() {
+				this.$dispatch('navRight')
+			},
+		},
+	}
+</script>
