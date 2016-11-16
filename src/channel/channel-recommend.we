@@ -19,7 +19,7 @@
 				</slider>
 	    	</cell>
 	    	<cell repeat="{{v in dramas}}">
-	    		<channel-top-item left-item="{{v.leftItem}}" right-item="{{v.rightItem}}"/>
+	    		<channel-top-item left-item="{{v.leftItem}}" right-item="{{v.rightItem}}" onclick="clickToPlay"/>
 	    	</cell>
 	    </list>
 	</div>
@@ -146,7 +146,13 @@
 
 		},
 		methods: {
-
+			clickToPlay: function(){
+				var path = 'dist/channel/channel-play-detail.js'
+				var platform = this.$getConfig().env.platform
+				if(platform == 'android' || platform == 'iOS'){
+				  	require('@weex-module/CustomModule').openURL(path, {title: '琅琊榜'});
+				}
+			},
 		},
 	}
 </script>

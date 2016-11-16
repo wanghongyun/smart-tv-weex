@@ -2,7 +2,7 @@
       <!-- 播放详情总页面 -->
       <div style="width:100%;height:100%;background-color:#FFFFFF;">
               <!-- 竖屏布局 -->
-              <channel-play-detail-portrait if="{{!isFullScreen}}" style="flex:1;"></channel-play-detail-portrait>
+              <channel-play-detail-portrait if="{{!isFullScreen}}" title="{{title}}" style="flex:1;"></channel-play-detail-portrait>
               <!-- 横屏布局 -->
               <channel-play-detail-landscape if="{{isFullScreen}}"></channel-play-detail-landscape>
       </div>
@@ -17,6 +17,8 @@ module.exports = {
     data: {
       //当前页面是否是全屏
       isFullScreen: false,
+
+      title: '',
     },
 
 

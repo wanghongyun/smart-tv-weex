@@ -9,7 +9,7 @@
                 </div>
                 <text style="max-width:320px;color:#FFFFFF; font-size:34px;text-overflow:ellipsis;lines:1;">琅琊榜琅琊榜琅琊榜琅琊榜琅琊榜</text>
               </div> -->
-              <common-title title="琅琊榜琅琊榜琅琊榜琅琊榜琅琊榜琊榜琅琊榜琅琊榜琊榜琅琊榜琅琊榜"></common-title>
+              <common-title title="{{title}}"></common-title>
               <!-- 播放器部分 -->
               <div style="width:750px;height:{{fullScreenHeight}}; ">
                   <video style="width: 100%; flex:1; background-color:#000000;" 
@@ -73,6 +73,8 @@ module.exports = {
     data: {
       //播放器高度
       fullScreenHeight: 420,
+
+      title: '',
 
       //播放器控制变量
       videosrc: '',
