@@ -1,0 +1,69 @@
+<template>
+      <!-- 选集页面 -->
+      <div style="flex:1;background-color:#FFFFFF;">
+            <div class="div-line"></div>
+            <div style="flex-direction:row;align-items:center;padding:15px;">
+                    <img style="width:24px;height:24px;margin-right:20px" resize="contain" src="./resource/images/channel/icon_title_circular.png">
+                    <text style="color:#212121;font-size:30px;flex:1;">正在播放</text>
+                    <img style="width:60px;height:60px;padding:15px; margin-right:20px" resize="contain" src="./resource/images/channel/icon_title_close.png" onclick="clickClose">
+            </div>
+            <div class="div-line" style="margin-left:15px;margin-right:15px;"></div>
+            <scroller style="width:750px;flex:1;" show-scrollbar="false">
+                <div style="width:750px;">
+                        <!-- 选集列表 -->
+                        <div style="width:100%;flex-direction:row;justify-content:flex-start;align-items:flex-start;flex-wrap:wrap;padding:15px;">
+                            <div style="width:132px;height:132px;background-color:{{setselect==$index?'#CDF1FD':(setselects.indexOf(setlists[$index])==-1?'#FFFFFF':'#F3F3F3')}};border-radius:3px;border-width:1px;border-color:{{setselect==$index?'#0BBAF3':'#C0C0C0'}};justify-content:center;align-items:center;margin-right:15px;margin-right:{{$index%5==4?0:14}}; margin-top:{{$index/5<1?0:15}};" repeat="{{s in setlists}}" onclick="{{selectSet($index)}}">
+                                <text style="color:#212121;font-size:34px;">{{$index+1}}</text>
+                            </div>
+                        </div>
+                </div>
+            </scroller>
+      </div>
+</template>
+
+<style>
+    .div-line {
+      width:100%;
+      height:1px;
+      background-color:#D0D0D0;
+    }
+</style>
+
+<script>
+module.exports = {
+    data: {
+      //数据
+      setselect:0,
+      setselects:[1],
+      setlists:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,38,40],
+
+    },
+
+    ready: function () {
+
+    },
+
+    methods: {
+
+      /**
+       * 关闭窗口
+       * @return {[type]} [description]
+       */
+      clickClose: function(){
+          this.$dispatch('clickClose', '');
+      },
+
+      /**
+       * 选集
+       * @param  {[type]} index [description]
+       * @return {[type]}       [description]
+       */
+      selectSet: function(index){
+          this.$dispatch('clickSelectSet', index)
+          this.setselect = index;
+          this.setselects.push(this.setlists[index]);
+      },
+    },
+
+}
+</script>

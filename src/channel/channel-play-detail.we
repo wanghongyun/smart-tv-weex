@@ -1,85 +1,15 @@
 <template>
+      <!-- 播放详情总页面 -->
       <div style="width:100%;height:100%;background-color:#FFFFFF;">
-              <div style="background-color: #1E8DFF; height: 40px;" if="showBar"></div>
-              <!-- 标题 -->
-              <!-- <div if="{{!isFullScreen}}" style="width: 100%;height: 88px; background-color: #1E8DFF; flex-direction:row; align-items: center; justify-content: center;">
-                <text style="color:#FFFFFF; font-size:34px;">播放器</text>
-              </div> -->
-              <!-- 直播部分 -->
-              <div style="width:750px;height:{{fullScreenHeight}}; ">
-                  <video style="width: 100%; flex:1; background-color:#000000;" 
-                        src="{{videosrc}}"
-                        fullscreen="{{fullscreen}}"
-                        playstate="{{playstate}}"
-                        seekto="{{seekto}}"
-                        onplaystate="onplaystate"
-                        onbufferingupdate="onbufferingupdate"
-                        onprogressupdate="onprogressupdate"></video>
-                  <!-- 播控面板部分 -->
-                  <div style="width:750px;height:80px;position:absolute;bottom:0;left:0;right:0;top:{{fullScreenHeight-80}};z-index:90;">
-                    <img src="./resource/images/live/player-control-bg.png" style="width:750px;height:80px;">
-                    <div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;left:0;top:0;z-index:91;" 
-                          onclick="playercontrol">
-                        <img src="{{playercontrolsrc}}" resize="contain" style="width:30px;height:30px;">
-                    </div>
-                    <div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;right:0;top:0;z-index:91;"
-                          onclick="playerfullscreen">
-                        <img src="./resource/images/live/player-control-extend.png" resize="contain" style="width:35px;height:35px;">
-                    </div>
-                    <div style="width:550px;flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:91;">
-                        <img src="./resource/images/live/player-control-progress.png" style="flex:0.2;height:6px;background-color:#000000;">
-                        <img style="flex:0.8;height:6px;background-color:#000000;">
-                    </div>
-                  </div>
-              </div>
-              
-              <!-- 页面内容部分 -->
-              <div if="{{!isFullScreen}}" style="width:100%;height:100%;">
-                  <!-- 主页面部分 -->
-                  <scroller style="width:100%;height:100%;">
-                      <div style="width:100%;flex:1;">
-                          <!-- 标题栏 -->
-                          <div style="width:100%;height:100px;padding:15px;flex-direction:row;justify-content:center;align-items:center;">
-                              <div style="flex:1; flex-direction:row;flex-direction:center;">
-                                  <!-- 标题 -->
-                                  <div style="justify-content: center;align-items: center;">
-                                      <text style="max-width:420px; color:#212121;font-size:32px;text-overflow:ellipsis;lines:1;">琅琊榜</text>
-                                  </div>
-                                  <!-- 视频类型 -->
-                                  <div style="background-color:#FF6B51;padding-left:12px;padding-right:12px;padding-top:5px;padding-bottom:5px; border-radius:5px;margin-left:10px; margin-right:20px; justify-content: center;align-items: center;">
-                                      <text style="color:#FFFFFF;font-size:23px;">电视剧</text>
-                                  </div>
-                              </div>
-                              <!-- 购买按钮 -->
-                              <div style="background-color:#FFBC1B;padding-left:35px;padding-right:35px;padding-top:8px;padding-bottom:8px;border-radius:8px; justify-content: center;align-items: center;">
-                                  <text style="color:#FFFFFF;font-size:32px;">购买</text>
-                              </div>
-                          </div>
-                          <div class="div-line" style="margin-left:15px;margin-right:15px;"></div>
-                          <!-- 播放次数 分享 收藏 -->
-                          <div style="width:100%;height:100px;padding:15px;flex-direction:row;justify-content:center;align-items:center;">
-                                <div style="flex:1;flex-direction:row;align-items: center;">
-                                    <text style="max-width:420px; color:#A0A0A0;font-size:25px;">播放:</text>
-                                    <text style="max-width:420px; color:#A0A0A0;font-size:25px;">2.5亿</text>
-                                </div>
-                                <img style="flex:0.8;height:6px;background-color:#000000;">
-                                <img style="flex:0.8;height:6px;background-color:#000000;">
-                          </div>
-                          <div class="div-line"></div>
-                      </div>
-                  </scroller>
-
-
-              </div>
+              <!-- 竖屏布局 -->
+              <channel-play-detail-portrait if="{{!isFullScreen}}" style="flex:1;"></channel-play-detail-portrait>
+              <!-- 横屏布局 -->
+              <channel-play-detail-landscape if="{{isFullScreen}}"></channel-play-detail-landscape>
       </div>
 </template>
 
 <style>
-    .div-line {
-      width:100%;
-      height:1px;
-      background-color:#D0D0D0;
-    }
+
 </style>
 
 <script>
@@ -87,85 +17,14 @@ module.exports = {
     data: {
       //当前页面是否是全屏
       isFullScreen: false,
-      //播放器高度
-      fullScreenHeight: 420,
-
-      //播放器控制变量
-      videosrc: '',
-      fullscreen: 'none',
-      playstate: 'none',
-      seekto:-1,
-
-      //播放器控制页面变量
-      playercontrolsrc:'./resource/images/live/player-control-play.png',
-      playercontrolstate: 'none',
-
     },
 
-    computed: {
-      showBar: {
-        get: function() {
-          var platform = this.$getConfig().env.platform
-          return platform == 'iOS'
-        },
-      },
-    },
 
     ready: function () {
-      //播放器高度计算
-      this.fullScreenHeight = (750/this.$getConfig().env.deviceHeight)*this.$getConfig().env.deviceWidth;
 
-      this.videosrc = 'http://vod.cntv.lxdns.com/flash/mp4video55/TMS/2016/10/25/b49434d075404b46b146641fa8487095_h264418000nero_aac32.mp4';
     },
 
     methods: {
-
-      onplaystate: function(param){
-        //require('@weex-module/modal').toast({'message': "onplaystate param.state:"+param.state, 'duration': 0});
-        if(param.state=='play'){
-          this.playercontrolsrc = './resource/images/live/player-control-pause.png'; 
-          this.playercontrolstate = 'play';
-        }else{
-          this.playercontrolsrc = './resource/images/live/player-control-play.png'; 
-          this.playercontrolstate = 'none';
-        }
-      },
-
-      onbufferingupdate: function(param){
-
-      },
-
-      onprogressupdate: function(param){
-
-      },
-
-      /**
-       * 播放器  播放 暂停控制
-       * @param  {[type]} param [description]
-       * @return {[type]}       [description]
-       */
-      playercontrol: function(param){
-        this.playstate = 'none'
-        if(this.playercontrolstate=='play'){
-          this.playstate = 'pause'
-        }else{
-          this.playstate = 'play'
-        }
-      },
-
-      /**
-       * 播放器横屏竖屏控制
-       * @param  {[type]} param [description]
-       * @return {[type]}       [description]
-       */
-      playerfullscreen: function(param){
-        this.fullscreen = 'none'
-        if(this.isFullScreen){
-          this.fullscreen = 'portrait'
-        }else{
-          this.fullscreen = 'landscape'
-        }
-      },
 
     },
 
