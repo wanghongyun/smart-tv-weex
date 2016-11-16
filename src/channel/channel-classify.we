@@ -189,6 +189,8 @@
 				var platform = this.$getConfig().env.platform
 				if(platform == 'android' || platform == 'iOS'){
 				  	require('@weex-module/CustomModule').openURL(path, {title: '分类'});
+				} else {
+					window.location.href = '?page=' + path
 				}
 			},
 		},

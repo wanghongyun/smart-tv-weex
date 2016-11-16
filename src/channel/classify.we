@@ -1,22 +1,106 @@
 <template>
 	<div>
-		<common-title title="{{title}}"/>
-		<text>123123</text>
+		<common-title title="{{title}}" right-title="编辑"></common-title>
+		<scroller style="flex:1;">
+			<div class="container">
+				<div class="cell" repeat="{{classify}}" onclick="classifyClick($index)">
+					<image class="image" src="{{src}}"></image>
+					<text class="text">{{title}}</text>
+				</div>
+			</div>
+		</scroller>
 	</div>
 </template>
 
 <style>
-	
+	.container {
+		flex-wrap: wrap;
+		flex-direction: row;
+		width: 750px;
+		height: 100%;
+	}
+	.cell {
+		width: 250px;
+		height: 250px;
+		align-items: center;
+		justify-content: center;
+	}
+	.image {
+		width: 66px;
+		height: 66px;
+	}
+	.text {
+		margin-top: 20px;
+		font-size: 28px;
+		color: #272727;
+	}
 </style>
 
 <script>
 	require('../common/common-title.we');
 	module.exports = {
 		data: {
-			title: null,
+			title: '分类',
+			classify: [
+				{
+					title:'最热', 
+				   	src:'./resource/images/channel/classify/hot.png', 
+				   	url:''
+				},
+				{
+					title:'电影', 
+				   	src:'./resource/images/channel/classify/movie.png', 
+				   	url:''
+				},
+				{
+					title:'电视剧', 
+				   	src:'./resource/images/channel/classify/drama.png', 
+				   	url:''
+				},
+				{
+					title:'体育', 
+				   	src:'./resource/images/channel/classify/sports.png', 
+				   	url:''
+				},
+				{
+					title:'直播', 
+				   	src:'./resource/images/channel/classify/live.png', 
+				   	url:''
+				},
+				{
+					title:'动漫', 
+				   	src:'./resource/images/channel/classify/cartoon.png', 
+				   	url:''
+				},
+				{
+					title:'少儿', 
+				   	src:'./resource/images/channel/classify/child.png', 
+				   	url:''
+				},
+				{
+					title:'纪实', 
+				   	src:'./resource/images/channel/classify/record.png', 
+				   	url:''
+				},
+				{
+					title:'音乐', 
+				   	src:'./resource/images/channel/classify/music.png', 
+				   	url:''
+				},
+				{
+					title:'专题', 
+				   	src:'./resource/images/channel/classify/topics.png', 
+				   	url:''
+				},
+			],
 		},
 		ready: function() {
 
 		},
+		methods: {
+			classifyClick: function(index) {
+				// require('@weex-module/modal').toast({'message': index, 'duration': 0})
+			},
+		}
 	}
 </script>

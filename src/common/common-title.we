@@ -8,11 +8,11 @@
 				<text class="item-title">{{leftTitle}}</text>
 			</div>
 			<div class="title-div">
-				<text style="color:#FFFFFF; font-size:38px;">{{title}}</text>
+				<text class="nav-title">{{title}}</text>
 			</div>
 			<div class="right-item" if="dispatchRight" onclick="rightClick">
 				<text class="item-title">{{rightTitle}}</text>
-				<image class="right-image" resize="contain" src="{{rightImage}}"></image>
+				<image class="right-image" resize="contain" if="{{showRightImage}}" src="{{rightImage}}"></image>
 			</div>
 		</div>
 	</div>
@@ -36,6 +36,13 @@
 		height: 88px;
 		align-items: center;
 		justify-content: center;
+	}
+	.nav-title {
+		color:#FFFFFF; 
+		font-size: 38px; 
+		max-width: 500px; 
+		text-overflow: ellipsis;
+		lines: 1;
 	}
 	.left-item {
 		position: absolute;
@@ -103,6 +110,11 @@
 			dispatchRight: {
 				get: function() {
 					return (this.rightImage != null || this.rightTitle != null)
+				},
+			},
+			showRightImage: {
+				get: function() {
+					return this.rightImage != null && this.rightImage.length > 0
 				},
 			},
 		},
