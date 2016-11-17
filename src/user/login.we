@@ -27,6 +27,9 @@
 			</input>
 			<div class="line"></div>
 		</div>
+		<div class="forget">
+			<text class="forget-text">忘记密码？</text>
+		</div>
 		<div class="confirm-button" onclick="login">
 			<text class="confirm-text">确认登录</text>
 		</div>
@@ -70,6 +73,19 @@
 		left: 0px;
 		right: 0px;
 		bottom: 0px;
+	}
+	.forget {
+		width: 750px;
+		height: 100%;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+		margin-top: 20px;
+		margin-right: 10px;
+	}
+	.forget-text {
+		color: #5A5A5A;
+		font-size: 30px;
 	}
 	.confirm-button {
 		height: 100px;

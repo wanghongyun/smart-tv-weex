@@ -160,7 +160,13 @@
 					  	require('@weex-module/CustomModule').openURL(path, param);
 					}
 				} else {
-					require('@weex-module/CustomModule').setKeyValue('userName', '')
+					var self = this
+					require('@weex-module/modal').confirm({message: '是否要退出登录？', okTitle: '确定', cancelTitle: '取消'}, function(result){
+						if (result == '确定') {
+							self.userName = '点击登录'
+							require('@weex-module/CustomModule').setKeyValue('userName', '')
+						}
+					})
 				}
 			},
 			toHistory: function() {
