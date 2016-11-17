@@ -19,7 +19,8 @@
                         seekto="{{seekto}}"
                         onplaystate="onplaystate"
                         onbufferingupdate="onbufferingupdate"
-                        onprogressupdate="onprogressupdate"></video>
+                        onprogressupdate="onprogressupdate"
+                        onclick="showControl"></video>
                   <!-- 播控面板部分 -->
                   <div if="{{!showBar}}" style="width:750px;height:80px;position:absolute;bottom:0;left:0;right:0;top:{{fullScreenHeight-80}};z-index:90;">
                     <img src="./resource/images/live/player-control-bg.png" style="width:750px;height:80px;">
@@ -89,6 +90,7 @@ module.exports = {
       //播放器控制页面变量
       playercontrolsrc:'./resource/images/live/player-control-play.png',
       playercontrolstate: 'none',
+      isshowcontrol:false,
 
       //页面控制
       pageindex:0,
@@ -129,7 +131,11 @@ module.exports = {
               });
       //选视频
       this.$on('clickSelectVideo', function(index) {
-        
+                    var path = 'dist/channel/channel-play-detail.js'
+                    var platform = this.$getConfig().env.platform
+                    if(platform == 'android' || platform == 'iOS'){
+                        require('@weex-module/CustomModule').openURL(path, {title: '琅琊榜'});
+                    }
               });
       //关闭选框
       this.$on('clickClose', function(e) {
@@ -158,6 +164,15 @@ module.exports = {
     },
 
     methods: {
+      /**
+       * 显示控制面板
+       * @return {[type]} [description]
+       */
+      showControl: function(){
+          if(!showBar){
+              this.isshowcontrol = !this.isshowcontrol;
+          }
+      },
 
       onplaystate: function(param){
         //require('@weex-module/modal').toast({'message': "onplaystate param.state:"+param.state, 'duration': 0});
