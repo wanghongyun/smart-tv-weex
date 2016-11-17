@@ -1,6 +1,6 @@
 <template>
 	<div class="sc">
-		<div class="item" style="margin-right: 7px;">
+		<div class="item" style="margin-right: 7px;" onclick="clickToPlay(0)">
 			<div>
 				<image class="poster" src="{{leftPoster}}"></image>
 				<image class="mark" src="{{leftMark}}" if="{{showMark}}"></image>
@@ -9,7 +9,7 @@
 			<text class="title">{{leftTitle}}</text>
 			<text class="desc" style="margin-top: {{descTop}}">{{leftDesc}}</text>
 		</div>
-		<div class="item" style="margin-left: 7px;">
+		<div class="item" style="margin-left: 7px;" if="{{rightItem != null}}" onclick="clickToPlay(1)">
 			<div>
 				<image class="poster" src="{{rightPoster}}"></image>
 				<image class="mark" src="{{rightMark}}" if="{{showMark}}"></image>
@@ -73,14 +73,35 @@
 		data: {
 			leftItem: {
 				/*
-					src:
-					title:
-					desc:
-					drama:
-					type:
+				{
+				    "summaryMedium": "抗日战争打响，工农红军改编为国民革命军第八路军，刘伯承出任129师师长，并伺机炸毁了日军飞机24架，从此声威大震。1939年，邓小平就任129师政委，与刘伯承形成了独树一帜的刘邓指挥艺术，并依托太行山建立了晋冀鲁豫抗日根据地……",
+				    "serviceCode": "VOD",
+				    "summaryShort": "抗日战争打响，工农红军改编为国民革命军第八路军，刘伯承出任129师师长，并伺机炸毁了日军飞机24架，从此声威大震。1939年，邓小平就任129师政委，与刘伯承形成了独树一帜的刘邓指挥艺术，并依托太行山建立了晋冀鲁豫抗日根据地……",
+				    "directors": "李伟",
+				    "count": 0,
+				    "rating": "1",
+				    "titleFull": "太行山上",
+				    "type": 2,
+				    "ListOfMovie": [],
+				    "packageType": 2,
+				    "parentId": 4083277,
+				    "poId": "90",
+				    "actors": "唐国强",
+				    "titleBrief": "太行山上",
+				    "boundleAssets": [],
+				    "startDateTime": "2016-04-20 12:00:00",
+				    "posterUrl": "http://10.80.232.10:9090/poster/2015/09/HSHD_20150911102429000020.jpg;http://10.80.232.10:9090/poster/2015/09/HSHD_20150911102429000021.jpg;http://10.80.232.10:9090/poster/2015/09/HSHD_20150911102429000022.jpg;http://10.80.232.10:9090/poster/2015/09/HSHD_20150911102429000023.jpg",
+				    "assetId": "TVMA126557_H3730353",
+				    "price": 0,
+				    "genre": "100",
+				    "id": 4688433,
+				    "poType": 1,
+				    "resurl": "http://60.255.71.22:8080/spis/asgapi/v1/resource/1/8510010421049904/TVMA126557_H3730353/movies",
+				    "authurl": "http://60.255.71.22:8080/spis/asgapi/v1/prod/1/8510010421049904/90/TVMA126557_H3730353/auth"
+				}
 				*/
 			},
-			rightItem: {},
+			rightItem: null,
 
 			showMark: true,
 		},
@@ -106,8 +127,8 @@
 			},
 			leftTitle: {
 				get: function() {
-					if (this.leftItem != null && this.leftItem.title != null) {
-						return this.leftItem.title
+					if (this.leftItem != null && this.leftItem.titleBrief != null) {
+						return this.leftItem.titleBrief
 					} else {
 						return ''
 					}
@@ -115,8 +136,8 @@
 			},
 			leftDesc: {
 				get: function() {
-					if (this.leftItem != null && this.leftItem.desc != null) {
-						return this.leftItem.desc
+					if (this.leftItem != null && this.leftItem.genre != null) {
+						return this.leftItem.genre
 					} else {
 						return ''
 					}
@@ -124,8 +145,8 @@
 			},
 			leftDrama: {
 				get: function() {
-					if (this.leftItem != null && this.leftItem.drama != null) {
-						return this.leftItem.drama
+					if (this.leftItem != null && this.leftItem.count != null) {
+						return '更新至' + this.leftItem.count + '集'
 					} else {
 						return ''
 					}
@@ -157,8 +178,8 @@
 			},
 			rightTitle: {
 				get: function() {
-					if (this.rightItem != null && this.rightItem.title != null) {
-						return this.rightItem.title
+					if (this.rightItem != null && this.rightItem.titleBrief != null) {
+						return this.rightItem.titleBrief
 					} else {
 						return ''
 					}
@@ -166,8 +187,8 @@
 			},
 			rightDesc: {
 				get: function() {
-					if (this.rightItem != null && this.rightItem.desc != null) {
-						return this.rightItem.desc
+					if (this.rightItem != null && this.rightItem.genre != null) {
+						return this.rightItem.genre
 					} else {
 						return ''
 					}
@@ -175,8 +196,8 @@
 			},
 			rightDrama: {
 				get: function() {
-					if (this.rightItem != null && this.rightItem.drama != null) {
-						return this.rightItem.drama
+					if (this.rightItem != null && this.rightItem.count != null) {
+						return '更新至' + this.rightItem.count + '集'
 					} else {
 						return ''
 					}
@@ -197,5 +218,19 @@
 				},
 			},
 		},
+		ready: function() {
+
+		},
+		methods: {
+			clickToPlay: function(index){
+				var path = 'dist/channel/channel-play-detail.js'
+				var param = {title: '琅琊榜'}
+				param.resurl = index == 0 ? this.leftItem.resurl : this.rightItem.resurl
+				var platform = this.$getConfig().env.platform
+				if(platform == 'android' || platform == 'iOS'){
+				  	require('@weex-module/CustomModule').openURL(path, param);
+				}
+			},
+		}
 	}
 </script>

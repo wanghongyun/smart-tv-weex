@@ -1,0 +1,25 @@
+<script>
+	var connect = require('./connect.we');
+
+	exports.recommend = function(callback) {
+		var api = 'http://60.255.71.22:8080/spis/asgapi/v1/resource/1/8510010421049904/4083277'
+		connect.getReq(api, function(data, result, status) {
+			if (result) {
+				callback(result, data.data.resource_2, data.pageInfo)
+			} else {
+				callback(result, data)
+			}
+		});
+	}
+
+	exports.drama = function(callback) {
+		var api = 'http://60.255.71.22:8080/spis/asgapi/v1/resource/1/8510010421049904/2693350'
+		connect.getReq(api, function(data, result, status) {
+			if (result) {
+				callback(result, data.data.resource_2, data.pageInfo)
+			} else {
+				callback(result, data)
+			}
+		});
+	}
+</script>

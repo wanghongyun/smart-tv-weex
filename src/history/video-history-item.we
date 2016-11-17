@@ -42,7 +42,7 @@
 <script>
 	module.exports = {
 		data: {
-			favor: {
+			history: {
 				/*
 				src:
 				title:
@@ -53,25 +53,25 @@
 		computed: {
 			poster: {
 				get: function() {
-					if (this.favor != null && this.favor.src != null) {
-						return this.favor.src
+					if (this.history != null && this.history.src != null) {
+						return this.history.src
 					}
 					return './resource/images/channel/default_cover.png'
 				},
 			},
 			title: {
 				get: function() {
-					if (this.favor != null && this.favor.title != null) {
-						return this.favor.title
+					if (this.history != null && this.history.title != null) {
+						return this.history.title
 					}
 					return '-'
 				}
 			},
 			desc: {
 				get: function() {
-					if (this.favor != null) {
-						if (this.favor.drama != null) {
-							return this.favor.drama
+					if (this.history != null) {
+						if (this.history.drama != null) {
+							return this.history.drama
 						}
 					}
 					return '-'

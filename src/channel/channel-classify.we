@@ -12,7 +12,7 @@
 		</div>
 	    <list style="flex: 1;">
 	    	<cell>
-		    	<div class="banner-container">
+		    	<div class="banner-container" onclick="clickToPlay">
 		    		<image src="{{poster}}" class="banner"></image>
 		    		<text class="banner-title">琅琊榜</text>
 		    	</div>
@@ -110,51 +110,6 @@
 
 			poster: './resource/images/channel/temp_banner.png',
 
-			dramas: [  {leftItem: {					
-							src: './resource/images/channel/temp_cover.png',
-							title: '北平无战事',
-							desc: '电视剧剪辑',
-							drama: '更新至05集',
-							type: 0,
-						}, 
-						rightItem:{
-							src: './resource/images/channel/temp_cover.png',
-							title: '北平无战事',
-							desc: '电视剧剪辑',
-							drama: '更新至05集',
-							type: 1,
-						}},
-
-						{leftItem: {					
-							src: './resource/images/channel/temp_cover.png',
-							title: '北平无战事',
-							desc: '电视剧剪辑',
-							drama: '更新至05集',
-							type: 1,
-						}, 
-						rightItem:{
-							src: './resource/images/channel/temp_cover.png',
-							title: '北平无战事',
-							desc: '电视剧剪辑',
-							drama: '更新至05集',
-							type: 2,
-						}},
-						{leftItem: {					
-							src: './resource/images/channel/temp_cover.png',
-							title: '北平无战事',
-							desc: '电视剧剪辑',
-							drama: '更新至05集',
-							type: 2,
-						}, 
-						rightItem:{
-							src: './resource/images/channel/temp_cover.png',
-							title: '北平无战事',
-							desc: '电视剧剪辑',
-							drama: '更新至05集',
-							type: 0,
-						}},
-					],
-
 			classify: [
 					{title: '电视剧', select: true},
 					{title: '电影', select: false},
@@ -165,9 +120,57 @@
 					{title: '记录', select: false},
 					{title: '直播', select: false},
 			],
+
+			dramas: [  
+						/*
+						{leftItem: {					
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 0,
+						}, 
+						rightItem:{
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 1,
+						}},
+
+						{leftItem: {					
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 1,
+						}, 
+						rightItem:{
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 2,
+						}},
+						{leftItem: {					
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 2,
+						}, 
+						rightItem:{
+							src: './resource/images/channel/temp_cover.png',
+							title: '北平无战事',
+							desc: '电视剧剪辑',
+							drama: '更新至05集',
+							type: 0,
+						}},
+						*/
+					],
 		},
 		ready: function() {
-
+			this.requestData()
 		},
 		methods: {
 			classifyClick: function(index) {
@@ -192,6 +195,38 @@
 				} else {
 					window.location.href = '?page=' + path
 				}
+			},
+
+			clickToPlay: function(){
+				var path = 'dist/channel/channel-play-detail.js'
+				var platform = this.$getConfig().env.platform
+				if(platform == 'android' || platform == 'iOS'){
+				  	require('@weex-module/CustomModule').openURL(path, {title: '琅琊榜'});
+				}
+			},
+			
+			requestData: function() {
+				var self = this
+				var connect = require('../http/req-channel.we')
+				connect.drama(function(result, data, pageInfo) {
+					if (result) {
+						self.handleData(data)
+					}
+				})
+			},
+			handleData: function(data) {
+				var temp = []
+				for (var i = 0; i < data.length; i++) {
+					if (i%2 == 0) {
+						var item = {}
+						item.leftItem = data[i]
+						if (i+1 < data.length) {
+							item.rightItem = data[i+1]
+						}
+						temp.push(item)
+					}
+				}
+				this.dramas = temp
 			},
 		},
 	}

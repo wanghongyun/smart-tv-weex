@@ -11,7 +11,7 @@
 	    <list style="flex: 1;">
 	    	<cell>
 	    		<slider auto-play="false" style="height: 395px;">
-					<div class="banner-container" repeat="{{src in posters}}">
+					<div class="banner-container" repeat="{{src in posters}}" onclick="clickToPlay">
 						<image src="{{src}}" class="banner"></image>
 						<image class="mark" src="./resource/images/channel/ic_hot.png"></image>
 					</div>
@@ -19,7 +19,7 @@
 				</slider>
 	    	</cell>
 	    	<cell repeat="{{v in dramas}}">
-	    		<channel-top-item left-item="{{v.leftItem}}" right-item="{{v.rightItem}}" onclick="clickToPlay"/>
+	    		<channel-top-item left-item="{{v.leftItem}}" right-item="{{v.rightItem}}"></channel-top-item>
 	    	</cell>
 	    </list>
 	</div>
@@ -89,7 +89,9 @@
 					  './resource/images/channel/temp_banner.png',
 					  './resource/images/channel/temp_banner.png',
 					 ],
-			dramas: [  {leftItem: {					
+			dramas: [  
+						/*
+						{leftItem: {					
 							src: './resource/images/channel/temp_cover.png',
 							title: '北平无战事',
 							desc: '电视剧剪辑',
@@ -132,6 +134,7 @@
 							drama: '更新至05集',
 							type: 0,
 						}},
+						*/
 					],
 		},
 		computed: {
@@ -143,7 +146,7 @@
 			},
 		},
 		ready: function() {
-
+			this.requestData()
 		},
 		methods: {
 			clickToPlay: function(){
@@ -152,6 +155,30 @@
 				if(platform == 'android' || platform == 'iOS'){
 				  	require('@weex-module/CustomModule').openURL(path, {title: '琅琊榜'});
 				}
+			},
+
+			requestData: function() {
+				var self = this
+				var connect = require('../http/req-channel.we')
+				connect.recommend(function(result, data, pageInfo) {
+					if (result) {
+						self.handleData(data)
+					}
+				})
+			},
+			handleData: function(data) {
+				var temp = []
+				for (var i = 0; i < data.length; i++) {
+					if (i%2 == 0) {
+						var item = {}
+						item.leftItem = data[i]
+						if (i+1 < data.length) {
+							item.rightItem = data[i+1]
+						}
+						temp.push(item)
+					}
+				}
+				this.dramas = temp
 			},
 		},
 	}

@@ -135,7 +135,12 @@
 				this.selectedNav = index
 			},
 			toHistory: function() {
-				// TODO:
+				var path = 'dist/history/video-history.js'
+				var param = {}
+				var platform = this.$getConfig().env.platform
+				if(platform == 'android' || platform == 'iOS'){
+				  	require('@weex-module/CustomModule').openURL(path, param);
+				}
 			},
 		},
 	}

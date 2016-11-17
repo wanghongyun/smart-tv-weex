@@ -8,10 +8,10 @@
 			<!-- 内容部分 -->
 			<scroller style="width:100%;height:100%;background-color:#EFEFEF;">
 				<div style="width:100%;height:100%;padding-bottom:30px;">
-					<div class="div-item" style="height:170px;padding-left:30px;">
+					<div class="div-item" style="height:170px;padding-left:30px;" onclick="toLogin">
 							<img src="./resource/images/user/user-default-avatar.png" style="width:130px;height:130px;border-radius:65px;">
 							<div style="flex:1; margin-left:30px;">
-								<text style="color:#3D4D4F; font-size:32px;">点击登录</text>
+								<text style="color:#3D4D4F; font-size:32px;">{{userName}}</text>
 								<text style="color:#767676; font-size:26px;">ID:000001234</text>
 							</div>
 							<img class="img-right-arrow" src="{{imgRightArrow}}">
@@ -19,7 +19,7 @@
 					<div class="div-line"></div>
 
 					<!-- 第一联菜单 -->
-					<div class="div-item" style="margin-top:30px;">
+					<div class="div-item" style="margin-top:30px;" onclick="toHistory">
 							<img class="img-item" src="./resource/images/user/user-item-icon-1.png">
 							<text class="text-item">观看历史</text>
 							<img class="img-right-arrow" src="{{imgRightArrow}}">
@@ -126,6 +126,7 @@
 		data: {
 			imgRightArrow:'./resource/images/user/right-arrow.png',
 
+			userName: '点击登录',
 		},
 		computed: {
 			showBar: {
@@ -136,7 +137,40 @@
 			},
 		},
 		ready: function() {
-
+			var self = this
+			require('@weex-module/CustomModule').getKeyValue('userName','',function(userName){
+				if (userName == '') {
+					self.userName = '点击登录'
+				} else {
+					self.userName = userName;
+				}
+			});
 		},
+		methods: {
+
+			/*
+			*	click
+			*/
+			toLogin: function() {
+				if (this.userName == '点击登录') {
+					var path = 'dist/user/login.js'
+					var param = {}
+					var platform = this.$getConfig().env.platform
+					if(platform == 'android' || platform == 'iOS'){
+					  	require('@weex-module/CustomModule').openURL(path, param);
+					}
+				} else {
+					require('@weex-module/CustomModule').setKeyValue('userName', '')
+				}
+			},
+			toHistory: function() {
+				var path = 'dist/history/video-history.js'
+				var param = {}
+				var platform = this.$getConfig().env.platform
+				if(platform == 'android' || platform == 'iOS'){
+				  	require('@weex-module/CustomModule').openURL(path, param);
+				}
+			},
+		}
 	}
 </script>

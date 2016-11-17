@@ -1,0 +1,123 @@
+<template>
+	<div>
+		<common-title title="个人登录" right-image="{{rightImage}}"></common-title>
+		<div class="avatar-div">
+			<image class="avatar" src="./resource/images/user/login/avatar.png"></image>
+			<div class="line"></div>
+		</div>
+		<div class="row">
+			<image class="icon" src="./resource/images/user/login/ic-user.png"></image>
+			<input class="input" 
+					type="text" 
+					placeholder="用户名" 
+					onchange="inputDidChange(0)" 
+					oninput="inputDidChange(0)" 
+					value="{{user}}">
+			</input>
+			<div class="line"></div>
+		</div>
+		<div class="row">
+			<image class="icon" src="./resource/images/user/login/ic-pwd.png"></image>
+			<input class="input" 
+					type="password" 
+					placeholder="密码" 
+					onchange="inputDidChange(1)" 
+					oninput="inputDidChange(1)" 
+					value="{{password}}">
+			</input>
+			<div class="line"></div>
+		</div>
+		<div class="confirm-button" onclick="login">
+			<text class="confirm-text">确认登录</text>
+		</div>
+	</div>
+</template>
+
+<style>
+	.avatar-div {
+		width: 750px;
+		height: 380px;
+		align-items: center;
+		justify-content: center;
+	}
+	.avatar {
+		width: 240px;
+		height: 240px;
+	}
+	.row {
+		width: 750px;
+		height: 100px;
+		flex-direction: row;
+		align-items: center;
+	}
+	.icon {
+		width: 26px;
+		height: 33px;
+		margin-left: 30px;
+	}
+	.input {
+		font-size: 26;
+		margin-top: 2px;
+		margin-left: 30px;
+		margin-right: 30px;
+		flex: 2;
+		height: 100%
+	}
+	.line {
+		height: 1px;
+		background-color: #CCCCCC;
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+	}
+	.confirm-button {
+		height: 100px;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		background-color: #7ACC5A;
+	}
+	.confirm-text {
+		color: #FFFFFF;
+		font-size: 34px;
+	}
+</style>
+
+<script>
+	require('../common/common-title.we');
+	module.exports = {
+		data: {
+			rightImage: './resource/images/user/login/ic-scan.png',
+			user: '',
+			password: '',
+		},
+		methods: {
+
+			inputDidChange: function(index, event) {
+				if (index == 0) {
+					this.user = event.value
+				} else {
+					this.password = event.value
+				}
+			},
+			login: function() {
+
+				if (this.user.length == 0) {
+					require('@weex-module/modal').toast({'message': '请输入用户名', 'duration': 0})
+					return
+				}
+				if (this.password.length == 0) {
+					require('@weex-module/modal').toast({'message': '请输入密码', 'duration': 0})
+					return
+				}
+				require('@weex-module/CustomModule').setKeyValue('userName', this.user)
+				var param = {selected: 4}
+				require('@weex-module/CustomModule').toBack({toBackFlag: 'dist/main.js', param});
+			},
+		}
+	}
+</script>

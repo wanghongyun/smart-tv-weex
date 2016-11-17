@@ -1,0 +1,114 @@
+<script >
+	var showLog = true
+
+	exports.getReq = function(api, callback) {
+		var path = api
+		// log
+		if (showLog) {
+			console.log("==========GET==========\n" 
+				+ 'url: ' + path 
+				+ '\n====================');
+		}
+		var stream = require('@weex-module/stream');
+		var modal = require('@weex-module/modal')
+		stream.fetch({
+		    method: 'GET',
+		    url: path,
+		    type:'json',
+		    timeout: 30000,
+		}, function(response) {
+		    //process response
+		    if(response.status == 200){
+		    	if (response.data.errorCode == 0) {
+		    		var data = response.data
+		    		callback(data, true)		    		
+		    		// log
+		    		if (showLog) {
+		    			console.log('==========received==========\n'
+		    				+ JSON.stringify(data, null, 4) 
+		    				+ '\n====================')
+		    		}
+		    	} else {
+		    		modal.toast({'message': response.data.errorMsg, 'duration': 0});
+		    		var status = response.data.errorCode
+		    		callback(null, false, status)
+		    	}
+		    } else {
+		    	modal.toast({'message': '连接服务器失败', 'duration': 0});
+		    	callback(null, false);
+		    	// log
+		    	if (showLog) {
+		    		console.log('connect failed:' + response.status);
+		    		console.log(response)
+		    	}
+		    	
+		    }
+
+		},function(response){
+		    // console.log("bytes received:"+response.length);
+		});
+	}
+
+	exports.postReq = function(api, param, callback) {
+		var path = api
+		var bodyString = ''
+		if (param != null) {
+			var keys = Object.keys(param)
+			for (var i = 0 ; i < keys.length; i++) {
+				var key = keys[i]
+				bodyString += key + '=' + param[key]
+				if (i != keys.length - 1) {
+					bodyString += '&'
+				}
+			}
+		}
+
+		// log
+		if (showLog) {
+			console.log("==========POST==========\n" 
+				+ 'url: ' + path 
+				+ '\nparam: ' + bodyString 
+				+ '\n'+ path + '?' + bodyString 
+				+ '\n====================');
+		}
+		var stream = require('@weex-module/stream');
+		var modal = require('@weex-module/modal')
+		stream.fetch({
+		    method: 'POST',
+		    url: path,
+		    type:'json',
+		    body: bodyString,
+		    timeout: 30000,
+		}, function(response) {
+		    //process response
+		    if(response.status == 200){
+		    	if (response.data.errorCode == 0) {
+		    		var data = response.data
+		    		callback(data, true)		    		
+		    		// log
+		    		if (showLog) {
+		    			console.log('==========received==========\n'
+		    				+ JSON.stringify(data, null, 4) 
+		    				+ '\n====================')
+		    		}
+		    	} else {
+		    		modal.toast({'message': response.data.errorMsg, 'duration': 0});
+		    		var status = response.data.errorCode
+		    		callback(null, false, status)
+		    	}
+		    } else {
+		    	modal.toast({'message': '连接服务器失败', 'duration': 0});
+		    	callback(null, false);
+		    	// log
+		    	if (showLog) {
+		    		console.log('connect failed:' + response.status);
+		    		console.log(response)
+		    	}
+		    	
+		    }
+
+		},function(response){
+		    // console.log("bytes received:"+response.length);
+		});
+	}
+</script>

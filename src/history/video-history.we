@@ -1,0 +1,64 @@
+<template>
+	<div>
+		<common-title title="历史记录" right-image="{{rightImage}}"></common-title>
+		<list style="flex:1;">
+			<cell repeat="{{v in history}}">
+				<video-history-item history="{{v}}"></video-history-item>
+			</cell>
+		</list>
+	</div>
+</template>
+
+<style>
+
+</style>
+
+<script>
+	require('../common/common-title.we');
+	module.exports = {
+		data: {
+
+			rightImage: './resource/images/history/ic-trash.png',
+
+			history: [
+				{src: './resource/images/channel/temp_cover.png',
+				title: '北平无战事',
+				drama: '更新至25集/全40集'},
+
+				{src: './resource/images/channel/temp_cover.png',
+				title: '北平无战事',
+				drama: '更新至25集/全40集'},
+
+				{src: './resource/images/channel/temp_cover.png',
+				title: '北平无战事',
+				drama: '更新至25集/全40集'},
+
+				{src: './resource/images/channel/temp_cover.png',
+				title: '北平无战事',
+				drama: '更新至25集/全40集'},
+
+				{src: './resource/images/channel/temp_cover.png',
+				title: '北平无战事',
+				drama: '更新至25集/全40集'},
+			],
+		},
+		created: function() {
+			this.$on('navRight', function(e) {
+			      this.confirmClear()
+			});
+		},
+		ready: function() {
+
+		},
+		methods: {
+			confirmClear: function() {
+				var self = this
+				require('@weex-module/modal').confirm({message: '清空播放历史', okTitle: '清空', cancelTitle: '取消'}, function(result){
+					if (result == '清空') {
+						self.history = []
+					}
+				})
+			},
+		}
+	}
+</script>
