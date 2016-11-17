@@ -1,0 +1,98 @@
+<template>
+	<div style="width:100%;height:100%;" onclick="clickblank">
+			<div style="width:100%;flex:1;background-color:#000000;opacity:0.6;" onclick="clickShareCancel"></div>
+			<div style="width:100%;background-color:#FFFFFF;">
+					<div class="div-line"></div>
+					<div style="align-items:center;justify-content:center;margin-top:25px;margin-bottom:10px;">
+							<text style="color:#505050; font-size:35px;">分享到</text>
+					</div>
+					<div style="width:100%;flex-direction:row;justify-content:flex-start;align-items:flex-start;flex-wrap:wrap;padding:14px;">
+							<div class="div-share-item" onclick="clickShareItem(1)">
+									<img class="img-share-item" resize="contain" src="./resource/images/common/wxhy.png">
+									<text class="text-share-item">微信</text>
+							</div>
+							<div class="div-share-item" onclick="clickShareItem(2)">
+									<img class="img-share-item" resize="contain" src="./resource/images/common/wxpyq.png">
+									<text class="text-share-item">朋友圈</text>
+							</div>
+							<div class="div-share-item" onclick="clickShareItem(3)">
+									<img class="img-share-item" resize="contain" src="./resource/images/common/qqkongjian.png">
+									<text class="text-share-item">QQ空间</text>
+							</div>
+							<div class="div-share-item" onclick="clickShareItem(4)">
+									<img class="img-share-item" resize="contain" src="./resource/images/common/xlwb.png">
+									<text class="text-share-item">微博</text>
+							</div>
+							<div class="div-share-item" onclick="clickShareItem(5)">
+									<img class="img-share-item" resize="contain" src="./resource/images/common/qq.png">
+									<text class="text-share-item">QQ</text>
+							</div>
+							<div class="div-share-item" onclick="clickShareItem(6)">
+									<img class="img-share-item" resize="contain" src="./resource/images/common/qqwb.png">
+									<text class="text-share-item">腾讯微博</text>
+							</div>
+					</div>
+					<div style="align-items:center;justify-content:center;margin-left:60px;margin-right:60px;margin-top:25px;margin-bottom:30px; border-width:1.5px;border-radius:10px;border-color:#E5E5E5;padding:20px;" onclick="clickShareCancel">
+							<text style="color:#505050; font-size:32px;">取消</text>
+					</div>
+			</div>
+	</div>
+</template>
+
+<style>
+	.div-line {
+	  	width:100%;
+	  	height:2px;
+	  	background-color:#D0D0D0;
+	}
+
+	.div-share-item{
+		width:180;
+		align-items:center;
+		justify-content:center;
+		padding:10px;
+	}
+
+	.img-share-item{
+		width:100;
+		height:100;
+	}
+
+	.text-share-item{
+		color:#808080;
+		font-size:22px;
+		margin-top:15px;
+	}
+</style>
+
+<script>
+	module.exports = {
+		data: {
+			shareHeight: 420,
+		},
+
+		ready: function() {
+			this.shareHeight = (750/this.$getConfig().env.deviceHeight)*this.$getConfig().env.deviceWidth;
+
+		},
+		methods: {
+			clickblank: function(){
+
+			},
+
+			clickShareCancel: function(){
+				this.$dispatch('clickShareCancel');
+			},
+
+			/**
+			 * 点击分享项  1 微信，2 微信朋友圈， 3 QQ空间，4 新浪微博，5 QQ，6 腾讯微博
+			 * @param  {[type]} index [description]
+			 * @return {[type]}       [description]
+			 */
+			clickShareItem: function(index){
+				this.$dispatch('clickShareCancel');
+				this.$dispatch('clickShareItem', index);
+			},
+		},
+	}
+</script>

@@ -31,7 +31,7 @@
                             <img style="width:40px;height:40px;" resize="contain" src="./resource/images/channel/icon_share.png">
                         </div>
                         <div style="padding:15px;" onclick="pageclick(3)">
-                            <img style="width:40px;height:40px;" resize="contain" src="./resource/images/channel/icon_collection.png">
+                            <img style="width:40px;height:40px;" resize="contain" src="{{collection}}">
                         </div>
                   </div>
                   <div class="div-line"></div>
@@ -127,6 +127,7 @@ module.exports = {
 
 
       iconpraise: './resource/images/channel/play_detail_praise.png',
+      collection: './resource/images/channel/icon_collection.png',
     },
 
 
@@ -141,6 +142,10 @@ module.exports = {
          * @return {[type]}      [description]
          */
         pageclick: function(flag){
+            //打开分享窗口
+            if(flag==2){
+                this.$dispatch('clickShareDialog', 2)
+            }
             //打开简介
             if(flag==4){
                 this.$dispatch('clickInfoPage', 1)
@@ -162,11 +167,29 @@ module.exports = {
                         setTimeout(function(){
                             self.iconpraise = './resource/images/channel/play_detail_praised.png';
                             self.praisedcount = self.praisedcount +1;
-                        },3000);
+                        },2000);
                     }
-                
-                
               }
+            }
+            //收藏
+            if(flag==3){
+                var iscollection = false;
+                if(this.collection != './resource/images/channel/icon_collectioned.png'){
+                    iscollection = false;
+                }else{
+                    iscollection = true;
+                }
+                if(this.collection != './resource/images/common/waiting-min.gif'){
+                    this.collection = './resource/images/common/waiting-min.gif'
+                    var self = this;
+                    setTimeout(function(){
+                        if(!iscollection){
+                            self.collection = './resource/images/channel/icon_collectioned.png';
+                        }else{
+                            self.collection = './resource/images/channel/icon_collection.png';
+                        }
+                    },2000);
+                }
             }
         },
 

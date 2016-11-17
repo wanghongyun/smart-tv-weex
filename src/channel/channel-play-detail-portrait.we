@@ -31,9 +31,10 @@
                           onclick="playerfullscreen">
                         <img src="./resource/images/live/player-control-extend.png" resize="contain" style="width:35px;height:35px;">
                     </div>
-                    <div style="width:550px;flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:91;">
-                        <img src="./resource/images/live/player-control-progress.png" style="flex:0.2;height:6px;background-color:#000000;">
-                        <img style="flex:0.8;height:6px;background-color:#000000;">
+                    <div style="width:{{seekControlWidth}};flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:91;"
+                          ontouchstart="playSeekTouchS" ontouchend="playSeekTouchE" ontouchmove="playSeekTouchM">
+                        <img style="flex:{{seekPercent}};height:4px;background-color:#0991BE;">
+                        <img style="flex:{{1-seekPercent}};height:4px;background-color:#000000;">
                     </div>
                   </div>
               </div>
@@ -50,6 +51,8 @@
                   <channel-play-detail-portrait-selectset if="{{pageindex==3}}" style="flex:1;"></channel-play-detail-portrait-selectset>
                   <!-- 下载 -->
                   <channel-play-detail-portrait-down if="{{pageindex==4}}" style="flex:1;"></channel-play-detail-portrait-down>
+
+                  <common-share-dialog if="sharedialog" style="position:absolute;left:0;right:0;top:0;bottom:0;"></common-share-dialog>
               </div>
       </div>
 </template>
@@ -69,6 +72,7 @@
 
 <script>
 require('../common/common-title.we');
+require('../common/common-share-dialog.we');
 module.exports = {
     data: {
       //播放器高度
@@ -88,6 +92,16 @@ module.exports = {
 
       //页面控制
       pageindex:0,
+      sharedialog:false,
+      //进度条长度
+      seekControlWidth:550,
+      seekPercent:0,
+
+      //临时数据记录
+      tempSeekPercent:0,
+      touchXs:0,
+
+
 
     },
 
@@ -101,6 +115,10 @@ module.exports = {
     },
 
     created: function () {
+      //打开分享窗口
+      this.$on('clickShareDialog', function(index) {
+                    this.sharedialog = true;
+              });
       //详情总页面打开二级页面
       this.$on('clickInfoPage', function(index) {
                     this.pageindex = index.detail;
@@ -117,6 +135,14 @@ module.exports = {
       this.$on('clickClose', function(e) {
                     this.pageindex = 0;
               });
+      //分享窗口关闭
+      this.$on('clickShareCancel', function(e) {
+                    this.sharedialog = false;
+              });
+      //点击分享项  1 微信，2 微信朋友圈， 3 QQ空间，4 新浪微博，5 QQ，6 腾讯微博
+      this.$on('clickShareItem', function(index) {
+        
+              });
     },
 
     ready: function () {
@@ -124,6 +150,11 @@ module.exports = {
       this.fullScreenHeight = (750/this.$getConfig().env.deviceHeight)*this.$getConfig().env.deviceWidth;
 
       this.videosrc = 'http://vod.cntv.lxdns.com/flash/mp4video55/TMS/2016/10/25/b49434d075404b46b146641fa8487095_h264418000nero_aac32.mp4';
+
+      // http://vod.cntv.lxdns.com/flash/mp4video55/TMS/2016/10/25/b49434d075404b46b146641fa8487095_h264418000nero_aac32.mp4 
+      // http://data.vod.itc.cn/?rb=1&prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/249/228/SjKyCwFwRl29bvn9Jl7WMH.mp4 
+      // http://data.vod.itc.cn/?rb=1&prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/117/209/lxYHURXNReCf8StVJuhZFF.mp4 
+             
     },
 
     methods: {
@@ -144,7 +175,7 @@ module.exports = {
       },
 
       onprogressupdate: function(param){
-
+        this.seekPercent = param.currentposition/param.duration;
       },
 
       /**
@@ -171,6 +202,51 @@ module.exports = {
         this.fullscreen = 'landscape'
       },
 
+      /**
+       * 进度触控开始
+       * @param  {[type]} e [description]
+       * @return {[type]}   [description]
+       */
+      playSeekTouchS: function(e){
+        this.tempSeekPercent = this.seekPercent;
+        this.touchXs = e.changedTouches[0].pageX;
+      },
+
+      /**
+       * 进度触控移动
+       * @param  {[type]} e [description]
+       * @return {[type]}   [description]
+       */
+      playSeekTouchM: function(e){
+        var touchXm = e.changedTouches[0].pageX;
+        var touchXmPercent = (touchXm - this.touchXs)/this.seekControlWidth;
+        var tempPercent = this.tempSeekPercent + touchXmPercent;
+        if(tempPercent<0){
+          tempPercent = 0;
+        }
+        if(tempPercent>1){
+          tempPercent = 1;
+        }
+        this.seekPercent = tempPercent;
+      },
+
+      /**
+       * 进度触控结束
+       * @param  {[type]} e [description]
+       * @return {[type]}   [description]
+       */
+      playSeekTouchE: function(e){
+        var touchXm = e.changedTouches[0].pageX;
+        var touchXmPercent = (touchXm - this.touchXs)/this.seekControlWidth;
+        var tempPercent = this.tempSeekPercent + touchXmPercent;
+        if(tempPercent<0){
+          tempPercent = 0;
+        }
+        if(tempPercent>1){
+          tempPercent = 1;
+        }
+        this.seekPercent = this.seekto = tempPercent;
+      },
     },
 
 }

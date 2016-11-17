@@ -33,8 +33,8 @@
 												<img src="./resource/images/live/player-control-extend.png" resize="contain" style="width:35px;height:35px;">
 										</div>
 										<div style="width:550px;flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:91;">
-												<img src="./resource/images/live/player-control-progress.png" style="flex:0.2;height:6px;background-color:#000000;">
-												<img style="flex:0.8;height:6px;background-color:#000000;">
+												<img style="flex:0.2;height:4px;background-color:##0991BE;">
+												<img style="flex:0.8;height:4px;background-color:#000000;">
 										</div>
 			    				</div>
 
