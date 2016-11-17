@@ -27,8 +27,12 @@
                             <text style="max-width:420px; color:#A0A0A0;font-size:25px;">播放：</text>
                             <text style="max-width:420px; color:#A0A0A0;font-size:25px;">2.5亿</text>
                         </div>
-                        <img style="width:70px;height:70px; padding:15px; margin-right:30px;" resize="contain" src="./resource/images/channel/icon_share.png" onclick="pageclick(2)">
-                        <img style="width:70px;height:70px; padding:15px; " resize="contain" src="./resource/images/channel/icon_collection.png" onclick="pageclick(3)">
+                        <div style="padding:15px;margin-right:30px;" onclick="pageclick(2)">
+                            <img style="width:40px;height:40px;" resize="contain" src="./resource/images/channel/icon_share.png">
+                        </div>
+                        <div style="padding:15px;" onclick="pageclick(3)">
+                            <img style="width:40px;height:40px;" resize="contain" src="./resource/images/channel/icon_collection.png">
+                        </div>
                   </div>
                   <div class="div-line"></div>
                   <div class="div-line-w"></div>
@@ -41,8 +45,8 @@
                             <text style="color:#212121;font-size:23px;margin-top:10px;">简介</text>
                         </div>
                         <div style="align-items:center;margin-left:30px;" onclick="pageclick(5)">
-                            <img style="width:96px;height:96px;margin-top:10px;" resize="contain" src="./resource/images/channel/play_detail_praised.png">
-                            <text style="color:#212121;font-size:23px;margin-top:10px;">120赞</text>
+                            <img style="width:96px;height:96px;margin-top:10px;" resize="contain" src="{{iconpraise}}">
+                            <text style="color:#212121;font-size:23px;margin-top:10px;">{{praisedcount}}赞</text>
                         </div>
                         <div style="align-items:center;margin-left:30px;" onclick="pageclick(6)">
                             <img style="width:96px;height:96px;margin-top:10px;" resize="contain" src="./resource/images/channel/play_detail_comment.png">
@@ -119,6 +123,10 @@ module.exports = {
       setlists:[1,2,3,4,5,6,7,8,9,10],
       tvlists:[1,2,3,4,5,6,7,8,9,0],
 
+      praisedcount:120,
+
+
+      iconpraise: './resource/images/channel/play_detail_praise.png',
     },
 
 
@@ -133,14 +141,32 @@ module.exports = {
          * @return {[type]}      [description]
          */
         pageclick: function(flag){
+            //打开简介
             if(flag==4){
                 this.$dispatch('clickInfoPage', 1)
             }
+            //打开评论窗口
             if(flag==6){
                 this.$dispatch('clickInfoPage', 2)
             }
+            //打开选集窗口
             if(flag==7){
                 this.$dispatch('clickInfoPage', 3)
+            }
+            //点赞
+            if(flag==5){
+              if(this.iconpraise != './resource/images/channel/play_detail_praised.png'){
+                    if(this.iconpraise != './resource/images/common/waiting-min.gif'){
+                        this.iconpraise = './resource/images/common/waiting-min.gif'
+                        var self = this;
+                        setTimeout(function(){
+                            self.iconpraise = './resource/images/channel/play_detail_praised.png';
+                            self.praisedcount = self.praisedcount +1;
+                        },3000);
+                    }
+                
+                
+              }
             }
         },
 
