@@ -25,7 +25,7 @@
 			    				<img src="./resource/images/live/live-top-player-bg.png" style="width:750px;height:420px;background-color:#EEEEEE;">
 			    				<!-- 播控面板部分 -->
 			    				<div style="width:750px;height:80px;position:absolute;bottom:0;left:0;right:0;top:340px;z-index:90;">
-										<img src="./resource/images/live/player-control-bg.png" style="width:750px;height:80px;">
+										<img style="width:750px;height:80px;background-color:#000000;opacity:0.4;">
 										<div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;left:0;top:0;z-index:91;">
 												<img src="./resource/images/live/player-control-pause.png" resize="contain" style="width:30px;height:30px;">
 										</div>
