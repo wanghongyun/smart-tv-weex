@@ -43,7 +43,7 @@
               <!-- 页面内容部分 -->
               <div style="width:750px;flex:1;">
                   <!-- 总详情 -->
-                  <channel-play-detail-portrait-info if="{{pageindex==0}}" style="flex:1;"></channel-play-detail-portrait-info>
+                  <channel-play-detail-portrait-info if="{{pageindex==0}}"  movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait-info>
                   <!-- 简介 -->
                   <channel-play-detail-portrait-introduction if="{{pageindex==1}}" style="flex:1;"></channel-play-detail-portrait-introduction>
                   <!-- 评论 -->
@@ -80,7 +80,7 @@ module.exports = {
       fullScreenHeight: 420,
 
       title: '',
-      resurl: '',
+      movieinfo: {},
 
       //播放器控制变量
       videosrc: '',

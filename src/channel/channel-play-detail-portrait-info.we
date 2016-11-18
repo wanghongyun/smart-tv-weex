@@ -8,7 +8,7 @@
                       <div style="flex:1; flex-direction:row;flex-direction:center;">
                           <!-- 标题 -->
                           <div style="justify-content: center;align-items: center;">
-                              <text style="max-width:420px; color:#212121;font-size:32px;text-overflow:ellipsis;lines:1;">琅琊榜</text>
+                              <text style="max-width:420px; color:#212121;font-size:32px;text-overflow:ellipsis;lines:1;">{{movieinfo.titleFull}}</text>
                           </div>
                           <!-- 视频类型 -->
                           <div style="background-color:#FF6B51;padding-left:12px;padding-right:12px;padding-top:5px;padding-bottom:5px; border-radius:5px;margin-left:10px; margin-right:20px; justify-content: center;align-items: center;">
@@ -71,7 +71,7 @@
                       <div>
                           <scroller style="flex:1;flex-direction:row;height:95px;" show-scrollbar="false" scroll-direction="horizontal">
                               <div style="height:80px;flex-direction:row;margin-bottom:15px;">
-                                  <div style="width:80px;height:80px;background-color:{{setselect==$index?'#CDF1FD':(setselects.indexOf(setlists[$index])==-1?'#FFFFFF':'#F3F3F3')}};border-radius:3px;border-width:1px;border-color:{{setselect==$index?'#0BBAF3':'#C0C0C0'}};justify-content:center;align-items:center;margin-right:15px;margin-left:{{$index==0?15:0}};" repeat="{{s in setlists}}" onclick="{{selectSet($index)}}">
+                                  <div style="width:80px;height:80px;background-color:{{setselect==$index?'#CDF1FD':(setselects.indexOf($index+1)==-1?'#FFFFFF':'#F3F3F3')}};border-radius:3px;border-width:1px;border-color:{{setselect==$index?'#0BBAF3':'#C0C0C0'}};justify-content:center;align-items:center;margin-right:15px;margin-left:{{$index==0?15:0}};" repeat="{{s in setlists}}" onclick="{{selectSet($index)}}">
                                       <text style="color:#212121;font-size:28px;">{{$index+1}}</text>
                                   </div>
                               </div>
@@ -117,10 +117,11 @@
 <script>
 module.exports = {
     data: {
+
+      movieinfo:null,
       //数据
       setselect:0,
       setselects:[1],
-      setlists:[1,2,3,4,5,6,7,8,9,10],
       tvlists:[1,2,3,4,5,6,7,8,9,0],
 
       praisedcount:120,
@@ -128,6 +129,20 @@ module.exports = {
 
       iconpraise: './resource/images/channel/play_detail_praise.png',
       collection: './resource/images/channel/icon_collection.png',
+    },
+
+    computed: {
+      setlists: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.ListOfMovieInfo==null||this.movieinfo.ListOfMovieInfo.length==0)?[]:this.movieinfo.ListOfMovieInfo;
+        },
+      },
+
+      tvTitle: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.titleFull==null)?'':this.movieinfo.titleFull;
+        },
+      }
     },
 
 
@@ -201,7 +216,7 @@ module.exports = {
         selectSet: function(index){
             this.$dispatch('clickSelectSet', index)
             this.setselect = index;
-            this.setselects.push(this.setlists[index]);
+            this.setselects.push(index+1);
         },
 
         /**
