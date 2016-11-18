@@ -1,10 +1,48 @@
 <template>
       <!-- 播放详情总页面 -->
       <div style="width:100%;height:100%;background-color:#FFFFFF;">
+              <!-- 标题 -->
+              <common-title if="{{!isFullScreen}}" title="{{title}}"></common-title>
+              <!-- 播放器部分 -->
+              <div style="width:750px;height:{{fullScreenHeight}}; ">
+                  <video style="width: 100%; flex:1; background-color:#000000;" 
+                        autoplay="true"
+                        src="{{videosrc}}"
+                        fullscreen="{{fullscreen}}"
+                        playstate="{{playstate}}"
+                        seekto="{{seekto}}"
+                        onplaystate="onplaystate"
+                        onloading="onloading"
+                        onprogressing="onprogressing"></video>
+                  <div if="{{!showBar}}" style="position:absolute;bottom:0;left:0;right:0;top:0;z-index:80;" onclick="showPlayControl"></div>
+                  <!-- 播控面板部分 -->
+                  <div if="{{isshowcontrol}}" style="width:750px;height:80px;position:absolute;bottom:0;left:0;right:0;top:{{fullScreenHeight-80}};z-index:90;">
+                    <img style="width:750px;height:80px;background-color:#000000;opacity:0.4;">
+                    <div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;left:0;top:0;z-index:91;" 
+                          onclick="playercontrol">
+                        <img src="{{playercontrolplay}}" resize="contain" style="width:30px;height:30px;">
+                    </div>
+                    <div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;right:0;top:0;z-index:91;"
+                          onclick="playerfullscreen">
+                        <img src="{{playercontrolextend}}" resize="contain" style="width:35px;height:35px;">
+                    </div>
+                    <div style="width:{{seekControlWidth}};flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:90;"
+                          ontouchstart="playSeekTouchS" ontouchmove="playSeekTouchM">
+                          <img style="flex:{{seekLoadingPercent}};height:4px;background-color:#36648B;">
+                          <img style="flex:{{1-seekLoadingPercent}};height:4px;;background-color:#000000;">
+                    </div>
+                    <div style="width:{{seekControlWidth}};flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:91;"
+                          ontouchstart="playSeekTouchS" ontouchmove="playSeekTouchM">
+                          <img style="flex:{{seekPercent}};height:4px;background-color:#1E90FF;">
+                          <img style="flex:{{1-seekPercent}};height:4px;">
+                    </div>
+                  </div>
+                  <!-- 横屏布局 -->
+                  <channel-play-detail-landscape if="{{isFullScreen}}" movieinfo="{{movieinfo}}"></channel-play-detail-landscape>
+              </div>
               <!-- 竖屏布局 -->
-              <channel-play-detail-portrait if="{{!isFullScreen}}" title="{{title}}" movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait>
-              <!-- 横屏布局 -->
-              <channel-play-detail-landscape if="{{isFullScreen}}" movieinfo="{{movieinfo}}"></channel-play-detail-landscape>
+              <channel-play-detail-portrait if="{{!isFullScreen}}" movieinfo="{{movieinfo}}"></channel-play-detail-portrait>
+              
       </div>
 </template>
 
@@ -17,22 +55,156 @@ module.exports = {
     data: {
       //当前页面是否是全屏
       isFullScreen: false,
+      //播放器高度
+      fullScreenHeight: 420,
 
+
+      //播放器控制变量
+      videosrc: '',
+      fullscreen: 'none',
+      playstate: 'none',
+      seekto:-1,
+
+      //播放器控制页面变量
+      playercontrolplay:'./resource/images/live/player-control-play.png',
+      playercontrolextend:'./resource/images/live/player-control-extend.png',
+      playercontrolstate: 'none',
+      isshowcontrol:false,
+
+      //进度条长度
+      seekControlWidth:550,
+      seekPercent:0,
+      seekLoadingPercent:0,
+
+      //临时数据记录
+      tempSeekPercent:0,
+      touchXs:0,
+
+      //标题
       title: '',
-
+      //数据请求地址
       resurl: '',
-
+      //数据
       movieinfo:{},
+    },
+
+    computed: {
+      //ios
+      showBar: {
+        get: function() {
+          var platform = this.$getConfig().env.platform
+          return platform == 'iOS'
+        },
+      },
     },
 
 
     ready: function () {
+      //播放器高度计算
+      this.fullScreenHeight = (750/this.$getConfig().env.deviceHeight)*this.$getConfig().env.deviceWidth;
+      //播放地址
+      this.videosrc = 'http://data.vod.itc.cn/?rb=1&prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/249/228/SjKyCwFwRl29bvn9Jl7WMH.mp4';
 
+      // http://vod.cntv.lxdns.com/flash/mp4video55/TMS/2016/10/25/b49434d075404b46b146641fa8487095_h264418000nero_aac32.mp4 
+      // http://data.vod.itc.cn/?rb=1&prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/249/228/SjKyCwFwRl29bvn9Jl7WMH.mp4 
+      // http://data.vod.itc.cn/?rb=1&prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/117/209/lxYHURXNReCf8StVJuhZFF.mp4 
+
+      //请求电视剧数据
       this.requestData();
 
     },
 
     methods: {
+      /**
+       * 显示控制面板
+       * @return {[type]} [description]
+       */
+      showPlayControl: function(){
+          if(!this.showBar){
+              this.isshowcontrol = !this.isshowcontrol;
+          }
+      },
+
+      onplaystate: function(param){
+        if(param.state=='play'){
+          this.playercontrolplay = './resource/images/live/player-control-pause.png'; 
+          this.playercontrolstate = 'play';
+        }else{
+          this.playercontrolplay = './resource/images/live/player-control-play.png'; 
+          this.playercontrolstate = 'none';
+        }
+      },
+
+      onloading: function(param){
+        this.seekLoadingPercent = param.load/param.duration;
+      },
+
+      onprogressing: function(param){
+        this.seekPercent = param.progress/param.duration;
+      },
+
+      /**
+       * 播放器  播放 暂停控制
+       * @param  {[type]} param [description]
+       * @return {[type]}       [description]
+       */
+      playercontrol: function(param){
+        this.playstate = 'none'
+        if(this.playercontrolstate=='play'){
+          this.playstate = 'pause'
+        }else{
+          this.playstate = 'play'
+        }
+      },
+
+      /**
+       * 播放器横屏竖屏控制
+       * @param  {[type]} param [description]
+       * @return {[type]}       [description]
+       */
+      playerfullscreen: function(param){
+        this.fullscreen = 'none'
+        if(this.isFullScreen){
+          this.fullscreen = 'portrait'
+          this.playercontrolextend = './resource/images/live/player-control-extend.png';
+        }else{
+          this.fullscreen = 'landscape'
+          this.playercontrolextend = './resource/images/live/player-control-extend-cancel.png';
+        }
+      },
+
+      /**
+       * 进度触控开始
+       * @param  {[type]} e [description]
+       * @return {[type]}   [description]
+       */
+      playSeekTouchS: function(e){
+        this.tempSeekPercent = this.seekPercent;
+        this.touchXs = e.changedTouches[0].pageX;
+      },
+
+      /**
+       * 进度触控移动
+       * @param  {[type]} e [description]
+       * @return {[type]}   [description]
+       */
+      playSeekTouchM: function(e){
+        var touchXm = e.changedTouches[0].pageX;
+        var touchXmPercent = (touchXm - this.touchXs)/this.seekControlWidth;
+        var tempPercent = this.tempSeekPercent + touchXmPercent;
+        if(tempPercent<0){
+          tempPercent = 0;
+        }
+        if(tempPercent>1){
+          tempPercent = 1;
+        }
+        this.seekPercent = this.seekto = tempPercent;
+      },
+
+      /**
+       * 请数据
+       * @return {[type]}   [description]
+       */
       requestData: function() {
         if(this.resurl.length==0){
           require('@weex-module/modal').toast({'message': "没有找到该电视剧！", 'duration': 0});
