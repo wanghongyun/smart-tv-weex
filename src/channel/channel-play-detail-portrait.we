@@ -80,6 +80,7 @@ module.exports = {
       fullScreenHeight: 420,
 
       title: '',
+      resurl: '',
 
       //播放器控制变量
       videosrc: '',
@@ -155,7 +156,7 @@ module.exports = {
       //播放器高度计算
       this.fullScreenHeight = (750/this.$getConfig().env.deviceHeight)*this.$getConfig().env.deviceWidth;
 
-      this.videosrc = 'http://vod.cntv.lxdns.com/flash/mp4video55/TMS/2016/10/25/b49434d075404b46b146641fa8487095_h264418000nero_aac32.mp4';
+      this.videosrc = 'http://data.vod.itc.cn/?rb=1&prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/249/228/SjKyCwFwRl29bvn9Jl7WMH.mp4';
 
       // http://vod.cntv.lxdns.com/flash/mp4video55/TMS/2016/10/25/b49434d075404b46b146641fa8487095_h264418000nero_aac32.mp4 
       // http://data.vod.itc.cn/?rb=1&prot=1&key=jbZhEJhlqlUN-Wj_HEI8BjaVqKNFvDrn&prod=flash&pt=1&new=/249/228/SjKyCwFwRl29bvn9Jl7WMH.mp4 

@@ -2,9 +2,9 @@
       <!-- 播放详情总页面 -->
       <div style="width:100%;height:100%;background-color:#FFFFFF;">
               <!-- 竖屏布局 -->
-              <channel-play-detail-portrait if="{{!isFullScreen}}" title="{{title}}" style="flex:1;"></channel-play-detail-portrait>
+              <channel-play-detail-portrait if="{{!isFullScreen}}" title="{{title}}" movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait>
               <!-- 横屏布局 -->
-              <channel-play-detail-landscape if="{{isFullScreen}}"></channel-play-detail-landscape>
+              <channel-play-detail-landscape if="{{isFullScreen}}" movieinfo="{{movieinfo}}"></channel-play-detail-landscape>
       </div>
 </template>
 
@@ -19,14 +19,33 @@ module.exports = {
       isFullScreen: false,
 
       title: '',
+
+      resurl: '',
+
+      movieinfo:{},
     },
 
 
     ready: function () {
 
+      this.requestData();
+
     },
 
     methods: {
+      requestData: function() {
+        if(this.resurl.length==0){
+          require('@weex-module/modal').toast({'message': "没有找到该电视剧！", 'duration': 0});
+          return;
+        }
+        var self = this
+        var connect = require('../http/req-channel.we')
+        connect.tvPlay(this.resurl, function(result, data) {
+          if(result){
+              self.movieinfo = data.MovieInfo;
+          }
+        })
+      },
 
     },
 
