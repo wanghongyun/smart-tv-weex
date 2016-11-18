@@ -22,4 +22,20 @@
 			}
 		});
 	}
+
+	/**
+	 * 电视剧详情
+	 * @param  {[type]}   url      [description]
+	 * @param  {Function} callback [description]
+	 * @return {[type]}            [description]
+	 */
+	exports.tvPlay = function(url,callback) {
+		connect.getReq(url, function(data, result, status) {
+			if (result) {
+				callback(result, data.data)
+			} else {
+				callback(result, data)
+			}
+		});
+	}
 </script>
