@@ -13,8 +13,8 @@
 	    <list style="flex: 1;">
 	    	<cell>
 		    	<div class="banner-container" onclick="clickToPlay">
-		    		<image src="{{poster}}" class="banner"></image>
-		    		<text class="banner-title">琅琊榜</text>
+		    		<image src="{{bannerPoster()}}" class="banner"></image>
+		    		<text class="banner-title">{{banner.titleFull}}</text>
 		    	</div>
 	    	</cell>
 	    	<cell repeat="{{v in dramas}}">
@@ -108,7 +108,7 @@
 			showMark: false,
 			showScrollBar: false,
 
-			poster: './resource/images/channel/temp_banner.png',
+			banner: {},
 
 			classify: [
 					{title: '电视剧', select: true},
@@ -173,6 +173,18 @@
 			this.requestData()
 		},
 		methods: {
+
+			bannerPoster: function() {
+				return './resource/images/channel/default_banner.png'
+
+				if (this.banner != null && this.banner.posterUrl != null) {
+					return this.banner.posterUrl
+				} else {
+					return './resource/images/channel/default_banner.png'
+				}
+			},
+
+			/* click */
 			classifyClick: function(index) {
 				var c = this.classify[index]
 				if (c.select) {
@@ -199,12 +211,15 @@
 
 			clickToPlay: function(){
 				var path = 'dist/channel/channel-play-detail.js'
+				var param = {}
+				param.title = this.banner.titleFull
+				param.resurl = this.banner.resurl
 				var platform = this.$getConfig().env.platform
 				if(platform == 'android' || platform == 'iOS'){
-				  	require('@weex-module/CustomModule').openURL(path, {title: '琅琊榜'});
+				  	require('@weex-module/CustomModule').openURL(path, param);
 				}
 			},
-			
+
 			requestData: function() {
 				var self = this
 				var connect = require('../http/req-channel.we')
@@ -227,6 +242,7 @@
 					}
 				}
 				this.dramas = temp
+				this.banner = data[0]
 			},
 		},
 	}

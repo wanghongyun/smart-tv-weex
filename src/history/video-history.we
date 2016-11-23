@@ -20,27 +20,7 @@
 
 			rightImage: './resource/images/history/ic-trash.png',
 
-			history: [
-				{src: './resource/images/channel/temp_cover.png',
-				title: '北平无战事',
-				drama: '更新至25集/全40集'},
-
-				{src: './resource/images/channel/temp_cover.png',
-				title: '北平无战事',
-				drama: '更新至25集/全40集'},
-
-				{src: './resource/images/channel/temp_cover.png',
-				title: '北平无战事',
-				drama: '更新至25集/全40集'},
-
-				{src: './resource/images/channel/temp_cover.png',
-				title: '北平无战事',
-				drama: '更新至25集/全40集'},
-
-				{src: './resource/images/channel/temp_cover.png',
-				title: '北平无战事',
-				drama: '更新至25集/全40集'},
-			],
+			history: [],
 		},
 		created: function() {
 			this.$on('navRight', function(e) {
@@ -48,7 +28,12 @@
 			});
 		},
 		ready: function() {
-
+			var self = this
+			require('@weex-module/CustomModule').getKeyValue('history' ,function(history){
+				if (history.value != null) {
+					self.history = history.value
+				}
+			});
 		},
 		methods: {
 			confirmClear: function() {
@@ -56,6 +41,7 @@
 				require('@weex-module/modal').confirm({message: '清空播放历史', okTitle: '清空', cancelTitle: '取消'}, function(result){
 					if (result == '清空') {
 						self.history = []
+						require('@weex-module/CustomModule').setKeyValue('history', {})
 					}
 				})
 			},

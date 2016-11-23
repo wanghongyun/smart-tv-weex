@@ -62,6 +62,7 @@
 	module.exports = {
 		data: {
 			favors: [
+				/*
 				{src: './resource/images/channel/temp_cover.png',
 				title: '北平无战事',
 				drama: '更新至25集/全40集'},
@@ -81,6 +82,7 @@
 				{src: './resource/images/channel/temp_cover.png',
 				title: '北平无战事',
 				drama: '更新至25集/全40集'},
+				*/
 			],
 		},
 		ready: function() {

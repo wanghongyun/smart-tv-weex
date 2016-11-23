@@ -13,7 +13,10 @@
                         seekto="{{seekto}}"
                         onplaystate="onplaystate"
                         onloading="onloading"
-                        onprogressing="onprogressing"></video>
+                        onprogressing="onprogressing"
+                        if="false"></video>
+                  <image  style="width: 750px; height: {{fullScreenHeight}};"
+                        src="http://60.255.71.22:8080/active/image/ccbn2011_gdu.jpg"></image>
                   <div if="{{!showBar}}" style="position:absolute;bottom:0;left:0;right:0;top:0;z-index:80;" onclick="showPlayControl"></div>
                   <!-- 播控面板部分 -->
                   <div if="{{isshowcontrol}}" style="width:750px;height:80px;position:absolute;bottom:0;left:0;right:0;top:{{fullScreenHeight-80}};z-index:90;">
@@ -121,7 +124,6 @@ module.exports = {
 
       //请求电视剧数据
       this.requestData();
-
     },
 
     methods: {
@@ -226,6 +228,7 @@ module.exports = {
             if(result){
                 self.movieinfo = data.MovieInfo;
                 self.selectSet(0)
+                self.addHistory();
             }
           })
         },
@@ -240,19 +243,36 @@ module.exports = {
             url += this.movieinfo.poId + '/'
             var asset = this.movieinfo.assetId.split('_')[0] + this.movieinfo.ListOfMovieInfo[index].assetId
             url += asset + '/0'
-            require('@weex-module/CustomModule').log(url);
             var self = this
             var connect = require('../http/req-channel.we')
             connect.dramaSet(url, function(result, data) {
                 if(result){
                     self.playUrl = 'http://60.255.71.22:8080' + data.url
-                    require('@weex-module/CustomModule').log(JSON.stringify(data));
                     var modal = require('@weex-module/modal');
-                    modal.alert({message: '视频地址:\n' + self.playUrl, okTitle: '确定'}, function() {
+                    modal.alert({message: self.playUrl, okTitle: '确定'}, function() {
                       // TODO after the alert is complete.
                     })
                 }
             })
+        },
+
+        addHistory: function() {
+            var self = this
+            this.movieinfo.resurl = self.resurl
+            require('@weex-module/CustomModule').getKeyValue('history' ,function(history){
+                var array = []
+                if (history.value != null) {
+                    array = history.value
+                    for (var i = 0; i < array.length; i++) {
+                        var movie = array[i]
+                        if (movie.resurl == self.resurl) {
+                            array.splice(i)
+                        }
+                    }
+                }
+                array.push(self.movieinfo)
+                require('@weex-module/CustomModule').setKeyValue('history', {value: array})
+            });
         },
     },
 }

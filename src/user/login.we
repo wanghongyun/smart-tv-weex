@@ -130,7 +130,7 @@
 					require('@weex-module/modal').toast({'message': '请输入密码', 'duration': 0})
 					return
 				}
-				require('@weex-module/CustomModule').setKeyValue('userName', this.user)
+				require('@weex-module/CustomModule').setKeyValue('userName', {value: this.user})
 				var param = {selected: 4}
 				require('@weex-module/CustomModule').toBack({toBackFlag: 'dist/main.js', param});
 			},

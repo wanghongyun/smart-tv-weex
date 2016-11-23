@@ -11,8 +11,8 @@
 	    <list style="flex: 1;">
 	    	<cell>
 	    		<slider auto-play="false" style="height: 395px;">
-					<div class="banner-container" repeat="{{src in posters}}" onclick="clickToPlay">
-						<image src="{{src}}" class="banner"></image>
+					<div class="banner-container" repeat="{{v in banners}}" onclick="{{clickToPlay(v)}}">
+						<image src="{{bannerPoster(v)}}" class="banner"></image>
 						<image class="mark" src="./resource/images/channel/ic_hot.png"></image>
 					</div>
 					<indicator class="indicator"></indicator>
@@ -85,10 +85,8 @@
 <script>
 	module.exports = {
 		data: {
-			posters: ['./resource/images/channel/temp_banner.png',
-					  './resource/images/channel/temp_banner.png',
-					  './resource/images/channel/temp_banner.png',
-					 ],
+			banners: [],
+
 			dramas: [  
 						/*
 						{leftItem: {					
@@ -149,11 +147,26 @@
 			this.requestData()
 		},
 		methods: {
-			clickToPlay: function(){
+
+			bannerPoster: function(v) {
+
+				return './resource/images/channel/default_banner.png'
+
+				if (v != null && v.posterUrl != null) {
+					return v.posterUrl
+				} else {
+					return './resource/images/channel/default_banner.png'
+				}
+			},
+
+			clickToPlay: function(v){
 				var path = 'dist/channel/channel-play-detail.js'
+				var param = {}
+				param.title = v.titleFull
+				param.resurl = v.resurl
 				var platform = this.$getConfig().env.platform
 				if(platform == 'android' || platform == 'iOS'){
-				  	require('@weex-module/CustomModule').openURL(path, {title: '琅琊榜'});
+				  	require('@weex-module/CustomModule').openURL(path, param);
 				}
 			},
 
@@ -179,6 +192,9 @@
 					}
 				}
 				this.dramas = temp
+				this.banners.push(data[0])
+				this.banners.push(data[1])
+				this.banners.push(data[2])
 			},
 		},
 	}

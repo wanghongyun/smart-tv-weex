@@ -118,8 +118,10 @@
 
 			leftPoster: {
 				get: function() {
-					if (this.leftItem != null && this.leftItem.src != null) {
-						return this.leftItem.src
+					return './resource/images/channel/default_cover.png'
+
+					if (this.leftItem != null && this.leftItem.posterUrl != null) {
+						return this.leftItem.posterUrl
 					} else {
 						return './resource/images/channel/default_cover.png'
 					}
@@ -169,8 +171,10 @@
 
 			rightPoster: {
 				get: function() {
-					if (this.rightItem != null && this.rightItem.src != null) {
-						return this.rightItem.src
+					return './resource/images/channel/default_cover.png'
+
+					if (this.rightItem != null && this.rightItem.posterUrl != null) {
+						return this.rightItem.posterUrl
 					} else {
 						return './resource/images/channel/default_cover.png'
 					}
@@ -224,7 +228,8 @@
 		methods: {
 			clickToPlay: function(index){
 				var path = 'dist/channel/channel-play-detail.js'
-				var param = {title: '琅琊榜'}
+				var param = {}
+				param.title = index == 0 ? this.leftItem.titleFull : this.rightItem.titleFull
 				param.resurl = index == 0 ? this.leftItem.resurl : this.rightItem.resurl
 				var platform = this.$getConfig().env.platform
 				if(platform == 'android' || platform == 'iOS'){

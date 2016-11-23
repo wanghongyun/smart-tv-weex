@@ -138,11 +138,11 @@
 		},
 		ready: function() {
 			var self = this
-			require('@weex-module/CustomModule').getKeyValue('userName','',function(userName){
-				if (userName == '') {
+			require('@weex-module/CustomModule').getKeyValue('userName' ,function(userName){
+				if (userName.value == null) {
 					self.userName = '点击登录'
 				} else {
-					self.userName = userName;
+					self.userName = userName.value;
 				}
 			});
 		},
@@ -164,7 +164,7 @@
 					require('@weex-module/modal').confirm({message: '是否要退出登录？', okTitle: '确定', cancelTitle: '取消'}, function(result){
 						if (result == '确定') {
 							self.userName = '点击登录'
-							require('@weex-module/CustomModule').setKeyValue('userName', '')
+							require('@weex-module/CustomModule').setKeyValue('userName', {})
 						}
 					})
 				}
