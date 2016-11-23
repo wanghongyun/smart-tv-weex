@@ -273,7 +273,7 @@ module.exports = {
                         if (movie.resurl == self.resurl) {
                             //操作删除收藏
                             if(operation){
-                                array.splice(i);  
+                                array.splice(i, 1);  
                             }                            
                             iscollection = operation?false:true;
                         }
@@ -283,7 +283,7 @@ module.exports = {
                 if(iscollection){
                     //收藏
                     if(operation){
-                        array.push(self.movieinfo)
+                        array.unshift(self.movieinfo)
                     }
                     self.collection = './resource/images/channel/icon_collectioned.png';
                 }else{

@@ -61,6 +61,7 @@
 <script>
 	module.exports = {
 		data: {
+
 			favors: [
 				/*
 				{src: './resource/images/channel/temp_cover.png',
@@ -85,13 +86,25 @@
 				*/
 			],
 		},
+		
+		created: function() {
+
+		},
+
 		ready: function() {
-			var self = this
-			require('@weex-module/CustomModule').getKeyValue('favor' ,function(favor){
-				if (favor.value != null) {
-					self.favors = favor.value
-				}
-			});
+			this.getFavors()
+		},
+		methods: {
+			getFavors: function() {
+				var self = this
+				require('@weex-module/CustomModule').getKeyValue('favor' ,function(favor){
+						self.refreshOn = false
+						self.loadOn = false
+						if (favor.value != null) {
+							self.favors = favor.value
+						}
+				});
+			},
 		},
 	}
 </script>

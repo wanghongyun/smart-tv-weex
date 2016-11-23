@@ -65,7 +65,7 @@
 				get: function() {
 					if (this.favor != null) {
 						if (this.favor.count != null) {
-							return '全' + this.history.count +'集'
+							return '全' + this.favor.count +'集'
 						}
 					}
 					return '-'
