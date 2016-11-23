@@ -5,7 +5,7 @@
             <div style="flex-direction:row;align-items:center;padding:15px;">
                     <img style="width:24px;height:24px;margin-right:20px" resize="contain" src="./resource/images/channel/icon_title_circular.png">
                     <text style="color:#212121;font-size:30px;flex:1;">评论</text>
-                    <div style="padding:15px;margin-right:20px;padding-left:30px;padding-right:30px;" onclick="clickClose">
+                    <div style="padding:15px;padding-left:20px;padding-right:20px;" onclick="clickClose">
                         <img style="width:30px;height:30px;" resize="contain" src="./resource/images/channel/icon_title_close.png">
                     </div>
             </div>
@@ -14,20 +14,23 @@
                 <cell>
                     <!-- 评论输入 -->
                     <div style="width:100%;padding:15px; flex-direction:row;justify-content:flex-start;align-items:center;">
-                        <img style="width:90px;height:90px;border-radius:45px;" resize="contain" src="./resource/images/user/user-default-avatar.png">
-                        <div style="background-color:#F3F3F3;border-color:#E0E0E0;border-width:1px;border-radius:10px;flex:1;height:95px;margin-left:15px;">
-                                <input type="text" style="flex:1;padding:15px;color:#212121;font-size:26px;">
+                        <div style="width:90px;height:90px;">
+                            <img style="width:90px;height:90px;border-radius:45px;" resize="contain" src="./resource/images/user/user-default-avatar-blank.png">
+                            <img style="width:90px;height:90px;border-radius:45px; position: absolute;left: 0;right: 0;top: 0;bottom: 0; " resize="contain" src="">
+                        </div>
+                        <div style="background-color:#F3F3F3;border-color:#E0E0E0;border-width:1px;border-radius:10px;flex:1;height:90px;margin-left:15px;">
+                                <input type="text" style="flex:1;padding:15px;color:#212121;font-size:28px;">
                         </div>
                     </div>
                 </cell>
-                <cell>
+                <cell if="{{movieHotComments.length>0}}">
                     <div style="width:100%;padding:15px;">
                         <text style="color:#24B0DF;font-size:30px;flex:1;">热门评论</text>
                     </div>
                     <div class="div-line" style="margin-left:15px;margin-right:15px;"></div>
                 </cell>
 
-                <cell repeat="{{s in hotcomments}}">
+                <cell repeat="{{s in movieHotComments}}">
                     <channel-play-detail-portrait-comment-item></channel-play-detail-portrait-comment-item>
                 </cell>
 
@@ -38,7 +41,7 @@
                     <div class="div-line" style="margin-left:15px;margin-right:15px;"></div>
                 </cell>
 
-                <cell repeat="{{s in newcomments}}">
+                <cell repeat="{{s in movieNewComments}}">
                     <channel-play-detail-portrait-comment-item></channel-play-detail-portrait-comment-item>
                 </cell>
             </list>
@@ -56,10 +59,25 @@
 <script>
 module.exports = {
     data: {
-      //数据
-      hotcomments:[1,2],
-      newcomments:[1,2,3,4,5,6],
 
+      movieinfo:{},
+      //数据
+      movieHotComments:[1,2],
+      movieNewComments:[1,2,3,4,5,6],
+    },
+
+    computed: {
+      movieHotComments: {
+        get: function() {
+          return [];
+        },
+      },
+
+      movieNewComments: {
+        get: function() {
+          return [];
+        },
+      },
     },
 
     ready: function () {

@@ -2,7 +2,10 @@
       <!-- 评论item -->
       <div style="width:100%;height:100%">
           <div style="width:100%;padding:15px; flex-direction:row;justify-content:flex-start;align-items:flex-start;">
-              <img style="width:80px;height:80px;border-radius:40px;" resize="contain" src="./resource/images/user/user-default-avatar.png">
+              <div style="width:80px;height:80px;">
+                            <img style="width:80px;height:80px;border-radius:40px;" resize="contain" src="./resource/images/user/user-default-avatar-blank.png">
+                            <img style="width:80px;height:80px;border-radius:40px; position: absolute;left: 0;right: 0;top: 0;bottom: 0; " resize="contain" src="">
+              </div>
               <div style="flex:1;margin-left:20px;">
                   <div style="width:100%;flex-direction:row;justify-content:center;align-items:center;">
                       <text style="color:#7A7A7A;font-size:26px;flex:1.5;text-overflow:ellipsis;lines:1;">用户昵称123用户昵称123用户昵称123用户昵称123用户昵称123用户昵称123</text>

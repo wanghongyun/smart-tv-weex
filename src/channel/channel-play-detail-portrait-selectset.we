@@ -5,7 +5,7 @@
             <div style="flex-direction:row;align-items:center;padding:15px;">
                     <img style="width:24px;height:24px;margin-right:20px" resize="contain" src="./resource/images/channel/icon_title_circular.png">
                     <text style="color:#212121;font-size:30px;flex:1;">正在播放</text>
-                    <div style="padding:15px;margin-right:20px;padding-left:30px;padding-right:30px;" onclick="clickClose">
+                    <div style="padding:15px;padding-left:20px;padding-right:20px;" onclick="clickClose">
                         <img style="width:30px;height:30px;" resize="contain" src="./resource/images/channel/icon_title_close.png">
                     </div>
             </div>

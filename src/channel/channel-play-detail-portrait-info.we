@@ -88,8 +88,8 @@
                       </div>
                       <div class="div-line" style="margin-left:15px;margin-right:15px;"></div>
                       <!-- 推荐列表 -->
-                      <div style="width:100%;flex-direction:row;justify-content:flex-start;align-items:flex-start;flex-wrap:wrap;padding:15px;">
-                          <div style="width:230px;margin-right:{{$index%3==2?0:14}};" repeat="{{s in tvlists}}" onclick="{{selectVideo($index)}}">
+                      <div style="width:100%; min-height:50px; flex-direction:row;justify-content:flex-start;align-items:flex-start;flex-wrap:wrap;padding:15px;">
+                          <div style="width:230px;margin-right:{{$index%3==2?0:14}};" repeat="{{s in movieRecommendLists}}" onclick="{{selectVideo($index)}}">
                               <img style="width:230px;height:340px;margin-top:10px" resize="contain" src="./resource/images/channel/temp_poster.png">
                               <text style="color:#212121;font-size:26px;margin-top:5px;text-overflow:ellipsis;lines:1;">琅琊榜</text>
                               <text style="color:#A0A0A0;font-size:24px;margin-top:5px;margin-bottom:10px;text-overflow:ellipsis;lines:1;">视频短描述</text>
@@ -124,8 +124,10 @@ module.exports = {
       movielists:[1,2,3,4,5,6,7,8,9,10],
       //标题
       movieTitle:'琅琊榜',
-
+      //播放次数
       moviePlayCount: 0,
+      //推荐列表
+      movieRecommendLists:[1,2,3,4,5,6,7],
 
       //点赞数量 数据标量
       moviePraisedCount:0,
@@ -139,9 +141,6 @@ module.exports = {
       iconpraise: './resource/images/channel/play_detail_praise.png',
       //收藏图标切换
       collection: './resource/images/channel/icon_collection.png',
-
-      //推荐列表
-      tvlists:[1,2,3,4,5,6,7,8,9,0],
 
     },
 
@@ -161,6 +160,12 @@ module.exports = {
       moviePlayCount:{
         get: function() {
           return '0';
+        },
+      },
+
+      movieRecommendLists:{
+        get: function() {
+          return [];
         },
       },
     },
