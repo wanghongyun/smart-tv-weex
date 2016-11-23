@@ -118,6 +118,8 @@
 module.exports = {
     data: {
 
+      resurl: '',
+
       movieinfo:{},
       //数据
       //级数列表
@@ -172,7 +174,8 @@ module.exports = {
 
 
     ready: function () {
-
+        //根据 resurl 判断是否收藏
+        this.collectionMovie(false);
     },
 
     methods: {
@@ -213,23 +216,8 @@ module.exports = {
             }
             //收藏
             if(flag==3){
-                var iscollection = false;
-                if(this.collection != './resource/images/channel/icon_collectioned.png'){
-                    iscollection = false;
-                }else{
-                    iscollection = true;
-                }
-                if(this.collection != './resource/images/common/waiting-min.gif'){
-                    this.collection = './resource/images/common/waiting-min.gif'
-                    var self = this;
-                    setTimeout(function(){
-                        if(!iscollection){
-                            self.collection = './resource/images/channel/icon_collectioned.png';
-                        }else{
-                            self.collection = './resource/images/channel/icon_collection.png';
-                        }
-                    },2000);
-                }
+                //收藏操作
+                this.collectionMovie(true);
             }
         },
 
@@ -251,6 +239,60 @@ module.exports = {
          */
         selectVideo: function(index){
             this.$dispatch('clickSelectVideo', index)
+        },
+
+        /**
+         * 收藏操作
+         * @return {[type]} [description]
+         */
+        collectionMovie: function(operation) {
+            //当前对象
+            var self = this
+            //当前页面没有数据
+            if(operation && (self.movieinfo==null || self.movieinfo.resurl==null)){
+                return;
+            }
+            if(!operation && (self.resurl==null || self.resurl.length==0)){
+                return;
+            }
+            //已经在做收藏操作
+            if(self.collection == './resource/images/common/waiting-min.gif'){
+                return;
+            }
+            //等待
+            self.collection = './resource/images/common/waiting-min.gif';
+            //获取收藏列表
+            require('@weex-module/CustomModule').getKeyValue('favor' ,function(collection){
+                var array = []
+                var iscollection = operation?true:false;
+                if (collection.value != null) {
+                    array = collection.value
+                    for (var i = 0; i < array.length; i++) {
+                        var movie = array[i]
+                        //查找到已收藏
+                        if (movie.resurl == self.resurl) {
+                            //操作删除收藏
+                            if(operation){
+                                array.splice(i);  
+                            }                            
+                            iscollection = operation?false:true;
+                        }
+                       
+                    }
+                }
+                if(iscollection){
+                    //收藏
+                    if(operation){
+                        array.push(self.movieinfo)
+                    }
+                    self.collection = './resource/images/channel/icon_collectioned.png';
+                }else{
+                    //展示 未收藏
+                    self.collection = './resource/images/channel/icon_collection.png';
+                }
+                //保存修改后的
+                require('@weex-module/CustomModule').setKeyValue('favor', {value: array})
+            });
         },
     },
 

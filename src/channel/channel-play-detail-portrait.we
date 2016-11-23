@@ -2,7 +2,7 @@
       <!-- 播放详情竖屏页面内容部分 -->
       <div style="width:750px;flex:1;">
           <!-- 总详情 -->
-          <channel-play-detail-portrait-info if="{{pageindex==0}}"  movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait-info>
+          <channel-play-detail-portrait-info if="{{pageindex==0}}"  movieinfo="{{movieinfo}}" resurl="{{resurl}}" style="flex:1;"></channel-play-detail-portrait-info>
           <!-- 简介 -->
           <channel-play-detail-portrait-introduction if="{{pageindex==1}}" movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait-introduction>
           <!-- 评论 -->
@@ -26,6 +26,8 @@ require('../common/common-share-dialog.we');
 module.exports = {
     data: {
 
+      resurl: '',
+
       movieinfo: {},
 
       //页面控制
@@ -42,10 +44,6 @@ module.exports = {
       //详情总页面打开二级页面
       this.$on('clickInfoPage', function(index) {
                     this.pageindex = index.detail;
-              });
-      //选集
-      this.$on('clickSelectSet', function(index) {
-                    this.$dispatch('clickSelectSet', index)
               });
       //选视频
       this.$on('clickSelectVideo', function(index) {

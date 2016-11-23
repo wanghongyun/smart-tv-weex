@@ -41,10 +41,10 @@
                     </div>
                   </div>
                   <!-- 横屏布局 -->
-                  <channel-play-detail-landscape if="{{isFullScreen}}" movieinfo="{{movieinfo}}"></channel-play-detail-landscape>
+                  <channel-play-detail-landscape if="{{isFullScreen}}" movieinfo="{{movieinfo}}" resurl="{{resurl}}"></channel-play-detail-landscape>
               </div>
               <!-- 竖屏布局 -->
-              <channel-play-detail-portrait if="{{!isFullScreen}}" movieinfo="{{movieinfo}}"></channel-play-detail-portrait>
+              <channel-play-detail-portrait if="{{!isFullScreen}}" movieinfo="{{movieinfo}}" resurl="{{resurl}}"></channel-play-detail-portrait>
               
       </div>
 </template>
@@ -227,6 +227,7 @@ module.exports = {
           connect.tvPlay(this.resurl, function(result, data) {
             if(result){
                 self.movieinfo = data.MovieInfo;
+                self.movieinfo.resurl = self.resurl
                 self.selectSet(0)
                 self.addHistory();
             }
@@ -258,7 +259,6 @@ module.exports = {
 
         addHistory: function() {
             var self = this
-            this.movieinfo.resurl = self.resurl
             require('@weex-module/CustomModule').getKeyValue('history' ,function(history){
                 var array = []
                 if (history.value != null) {
