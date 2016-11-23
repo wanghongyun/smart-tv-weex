@@ -14,40 +14,44 @@
                 <div style="width:750px;">
                         <!-- 推荐列表 -->
                         <div style="width:100%;flex-direction:row;justify-content:flex-start;align-items:flex-start;padding:15px;">
-                            <img style="width:230px;height:340px;" resize="contain" src="{{introductionposter}}">
+                            <div style="width:230px;height:340px;">
+                                <img style="width:230px;height:340px;" resize="contain" src="./resource/images/channel/default_movie_poster.png" >
+                                <img style="width:230px;height:340px;position:absolute;left:0;right:0;top:0;bottom:0;" resize="contain" src="{{movieposter}}" >
+                            </div>
+                            
                             <div style="flex:1;height:340px;margin-left:15px;">
                                 <div style="flex-direction:row;justify-content:flex-start;align-items:flex-start;">
                                     <text style="color:#212121;font-size:35px;">电视剧：</text>
-                                    <text style="color:#212121;font-size:35px;">琅琊榜</text>
+                                    <text style="color:#212121;font-size:35px;">{{movietitlefull}}</text>
                                 </div>
                                 <div style="flex-direction:row;justify-content:flex-start;align-items:flex-start;margin-top:15px;">
                                     <text style="color:#808080;font-size:24px;">别名：</text>
-                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:1;">琅琊榜，Nirvana in Fire</text>
+                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:1;">{{movietitlebyname}}</text>
                                 </div>
                                 <div style="flex-direction:row;justify-content:flex-start;align-items:flex-start;margin-top:5px;">
-                                    <text style="color:#808080;font-size:24px;">主演：</text>
-                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;line-height:40px;justify-content:flex-start;align-items:flex-start;">胡歌/刘涛/王凯/黄维德/成龙/丁永岱/刘敏涛/勒东/刘奕君/王劲松/张龄心/吴磊</text>
+                                    <text style="color:#808080;font-size:24px;line-height:40px;">主演：</text>
+                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;line-height:40px;justify-content:flex-start;align-items:flex-start;">{{movieactors}}</text>
                                 </div>
                                 <div style="flex-direction:row;justify-content:flex-start;align-items:flex-start;margin-top:5px;">
                                     <text style="color:#808080;font-size:24px;">导演：</text>
-                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;">孔笙/李雪/海燕</text>
+                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;">{{moviedirectors}}</text>
                                 </div>
                                 <div style="flex-direction:row;justify-content:flex-start;align-items:flex-start;margin-top:8px;">
                                     <text style="color:#808080;font-size:24px;">类型：</text>
-                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;">剧情/古装/历史</text>
+                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;">{{moviegenre}}</text>
                                 </div>
                                 <div style="flex-direction:row;justify-content:flex-start;align-items:flex-start;margin-top:8px;">
                                     <text style="color:#808080;font-size:24px;">地区：</text>
-                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;">大陆</text>
+                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;">{{moviearear}}</text>
                                 </div>
                                 <div style="flex-direction:row;justify-content:flex-start;align-items:flex-start;margin-top:8px;">
                                     <text style="color:#808080;font-size:24px;">年代：</text>
-                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;">2015</text>
+                                    <text style="color:#212121;font-size:24px;flex:1;text-overflow:ellipsis;lines:2;">{{movieyear}}</text>
                                 </div>
                             </div>
                         </div>
                         <div style="flex:1;padding:15px;padding-top:0px;">
-                            <text style="color:#212121;font-size:28px;">{{introduction}}</text>
+                            <text style="color:#212121;font-size:28px;">{{movieintroduction}}</text>
                         </div>
                 </div>
             </scroller>
@@ -66,10 +70,76 @@
 module.exports = {
     data: {
       //数据
-      introductionposter:'./resource/images/channel/temp_poster.png',
+      
+      movieinfo:{},
+      
+      movieposter:'./resource/images/channel/temp_poster.png',
+      movietitlefull: '琅琊榜',
+      movietitlebyname: '琅琊榜，Nirvana in Fire',
+      movieactors: '胡歌/刘涛/王凯/黄维德/成龙/丁永岱/刘敏涛/勒东/刘奕君/王劲松/张龄心/吴磊',
+      moviedirectors: '孔笙/李雪/海燕',
+      moviegenre: '剧情/古装/历史',
+      moviearear: '大陆',
+      movieyear: '2015',
 
-      introduction:'《琅琊榜》是由山东影视传媒集团、山东影视制作有限公司、北京儒意欣欣影业、北京和颂天地影视文化有限公司、北京圣基影业有限公司、东阳正午阳光影视有限公司联合出品的古装传奇剧，由孔笙、李雪执导，胡歌、刘涛、王凯、黄维德、陈龙、高鑫、吴磊等主演。该剧根据海宴同名网络小说改编，以平反冤案、扶持明君、振兴山河为主线，讲述了“麒麟才子”梅长苏才冠绝伦、以病弱之躯拨开重重迷雾、智博奸佞，为昭雪多年冤案、扶持新君所进行的一系列斗争。梅长苏在国仇家恨、兄弟情义的漩涡中见招拆招、游刃有余，奏出了“江左梅郎”赤子之心下的一曲慷慨悲歌。该剧于2015年9月19日登陆北京卫视、东方卫视首播，并获得第30届飞天奖优秀电视剧奖[1]  和国剧盛典“十大影响力电视剧”[2]  ，并入选广电总局2015中国电视剧选集[3]  。该剧于2014年10月13日亮相戛纳电视节[4]  。2015年10月19日登陆中华TV韩国首播[5]  。2015年11月3日登陆中国台湾华视主频道台湾首播[6]  。2015年11月9日登陆非洲最大电视展[7]  。2016年4月11日登陆银河电视台日本首播[8]  ，于2016年5月登陆TVB翡翠高清台香港首播[9]  。',
+      movieintroduction:'《琅琊榜》是由山东影视传媒集团、山东影视制作有限公司、北京儒意欣欣影业、北京和颂天地影视文化有限公司、北京圣基影业有限公司、东阳正午阳光影视有限公司联合出品的古装传奇剧，由孔笙、李雪执导，胡歌、刘涛、王凯、黄维德、陈龙、高鑫、吴磊等主演。该剧根据海宴同名网络小说改编，以平反冤案、扶持明君、振兴山河为主线，讲述了“麒麟才子”梅长苏才冠绝伦、以病弱之躯拨开重重迷雾、智博奸佞，为昭雪多年冤案、扶持新君所进行的一系列斗争。梅长苏在国仇家恨、兄弟情义的漩涡中见招拆招、游刃有余，奏出了“江左梅郎”赤子之心下的一曲慷慨悲歌。该剧于2015年9月19日登陆北京卫视、东方卫视首播，并获得第30届飞天奖优秀电视剧奖[1]  和国剧盛典“十大影响力电视剧”[2]  ，并入选广电总局2015中国电视剧选集[3]  。该剧于2014年10月13日亮相戛纳电视节[4]  。2015年10月19日登陆中华TV韩国首播[5]  。2015年11月3日登陆中国台湾华视主频道台湾首播[6]  。2015年11月9日登陆非洲最大电视展[7]  。2016年4月11日登陆银河电视台日本首播[8]  ，于2016年5月登陆TVB翡翠高清台香港首播[9]  。',
 
+    },
+
+    computed: {
+      movieposter: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.posterUrl==null||this.movieinfo.posterUrl.split(";")[0].length==0)?'':this.movieinfo.posterUrl.split(";")[0];
+        },
+      },
+
+      movietitlefull: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.titleFull==null)?'':this.movieinfo.titleFull;
+        },
+      },
+
+      movietitlebyname: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.titleBrief==null)?'':this.movieinfo.titleBrief;
+        },
+      },
+
+      movieactors: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.actors==null)?'':this.movieinfo.actors;
+        },
+      },
+
+      moviedirectors: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.directors==null)?'':this.movieinfo.directors;
+        },
+      },
+
+      moviegenre: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.genre==null)?'':this.movieinfo.genre;
+        },
+      },
+
+      moviearear: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.arear==null)?'':this.movieinfo.arear;
+        },
+      },
+      
+      movieyear: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.ListOfMovieInfo==null||this.movieinfo.ListOfMovieInfo.length==0||this.movieinfo.ListOfMovieInfo[0].year.length==0)?'':this.movieinfo.ListOfMovieInfo[0].year;
+        },
+      },
+
+      movieintroduction: {
+        get: function() {
+          return (this.movieinfo==null||this.movieinfo.summaryMedium==null)?'':this.movieinfo.summaryMedium;
+        },
+      },
     },
 
     ready: function () {

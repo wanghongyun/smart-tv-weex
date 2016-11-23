@@ -4,13 +4,13 @@
           <!-- 总详情 -->
           <channel-play-detail-portrait-info if="{{pageindex==0}}"  movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait-info>
           <!-- 简介 -->
-          <channel-play-detail-portrait-introduction if="{{pageindex==1}}" style="flex:1;"></channel-play-detail-portrait-introduction>
+          <channel-play-detail-portrait-introduction if="{{pageindex==1}}" movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait-introduction>
           <!-- 评论 -->
-          <channel-play-detail-portrait-comment if="{{pageindex==2}}" style="flex:1;"></channel-play-detail-portrait-comment>
+          <channel-play-detail-portrait-comment if="{{pageindex==2}}" movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait-comment>
           <!-- 选集 -->
-          <channel-play-detail-portrait-selectset if="{{pageindex==3}}" style="flex:1;"></channel-play-detail-portrait-selectset>
+          <channel-play-detail-portrait-selectset if="{{pageindex==3}}" movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait-selectset>
           <!-- 下载 -->
-          <channel-play-detail-portrait-down if="{{pageindex==4}}" style="flex:1;"></channel-play-detail-portrait-down>
+          <channel-play-detail-portrait-down if="{{pageindex==4}}" movieinfo="{{movieinfo}}" style="flex:1;"></channel-play-detail-portrait-down>
 
           <common-share-dialog if="sharedialog" style="position:absolute;left:0;right:0;top:0;bottom:0;"></common-share-dialog>
       </div>
@@ -45,7 +45,7 @@ module.exports = {
               });
       //选集
       this.$on('clickSelectSet', function(index) {
-
+                    this.$dispatch('clickSelectSet', index)
               });
       //选视频
       this.$on('clickSelectVideo', function(index) {
