@@ -67,6 +67,9 @@
       },
     created: function() {
       var dir
+      /*
+      * 上传服务器时，增加下面的路径
+      */
       // dir = 'smart-tv-weex/'
       var bundleUrl = this.$getConfig().bundleUrl;
       console.log('hit', bundleUrl);
