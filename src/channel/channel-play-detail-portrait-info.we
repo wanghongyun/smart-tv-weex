@@ -291,7 +291,10 @@ module.exports = {
                     self.collection = './resource/images/channel/icon_collection.png';
                 }
                 //保存修改后的
-                require('@weex-module/CustomModule').setKeyValue('favor', {value: array})
+                if(operation){
+                    require('@weex-module/CustomModule').setKeyValue('favor', {value: array})
+                }
+                
             });
         },
     },
