@@ -86,6 +86,9 @@ module.exports = {
       resurl: '',
       //数据
       movieinfo:{},
+
+      //播放地址
+      playUrl: '',
     },
 
     computed: {
@@ -100,9 +103,9 @@ module.exports = {
 
     created: function () {
       //选集
-      this.$on('clickSelectSet', function(index) {
-        
-              });
+      this.$on('clickSelectSet', function(e) {
+          this.selectSet(e.detail)
+      });
     },
 
 
@@ -122,111 +125,135 @@ module.exports = {
     },
 
     methods: {
-      /**
-       * 显示控制面板
-       * @return {[type]} [description]
-       */
-      showPlayControl: function(){
-          if(!this.showBar){
-              this.isshowcontrol = !this.isshowcontrol;
+        /**
+         * 显示控制面板
+         * @return {[type]} [description]
+         */
+        showPlayControl: function(){
+            if(!this.showBar){
+                this.isshowcontrol = !this.isshowcontrol;
+            }
+        },
+
+        onplaystate: function(param){
+          if(param.state=='play'){
+            this.playercontrolplay = './resource/images/live/player-control-pause.png'; 
+            this.playercontrolstate = 'play';
+          }else{
+            this.playercontrolplay = './resource/images/live/player-control-play.png'; 
+            this.playercontrolstate = 'none';
           }
-      },
+        },
 
-      onplaystate: function(param){
-        if(param.state=='play'){
-          this.playercontrolplay = './resource/images/live/player-control-pause.png'; 
-          this.playercontrolstate = 'play';
-        }else{
-          this.playercontrolplay = './resource/images/live/player-control-play.png'; 
-          this.playercontrolstate = 'none';
-        }
-      },
+        onloading: function(param){
+          this.seekLoadingPercent = param.load/param.duration;
+        },
 
-      onloading: function(param){
-        this.seekLoadingPercent = param.load/param.duration;
-      },
+        onprogressing: function(param){
+          this.seekPercent = param.progress/param.duration;
+        },
 
-      onprogressing: function(param){
-        this.seekPercent = param.progress/param.duration;
-      },
-
-      /**
-       * 播放器  播放 暂停控制
-       * @param  {[type]} param [description]
-       * @return {[type]}       [description]
-       */
-      playercontrol: function(param){
-        this.playstate = 'none'
-        if(this.playercontrolstate=='play'){
-          this.playstate = 'pause'
-        }else{
-          this.playstate = 'play'
-        }
-      },
-
-      /**
-       * 播放器横屏竖屏控制
-       * @param  {[type]} param [description]
-       * @return {[type]}       [description]
-       */
-      playerfullscreen: function(param){
-        this.fullscreen = 'none'
-        if(this.isFullScreen){
-          this.fullscreen = 'portrait'
-          this.playercontrolextend = './resource/images/live/player-control-extend.png';
-        }else{
-          this.fullscreen = 'landscape'
-          this.playercontrolextend = './resource/images/live/player-control-extend-cancel.png';
-        }
-      },
-
-      /**
-       * 进度触控开始
-       * @param  {[type]} e [description]
-       * @return {[type]}   [description]
-       */
-      playSeekTouchS: function(e){
-        this.tempSeekPercent = this.seekPercent;
-        this.touchXs = e.changedTouches[0].pageX;
-      },
-
-      /**
-       * 进度触控移动
-       * @param  {[type]} e [description]
-       * @return {[type]}   [description]
-       */
-      playSeekTouchM: function(e){
-        var touchXm = e.changedTouches[0].pageX;
-        var touchXmPercent = (touchXm - this.touchXs)/this.seekControlWidth;
-        var tempPercent = this.tempSeekPercent + touchXmPercent;
-        if(tempPercent<0){
-          tempPercent = 0;
-        }
-        if(tempPercent>1){
-          tempPercent = 1;
-        }
-        this.seekPercent = this.seekto = tempPercent;
-      },
-
-      /**
-       * 请数据
-       * @return {[type]}   [description]
-       */
-      requestData: function() {
-        if(this.resurl.length==0){
-          require('@weex-module/modal').toast({'message': "没有找到该电视剧！", 'duration': 0});
-          return;
-        }
-        var self = this
-        var connect = require('../http/req-channel.we')
-        connect.tvPlay(this.resurl, function(result, data) {
-          if(result){
-              self.movieinfo = data.MovieInfo;
+        /**
+         * 播放器  播放 暂停控制
+         * @param  {[type]} param [description]
+         * @return {[type]}       [description]
+         */
+        playercontrol: function(param){
+          this.playstate = 'none'
+          if(this.playercontrolstate=='play'){
+            this.playstate = 'pause'
+          }else{
+            this.playstate = 'play'
           }
-        })
-      },
+        },
 
+        /**
+         * 播放器横屏竖屏控制
+         * @param  {[type]} param [description]
+         * @return {[type]}       [description]
+         */
+        playerfullscreen: function(param){
+          this.fullscreen = 'none'
+          if(this.isFullScreen){
+            this.fullscreen = 'portrait'
+            this.playercontrolextend = './resource/images/live/player-control-extend.png';
+          }else{
+            this.fullscreen = 'landscape'
+            this.playercontrolextend = './resource/images/live/player-control-extend-cancel.png';
+          }
+        },
+
+        /**
+         * 进度触控开始
+         * @param  {[type]} e [description]
+         * @return {[type]}   [description]
+         */
+        playSeekTouchS: function(e){
+          this.tempSeekPercent = this.seekPercent;
+          this.touchXs = e.changedTouches[0].pageX;
+        },
+
+        /**
+         * 进度触控移动
+         * @param  {[type]} e [description]
+         * @return {[type]}   [description]
+         */
+        playSeekTouchM: function(e){
+          var touchXm = e.changedTouches[0].pageX;
+          var touchXmPercent = (touchXm - this.touchXs)/this.seekControlWidth;
+          var tempPercent = this.tempSeekPercent + touchXmPercent;
+          if(tempPercent<0){
+            tempPercent = 0;
+          }
+          if(tempPercent>1){
+            tempPercent = 1;
+          }
+          this.seekPercent = this.seekto = tempPercent;
+        },
+
+        /**
+         * 请数据
+         * @return {[type]}   [description]
+         */
+        requestData: function() {
+          if(this.resurl.length==0){
+            require('@weex-module/modal').toast({'message': "没有找到该电视剧！", 'duration': 0});
+            return;
+          }
+          var self = this
+          var connect = require('../http/req-channel.we')
+          connect.tvPlay(this.resurl, function(result, data) {
+            if(result){
+                self.movieinfo = data.MovieInfo;
+                self.selectSet(0)
+            }
+          })
+        },
+
+        /**
+         * 选集
+         * @param  index
+         * @return {[type]}   [description]
+         */
+        selectSet: function(index){
+            var url = 'http://60.255.71.22:8080/spis/asgapi/v1/play/1/8510010421049904/sotv/'
+            url += this.movieinfo.poId + '/'
+            var asset = this.movieinfo.assetId.split('_')[0] + this.movieinfo.ListOfMovieInfo[index].assetId
+            url += asset + '/0'
+            require('@weex-module/CustomModule').log(url);
+            var self = this
+            var connect = require('../http/req-channel.we')
+            connect.dramaSet(url, function(result, data) {
+                if(result){
+                    self.playUrl = 'http://60.255.71.22:8080' + data.url
+                    require('@weex-module/CustomModule').log(JSON.stringify(data));
+                    var modal = require('@weex-module/modal');
+                    modal.alert({message: '视频地址:\n' + self.playUrl, okTitle: '确定'}, function() {
+                      // TODO after the alert is complete.
+                    })
+                }
+            })
+        },
     },
-
 }
 </script>

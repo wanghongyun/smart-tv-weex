@@ -38,4 +38,21 @@
 			}
 		});
 	}
+
+	/**
+	 * 获取播放地址
+	 * @param  {[type]}   url      [description]
+	 * @param  {Function} callback [description]
+	 * @return {[type]}            [description]
+	 */
+	exports.dramaSet = function(url,callback) {
+		connect.getReq(url, function(data, result, status) {
+			if (result) {
+				callback(result, data.data)
+			} else {
+				callback(result, data)
+			}
+		});
+	}
+
 </script>
