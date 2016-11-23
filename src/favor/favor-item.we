@@ -42,13 +42,7 @@
 <script>
 	module.exports = {
 		data: {
-			favor: {
-				/*
-				src:
-				title:
-				drama:
-				*/
-			},
+			favor: {},
 		},
 		computed: {
 			poster: {
@@ -61,8 +55,8 @@
 			},
 			title: {
 				get: function() {
-					if (this.favor != null && this.favor.title != null) {
-						return this.favor.title
+					if (this.favor != null && this.favor.titleFull != null) {
+						return this.favor.titleFull
 					}
 					return '-'
 				}
@@ -70,8 +64,8 @@
 			desc: {
 				get: function() {
 					if (this.favor != null) {
-						if (this.favor.drama != null) {
-							return this.favor.drama
+						if (this.favor.count != null) {
+							return '全' + this.history.count +'集'
 						}
 					}
 					return '-'
@@ -79,9 +73,11 @@
 			},
 		},
 		methods: {
-			clickToPlay: function(index){
+			clickToPlay: function(){
 				var path = 'dist/channel/channel-play-detail.js'
-				var param = {title: '琅琊榜'}
+				var param = {}
+				param.title = this.favor.titleFull
+				param.resurl = this.favor.resurl
 				var platform = this.$getConfig().env.platform
 				if(platform == 'android' || platform == 'iOS'){
 				  	require('@weex-module/CustomModule').openURL(path, param);

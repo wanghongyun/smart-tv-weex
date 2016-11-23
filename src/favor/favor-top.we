@@ -86,7 +86,12 @@
 			],
 		},
 		ready: function() {
-
+			var self = this
+			require('@weex-module/CustomModule').getKeyValue('favor' ,function(favor){
+				if (favor.value != null) {
+					self.favors = favor.value
+				}
+			});
 		},
 	}
 </script>

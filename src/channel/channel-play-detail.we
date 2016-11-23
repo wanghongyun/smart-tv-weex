@@ -266,11 +266,11 @@ module.exports = {
                     for (var i = 0; i < array.length; i++) {
                         var movie = array[i]
                         if (movie.resurl == self.resurl) {
-                            array.splice(i)
+                            array.splice(i, 1)
                         }
                     }
                 }
-                array.push(self.movieinfo)
+                array.unshift(self.movieinfo)
                 require('@weex-module/CustomModule').setKeyValue('history', {value: array})
             });
         },
