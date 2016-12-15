@@ -132,7 +132,7 @@
 				}
 				require('@weex-module/CustomModule').setKeyValue('userName', {value: this.user})
 				var param = {selected: 4}
-				require('@weex-module/CustomModule').toBack({toBackFlag: 'dist/main.js', param});
+				require('@weex-module/CustomModule').toBack({toBackFlag: 'dist/main.js', param:param});
 			},
 		}
 	}
