@@ -19,7 +19,7 @@
 									<img src="{{$index%3==0?'':'./resource/images/user/user-default-avatar.png'}}" style="width:120px;height:120px;border-radius:60px;position:absolute;left:0px;right:0px;top:0px;bottom:0px;">
 								</div>
 								<div style="flex:1; margin-left:30px;">
-									<text style="color:#3D4D4F; font-size:32px;">庞老师</text>
+									<text style="color:#3D4D4F; font-size:32px;">我的好友</text>
 									<text style="color:#767676; font-size:26px;">ID:000001234</text>
 								</div>
 								<div style="width: 140px;height: 65px;background-color:{{phoneclick==$index?'#099BCC':'#0BB9F5'}};  border-radius:6px; align-items:center;justify-content:center;"

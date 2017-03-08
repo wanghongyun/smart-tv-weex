@@ -6,7 +6,7 @@
 				<text style="color:#FFFFFF; font-size:34px;">直播</text>
 			</div>
 			<!-- 顶部tab -->
-			<div style="height:80px;">
+			<div style="height:80px;" if="false">
 				<scroller style="flex:1;flex-direction:row;height:80px;" show-scrollbar="false" scroll-direction="horizontal">
 					<div style="height:80px;flex-direction:row;">
 							<div repeat="{{channelclassifys}}" style="width:180px;height:80px;align-items:center;justify-content:center;" onclick="{{clickchannelclassify($index)}}">
@@ -20,47 +20,46 @@
 			<!-- 内容部分 -->
 			<list>
 			    <cell>
-			    		<!-- 直播部分 -->
-			    		<div style="width:750px;height:420px;">
-			    				<img src="./resource/images/live/live-top-player-bg.png" style="width:750px;height:420px;background-color:#EEEEEE;">
-			    				<!-- 播控面板部分 -->
-			    				<div style="width:750px;height:80px;position:absolute;bottom:0;left:0;right:0;top:340px;z-index:90;">
-										<img style="width:750px;height:80px;background-color:#000000;opacity:0.4;">
-										<div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;left:0;top:0;z-index:91;">
-												<img src="./resource/images/live/player-control-pause.png" resize="contain" style="width:30px;height:30px;">
-										</div>
-										<div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;right:0;top:0;z-index:91;">
-												<img src="./resource/images/live/player-control-extend.png" resize="contain" style="width:35px;height:35px;">
-										</div>
-										<div style="width:550px;flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:91;">
-												<img style="flex:0.2;height:4px;background-color:##0991BE;">
-												<img style="flex:0.8;height:4px;background-color:#000000;">
-										</div>
-			    				</div>
-
-			    		</div>
+		    		<!-- 直播部分 -->
+		    		<div style="width:750px;height:420px;" if="topChannel != null">
+	    				<img src="{{topChannel.info.channelLogo}}" style="width:750px;height:420px;background-color:#EEEEEE;">
+	    				<!-- 播控面板部分 -->
+	    				<div style="width:750px;height:80px;position:absolute;bottom:0;left:0;right:0;top:340px;z-index:90;">
+							<img style="width:750px;height:80px;background-color:#000000;opacity:0.4;">
+							<div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;left:0;top:0;z-index:91;">
+									<img src="./resource/images/live/player-control-pause.png" resize="contain" style="width:30px;height:30px;">
+							</div>
+							<div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;right:0;top:0;z-index:91;">
+									<img src="./resource/images/live/player-control-extend.png" resize="contain" style="width:35px;height:35px;">
+							</div>
+							<div style="width:550px;flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:91;">
+									<img style="flex:0.2;height:4px;background-color:##0991BE;">
+									<img style="flex:0.8;height:4px;background-color:#000000;">
+							</div>
+	    				</div>
+		    		</div>
 			    </cell>
-				<cell repeat="{{channels}}">
-						<div style="width:750px;height:200px;background-color:#FFFFFF;padding-left:20px;flex-direction:row;align-items:center;justify-content:center;" onclick="{{clickchannel($index)}}">
-								<img src="./resource/images/live/live-item-temp-bg.png" style="width:240px;height:180px;background-color:#EEEEEE;">
+				<cell repeat="{{v in channels}}">
+						<div style="width:750px;height:200px;background-color:#FFFFFF;padding-left:20px;flex-direction:row;align-items:center;justify-content:center;" onclick="{{clickchannel(v)}}">
+								<img src="{{v.info.channelLogo}}" style="width:240px;height:180px;background-color:#EEEEEE;">
 								<div style="width: 470px;height:180px; margin-left:20px;"">
 										<text style="color:#212121; font-size:30px;">CCTV7</text>
 										<div style="width: 470px;flex:1.3; width: 100%; flex-direction:row; align-items:center;">
 											<text style="width: 120px; color:#767676; font-size:23px;">正在播放:</text>
-											<text style="width:345px;color:#212121; font-size:24px;margin-left:5px;text-overflow:ellipsis;lines:1;">我军试射最新航母杀手DF-21</text>
+											<text style="width:345px;color:#212121; font-size:24px;margin-left:5px;text-overflow:ellipsis;lines:1;">{{v.info.title}}</text>
 										</div>
 										<div class="div-program-item">
-											<text class="text-program-item-left">14:00-14::50</text>
-											<text class="text-program-item-right">节目单002</text>
+											<text class="text-program-item-left">{{v.info.startTime}} - {{v.info.endTime}}</text>
+											<text class="text-program-item-right">v.info.nextName</text>
 										</div>
-										<div class="div-program-item">
+		<!-- 								<div class="div-program-item">
 											<text class="text-program-item-left">14:50-16::50</text>
 											<text class="text-program-item-right">节目单003</text>
 										</div>
 										<div class="div-program-item">
 											<text class="text-program-item-left">16:50-17::50</text>
 											<text class="text-program-item-right">节目单004</text>
-										</div>
+										</div> -->
 								</div>
 						</div>
 						<div class="div-line"></div>
@@ -95,7 +94,47 @@
 <script>
 	module.exports = {
 		data: {
-			channels:[{},{},{},{},{},{},{},{},{},{},{},{}],
+			channels:[
+					/*
+					{
+			            channelName: "CCTV-1",
+			            channelNumber: 1,
+			            onId: "1",
+			            tsId: "5",
+			            serviceId: "500",
+			            playurl: "dvb://1.5.1f4",
+			            info: {
+					        title: "周末特供:是真的吗",
+					        startTime: "2016-11-18 15:13:00",
+					        endTime: "2016-11-18 15:26:00",
+					        nextName: "经济半小时",
+					        channelId: "cctv2",
+					        channelName: "CCTV-2",
+					        channelNumber: 3,
+					        channelLogo: "http://10.117.57.90:8081/2012/12/12/1293431904830.png",
+					        tags: ["综合", "互动", "益智", "揭秘"],
+					        wikiId: "51ad540f6dbde17420000002",
+					        wikiTitle: "是真的吗",
+					        screens: [
+					            {
+					                size: "420*287",
+					                url: "http://10.117.57.90:8081/thumb/420/287/1444894809750.jpg"
+					            },
+					        ],
+					        wikiCovers: [
+					            {
+					                type: "small",
+					                size: "120*160",
+					                url: "http://10.117.57.90:8081/thumb/120/160/1397529287136.jpg"
+					            },
+					        ],
+					    }
+			        }
+					*/
+			],
+
+			topChannel: null,
+
 			channelselect:0,
 			channelclassifys:[
 			                	{channelnameclassify:'央视频道'},
@@ -121,10 +160,39 @@
 		},
 
 		ready: function() {
-
+			this.getLiveChannels()
 		},
 
 		methods: {
+			getLiveChannels: function() {
+				var self = this
+				var connect = require('../http/req-live.we')
+				connect.channelList(function(result, data) {
+					if (result) {
+						self.channels = data
+						self.handleChannels()
+					}
+				})
+			},
+
+			handleChannels: function() {
+				for (var i = 0; i < this.channels.length; i++) {
+					var item = this.channels[i]
+					this.getChannelBrief(item, i)
+				}
+				this.topChannel = this.channels[0]
+			},
+
+			getChannelBrief: function(channel, index) {
+				var self = this
+				var connect = require('../http/req-live.we')
+				connect.channelBrief( channel.channelName ,function(result, data) {
+					if (result) {
+						channel.info = data
+						self.channels.$set(channel, index)
+					}
+				})
+			},
 			/**
 			 * 切换频道分类
 			 */
@@ -136,9 +204,17 @@
 			 * @param  {[type]} index [description]
 			 * @return {[type]}       [description]
 			 */
-			clickchannel: function(index){
-				require('@weex-module/modal').toast({'message': "切换频道", 'duration': 0});
+			clickchannel: function(channel){
+				var path = 'dist/live/live-detail.js'
+				var param = {}
+				param.title = channel.channelName
+				param.wikiId = channel.info.wikiId
+				var platform = this.$getConfig().env.platform
+				if(platform == 'android' || platform == 'iOS'){
+				  	require('@weex-module/CustomModule').openURL(path, param);
+				}
 			},
+
 		},
 	}
 </script>

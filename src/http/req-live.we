@@ -1,0 +1,42 @@
+<script>
+	var connect = require('./connect.we');
+
+	/**
+	 * 获取频道列表
+	 * @param  {Function} callback [description]
+	 * @return {[type]}            [description]
+	 */
+	exports.channelList = function(callback) {
+		var api = 'http://60.255.71.22:8080/spis/iepg/v1/1/i-000011/23345345/channel/cctv'
+		connect.getReq(api, function(data, result) {
+			if (result) {
+				callback(result, data.data)
+			} else {
+				callback(result, data)
+			}
+		});
+	}
+
+	exports.channelBrief = function(channel, callback) {
+		var api = 'http://60.255.71.22:8080/spis/iepg/v1/1/0000/23345345/channel/liveinfo/movice/' + channel
+		connect.getReq(api, function(data, result) {
+			if (result) {
+				callback(result, data.data)
+			} else {
+				callback(result, data)
+			}
+		});
+	}
+
+	exports.channelInfo = function(wikiId, callback) {
+		var api = 'http://60.255.71.22:8080/spis/iepg/v1/1/0000/23345345/wikiinfo/' + wikiId
+		connect.getReq(api, function(data, result) {
+			if (result) {
+				callback(result, data.data)
+			} else {
+				callback(result, data)
+			}
+		});
+	}
+
+</script>

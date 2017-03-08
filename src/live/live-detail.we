@@ -1,0 +1,307 @@
+<template>
+      <!-- 播放详情总页面 -->
+      <div style="width:100%;height:100%;background-color:#FFFFFF;">
+            <!-- 标题 -->
+            <common-title if="{{!isFullScreen}}" title="{{title}}" right-image="./resource/images/live/icon_share.png"></common-title>
+            <!-- 播放器部分 -->
+            <div style="width:750px;height:{{fullScreenHeight}}; ">
+                <video style="width: 100%; flex:1; background-color:#000000;" 
+                      autoplay="true"
+                      src="{{videosrc}}"
+                      fullscreen="{{fullscreen}}"
+                      playstate="{{playstate}}"
+                      seekto="{{seekto}}"
+                      onplaystate="onplaystate"
+                      onloading="onloading"
+                      onprogressing="onprogressing"
+                      if="false">
+                </video>
+                <image  style="width: 750px; height: {{fullScreenHeight}};"
+                      src="http://60.255.71.22:8080/active/image/ccbn2011_gdu.jpg"></image>
+                <div if="{{!showBar}}" style="position:absolute;bottom:0;left:0;right:0;top:0;z-index:80;" onclick="showPlayControl"></div>
+                <!-- 播控面板部分 -->
+                <div if="{{isshowcontrol}}" style="width:750px;height:80px;position:absolute;bottom:0;left:0;right:0;top:{{fullScreenHeight-80}};z-index:90;">
+                  <img style="width:750px;height:80px;background-color:#000000;opacity:0.4;">
+                  <div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;left:0;top:0;z-index:91;" 
+                        onclick="playercontrol">
+                      <img src="{{playercontrolplay}}" resize="contain" style="width:30px;height:30px;">
+                  </div>
+                  <div style="width:100px;height:80px;align-items:center;justify-content:center;position:absolute;bottom:0;right:0;top:0;z-index:91;"
+                        onclick="playerfullscreen">
+                      <img src="{{playercontrolextend}}" resize="contain" style="width:35px;height:35px;">
+                  </div>
+                  <div style="width:{{seekControlWidth}};flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:90;"
+                        ontouchstart="playSeekTouchS" ontouchmove="playSeekTouchM">
+                        <img style="flex:{{seekLoadingPercent}};height:4px;background-color:#36648B;">
+                        <img style="flex:{{1-seekLoadingPercent}};height:4px;;background-color:#000000;">
+                  </div>
+                  <div style="width:{{seekControlWidth}};flex-direction:row;align-items:center;justify-content:center;position:absolute;bottom:0;right:100;left:100;top:0;z-index:91;"
+                        ontouchstart="playSeekTouchS" ontouchmove="playSeekTouchM">
+                        <img style="flex:{{seekPercent}};height:4px;background-color:#1E90FF;">
+                        <img style="flex:{{1-seekPercent}};height:4px;">
+                  </div>
+                </div>
+            </div>
+            <div style="width: 750px;height: 100px;flex-direction: row;align-items: center;">
+                <div style="flex: 1; height: 100px; align-items: center; justify-content: center;" onclick="selectTab(0)">
+                    <text>节目单</text>
+                    <div class="mark" if="{{selectedTab == 0}}"></div>
+                </div>
+                <div style="flex: 1; height: 100px; align-items: center; justify-content: center;" onclick="selectTab(1)">
+                    <text>评论</text>
+                    <div class="mark" if="{{selectedTab == 1}}"></div>
+                </div>
+            </div>
+            <div style="width: 750px; flex: 1; margin-bottom: 20px;">
+                <list style="width: 750px; flex: 1;" if="{{selectedTab == 0}}">
+                    <cell repeat="{{v in backPrograms}}" onclick="selectSet($index)">
+                        <live-detail-program is-current="{{$index == selectedSet}}" info="{{v}}"></live-detail-program>
+                    </cell>
+                    <cell repeat="{{v in prevPrograms}}">
+                        <live-detail-program is-pre="true" info="{{v}}"></live-detail-program>
+                    </cell>
+                </list>
+                <list class="comment-div" if="{{selectedTab == 1}}">
+                  
+                </list>
+            </div>
+            <common-share-dialog if="sharedialog" style="position:absolute;left:0;right:0;top:0;bottom:0;"></common-share-dialog>
+      </div>
+</template>
+
+<style>
+    .comment-div {
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+    }
+    .mark {
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      height: 4px;
+      background-color: #1E8DFF;
+    }
+</style>
+
+<script>
+require('../common/common-title.we')
+require('../common/common-share-dialog.we');
+
+module.exports = {
+    data: {
+      //当前页面是否是全屏
+      isFullScreen: false,
+      //播放器高度
+      fullScreenHeight: 420,
+      //分享界面
+      sharedialog: false,
+
+
+      //播放器控制变量
+      videosrc: '',
+      fullscreen: 'none',
+      playstate: 'none',
+      seekto:-1,
+
+      //播放器控制页面变量
+      playercontrolplay:'./resource/images/live/player-control-play.png',
+      playercontrolextend:'./resource/images/live/player-control-extend.png',
+      playercontrolstate: 'none',
+      isshowcontrol:false,
+
+      //进度条长度
+      seekControlWidth:550,
+      seekPercent:0,
+      seekLoadingPercent:0,
+
+      //临时数据记录
+      tempSeekPercent:0,
+      touchXs:0,
+
+      //标题
+      title: '',
+      //数据请求地址
+      wikiId: null,
+      //节目信息
+      wiki:{},
+      //回看清单
+      backPrograms: [],
+      //预告清单
+      prevPrograms: [],
+
+      //播放地址
+      playUrl: '',
+
+      //tab
+      selectedTab: 0,
+      // set
+      selectedSet: 0,
+    },
+
+    computed: {
+      //ios
+      showBar: {
+        get: function() {
+          var platform = this.$getConfig().env.platform
+          return platform == 'iOS'
+        },
+      },
+    },
+
+    created: function () {
+      this.$on('navRight', function() {
+        this.sharedialog = true;
+      })
+      //分享窗口关闭
+      this.$on('clickShareCancel', function(e) {
+                    this.sharedialog = false;
+              });
+      //点击分享项  1 微信，2 微信朋友圈， 3 QQ空间，4 新浪微博，5 QQ，6 腾讯微博
+      this.$on('clickShareItem', function(index) {
+        
+              });
+    },
+
+
+    ready: function () {
+      //播放器高度计算
+      this.fullScreenHeight = (750/this.$getConfig().env.deviceHeight)*this.$getConfig().env.deviceWidth;
+      //播放地址
+      // this.videosrc = 'http://vod.cntv.lxdns.com/flash/mp4video55/TMS/2016/10/25/b49434d075404b46b146641fa8487095_h264418000nero_aac32.mp4';
+      //请求直播数据
+      this.requestData();
+    },
+
+    methods: {
+        /**
+         * 显示控制面板
+         * @return {[type]} [description]
+         */
+        showPlayControl: function(){
+            if(!this.showBar){
+                this.isshowcontrol = !this.isshowcontrol;
+            }
+        },
+
+        onplaystate: function(param){
+          if(param.state=='play'){
+            this.playercontrolplay = './resource/images/live/player-control-pause.png'; 
+            this.playercontrolstate = 'play';
+          }else{
+            this.playercontrolplay = './resource/images/live/player-control-play.png'; 
+            this.playercontrolstate = 'none';
+          }
+        },
+
+        onloading: function(param){
+          this.seekLoadingPercent = param.load/param.duration;
+        },
+
+        onprogressing: function(param){
+          this.seekPercent = param.progress/param.duration;
+        },
+
+        /**
+         * 播放器  播放 暂停控制
+         * @param  {[type]} param [description]
+         * @return {[type]}       [description]
+         */
+        playercontrol: function(param){
+          this.playstate = 'none'
+          if(this.playercontrolstate=='play'){
+            this.playstate = 'pause'
+          }else{
+            this.playstate = 'play'
+          }
+        },
+
+        /**
+         * 播放器横屏竖屏控制
+         * @param  {[type]} param [description]
+         * @return {[type]}       [description]
+         */
+        playerfullscreen: function(param){
+          this.fullscreen = 'none'
+          if(this.isFullScreen){
+            this.fullscreen = 'portrait'
+            this.playercontrolextend = './resource/images/live/player-control-extend.png';
+          }else{
+            this.fullscreen = 'landscape'
+            this.playercontrolextend = './resource/images/live/player-control-extend-cancel.png';
+          }
+        },
+
+        /**
+         * 进度触控开始
+         * @param  {[type]} e [description]
+         * @return {[type]}   [description]
+         */
+        playSeekTouchS: function(e){
+          this.tempSeekPercent = this.seekPercent;
+          this.touchXs = e.changedTouches[0].pageX;
+        },
+
+        /**
+         * 进度触控移动
+         * @param  {[type]} e [description]
+         * @return {[type]}   [description]
+         */
+        playSeekTouchM: function(e){
+          var touchXm = e.changedTouches[0].pageX;
+          var touchXmPercent = (touchXm - this.touchXs)/this.seekControlWidth;
+          var tempPercent = this.tempSeekPercent + touchXmPercent;
+          if(tempPercent<0){
+            tempPercent = 0;
+          }
+          if(tempPercent>1){
+            tempPercent = 1;
+          }
+          this.seekPercent = this.seekto = tempPercent;
+        },
+
+        /**
+         * 请数据
+         * @return {[type]}   [description]
+         */
+        requestData: function() {
+          if(this.wikiId == null || this.wikiId.length==0){
+            require('@weex-module/modal').toast({'message': "没有找到该节目！", 'duration': 0});
+            return;
+          }
+          var self = this
+          var connect = require('../http/req-live.we')
+          connect.channelInfo(this.wikiId, function(result, data) {
+            if(result){
+                self.wiki = data.wiki;
+                self.backPrograms = data.backPrograms
+                self.prevPrograms = data.prevPrograms
+                self.selectSet(self.backPrograms.length - 1)
+            }
+          })
+        },
+
+        /**
+         * 选集
+         * @param  index
+         * @return {[type]}   [description]
+         */
+        selectSet: function(index){
+          this.selectedSet = index
+          // TODO get palyurl
+        },
+
+        /**
+         * 切换选集和评论
+         * @param  {[type]} index [description]
+         * @return {[type]}       [description]
+         */
+        selectTab: function(index) {
+          this.selectedTab = index
+        }
+    },
+}
+</script>

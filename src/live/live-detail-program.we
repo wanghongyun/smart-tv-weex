@@ -1,0 +1,122 @@
+<template>
+	<div style="flex-direction: row; width: 750px; height: 120px; align-items: center;">
+	    <div class="left-item" style="background-color: {{isCurrent ? '#0bb9f5' : '#E0E0E0'}}">
+	      	<text style="font-size: 30px; color: {{isCurrent ? '#FFFFFF' : '#757575'}}">{{getWeekDay()}}</text>
+	    </div>
+	    <div class="right-item" style="border-color: {{isCurrent ? '#0bb9f5' : '#bdbdbd'}}">
+	    	<text style="flex:1; font-size: 26px; margin-left: 20px; color: {{isCurrent ? '#0bb9f5' : '#000000'}}">{{getText()}}</text>
+	    	<div class="button" style="border-color: {{isCurrent ? '#0bb9f5' : '#bdbdbd'}}">
+	    		<text style="font-size: 26px; color: {{isCurrent ? '#0bb9f5' : '#000000'}}">{{getButtonText()}}</text>
+	    	</div>
+	    </div>
+	</div>
+</template>
+
+<style>
+	.left-item {
+		background-color: #E0E0E0;
+		width: 200px;
+		height: 100px;
+		margin-left: 20px;
+		align-items: center;
+		justify-content: center;
+	}
+	.right-item {
+		background-color: #f9f9f9;
+		flex: 1;
+		height: 100px;
+		margin-left: 20px;
+		margin-right: 20px;
+		border-width: 1px;
+		flex-direction: row;
+		align-items: center;
+	}
+	.button {
+		width: 130px;
+		height: 60px;
+		border-width: 1px;
+		align-items: center;
+		justify-content: center;
+		margin-right: 20px;
+	}
+</style>
+
+<script>
+module.exports = {
+	data: {
+		info: {},
+		index: 0,
+		isPre: false,
+		isCurrent: false,
+	},
+
+	computed: {
+	},
+
+	methods: {
+		getButtonText: function() {
+			var text = '回看'
+			if (this.isPre) {
+				text = '预约'
+			}
+			if (this.isCurrent) {
+				text = '直播中'
+			}
+			return text
+		},
+		getText: function() {
+			var text = this.getTime()
+			if (text.length > 0) {
+				text += ' '
+			}
+			text += this.info.programName
+			return text
+		},
+		getTime: function() {
+			var text = this.info.startTime
+			if (text != null) {
+				var timestamp = this.getDateTimeStamp(text.split('.')[0])
+				if (timestamp != null) {
+					var mydate=new Date(timestamp); 
+					var myminutes=mydate.getMinutes(); 
+					var myhours=mydate.getHours();
+					return myhours + ':' + myminutes
+				}
+			}
+			return ''
+		},
+		getDateTimeStamp: function(dateStr){
+		 	return Date.parse(dateStr.replace(/-/gi,"/"));
+		},
+
+		getWeekDay: function() {
+			var text = this.info.startTime
+			if (text != null) {
+				var timestamp = this.getDateTimeStamp(text.split('.')[0])
+				if (timestamp != null) {
+					var mydate=new Date(timestamp); 
+					var mydat=mydate.getDate(); 
+					var myday=mydate.getDay()//注:0-6对应为星期日到星期六 
+					var xingqi 
+					switch(myday) 
+					{ 
+						case 0:xingqi="星期日";break; 
+						case 1:xingqi="星期一";break; 
+						case 2:xingqi="星期二";break; 
+						case 3:xingqi="星期三";break; 
+						case 4:xingqi="星期四";break; 
+						case 5:xingqi="星期五";break; 
+						case 6:xingqi="星期六";break; 
+						default:xingqi="-" 
+					}
+					var today = new Date()
+					if (mydat == today.getDate()) {
+						xingqi = '今天'
+					}
+				}
+				return xingqi
+			}
+		}
+	},
+}
+</script>
